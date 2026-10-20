@@ -55,37 +55,6 @@
     </div>
 </section>
 
-<!-- Singers Quick-Filter Chips Bar -->
-<section style="margin-bottom: 2rem;">
-    <div class="section-header">
-        <h3 class="section-title">
-            <i class="fa-solid fa-microphone-lines" style="color: var(--primary-color);"></i>
-            Filtrar por Salmista / Cantante
-        </h3>
-        <span style="font-size: 0.82rem; color: var(--text-muted);">Haz clic para filtrar</span>
-    </div>
-
-    <div class="singers-bar" id="singersBar">
-        <div class="singer-chip active" data-singer-id="ALL" onclick="selectSinger('ALL', this)">
-            <div class="chip-avatar" style="background: #3b82f6;">
-                <i class="fa-solid fa-asterisk" style="font-size: 0.75rem;"></i>
-            </div>
-            <span class="chip-name">Todos los Cantantes</span>
-            <span class="chip-count">{{ total_cantos }}</span>
-        </div>
-
-        {% for s in salmistas %}
-        <div class="singer-chip" data-singer-id="{{ s.id }}" onclick="selectSinger({{ s.id }}, this)" title="Ver cantos de {{ s.nombre }}">
-            <div class="chip-avatar" style="background: {{ s.color }};">
-                {{ s.nombre[0].upper() }}
-            </div>
-            <span class="chip-name">{{ s.nombre }}</span>
-            <span class="chip-count">{{ s.cantos|length }}</span>
-        </div>
-        {% endfor %}
-    </div>
-</section>
-
 <!-- Search & Advanced Filter Controls -->
 <section class="controls-card">
     <!-- Live Search Input -->
@@ -106,6 +75,14 @@
     <!-- Filter Dropdowns Row -->
     <div class="filter-row">
         <div class="filter-dropdowns">
+            <!-- Dropdown Desplegable de Salmista / Cantante -->
+            <select id="filterSalmista" class="filter-dropdown" style="font-weight: 600; color: var(--primary-color);" onchange="handleSingerDropdown(this.value)">
+                <option value="ALL">🎤 Todos los Salmistas ({{ total_cantos }})</option>
+                {% for s in salmistas %}
+                <option value="{{ s.id }}">👤 {{ s.nombre }} ({{ s.cantos|length }} alabanzas)</option>
+                {% endfor %}
+            </select>
+
             <!-- Filter by Genre / Tipo -->
             <select id="filterTipo" class="filter-dropdown" onchange="applyFilters()">
                 <option value="">Todos los géneros</option>
@@ -246,16 +223,9 @@ function clearSearch() {
     input.focus();
 }
 
-// Select singer from chips
-function selectSinger(singerId, element) {
-    currentSingerFilter = singerId;
-    
-    // Update active class on chips
-    document.querySelectorAll('.singer-chip').forEach(chip => chip.classList.remove('active'));
-    if (element) {
-        element.classList.add('active');
-    }
-    
+// Handle singer dropdown selection
+function handleSingerDropdown(val) {
+    currentSingerFilter = val === 'ALL' ? 'ALL' : parseInt(val);
     applyFilters();
 }
 
@@ -264,6 +234,10 @@ function resetAllFilters() {
     document.getElementById('searchInput').value = '';
     currentSearchTerm = '';
     document.getElementById('clearSearchBtn').style.display = 'none';
+
+    const salmistaSelect = document.getElementById('filterSalmista');
+    if (salmistaSelect) salmistaSelect.value = 'ALL';
+    currentSingerFilter = 'ALL';
 
     document.getElementById('filterTipo').value = '';
     currentTipoFilter = '';
@@ -276,15 +250,6 @@ function resetAllFilters() {
 
     document.getElementById('sortBy').value = 'default';
     currentSort = 'default';
-
-    currentSingerFilter = 'ALL';
-    document.querySelectorAll('.singer-chip').forEach(chip => {
-        if (chip.getAttribute('data-singer-id') === 'ALL') {
-            chip.classList.add('active');
-        } else {
-            chip.classList.remove('active');
-        }
-    });
 
     applyFilters();
 }

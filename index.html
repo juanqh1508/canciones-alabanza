@@ -954,17 +954,6 @@
             </div>
         </section>
 
-        <!-- Singers Bar -->
-        <section>
-            <div class="section-header">
-                <h3 class="section-title">
-                    <i class="fa-solid fa-microphone-lines" style="color: var(--primary-color);"></i>
-                    Filtrar por Salmista / Cantante
-                </h3>
-            </div>
-            <div class="singers-bar" id="singersBar"></div>
-        </section>
-
         <!-- Search & Filter Controls -->
         <section class="controls-card">
             <div class="search-input-wrapper">
@@ -983,6 +972,11 @@
 
             <div class="filter-row">
                 <div class="filter-dropdowns">
+                    <!-- Dropdown de Salmista / Cantante -->
+                    <select id="filterSalmista" class="filter-dropdown" style="font-weight: 600; color: var(--primary-color);" onchange="handleSingerDropdown(this.value)">
+                        <option value="ALL">🎤 Todos los Salmistas</option>
+                    </select>
+
                     <select id="filterTipo" class="filter-dropdown" onchange="applyFilters()">
                         <option value="">Todos los géneros</option>
                     </select>
@@ -1276,7 +1270,6 @@
 
     function initDashboard() {
         populateKPIs();
-        populateSingersBar();
         populateFilterDropdowns();
         applyFilters();
     }
@@ -1302,50 +1295,21 @@
         }
     }
 
-    function populateSingersBar() {
-        const bar = document.getElementById('singersBar');
-        bar.innerHTML = '';
-
-        // All singers chip
-        const allChip = document.createElement('div');
-        allChip.className = 'singer-chip active';
-        allChip.setAttribute('data-singer', 'ALL');
-        allChip.onclick = () => selectSinger('ALL', allChip);
-        allChip.innerHTML = `
-            <div class="chip-avatar" style="background: #3b82f6;">
-                <i class="fa-solid fa-asterisk" style="font-size:0.75rem;"></i>
-            </div>
-            <span class="chip-name">Todos los Cantantes</span>
-            <span class="chip-count">${ALL_CANTOS.length}</span>
-        `;
-        bar.appendChild(allChip);
-
-        // Count per singer
+    function populateFilterDropdowns() {
+        // Dropdown de Salmistas
+        const salmistaSelect = document.getElementById('filterSalmista');
+        salmistaSelect.innerHTML = `<option value="ALL">🎤 Todos los Salmistas (${ALL_CANTOS.length})</option>`;
+        
         const singerCounts = {};
         ALL_CANTOS.forEach(c => {
             singerCounts[c.salmista_nombre] = (singerCounts[c.salmista_nombre] || 0) + 1;
         });
 
         const sortedSingers = Object.entries(singerCounts).sort((a,b) => b[1] - a[1]);
-
         sortedSingers.forEach(([name, count]) => {
-            const color = SINGER_COLORS[name] || '#8b5cf6';
-            const chip = document.createElement('div');
-            chip.className = 'singer-chip';
-            chip.setAttribute('data-singer', name);
-            chip.onclick = () => selectSinger(name, chip);
-            chip.innerHTML = `
-                <div class="chip-avatar" style="background: ${color};">
-                    ${name[0].toUpperCase()}
-                </div>
-                <span class="chip-name">${name}</span>
-                <span class="chip-count">${count}</span>
-            `;
-            bar.appendChild(chip);
+            salmistaSelect.innerHTML += `<option value="${name}">${name} (${count} alabanzas)</option>`;
         });
-    }
 
-    function populateFilterDropdowns() {
         const tipos = new Set();
         const tonos = new Set();
         const temas = new Set();
@@ -1369,10 +1333,8 @@
         [...temas].sort().forEach(t => temaSelect.innerHTML += `<option value="${t}">${t}</option>`);
     }
 
-    function selectSinger(name, el) {
-        currentSingerFilter = name;
-        document.querySelectorAll('.singer-chip').forEach(c => c.classList.remove('active'));
-        if (el) el.classList.add('active');
+    function handleSingerDropdown(val) {
+        currentSingerFilter = val;
         applyFilters();
     }
 
@@ -1395,16 +1357,15 @@
         document.getElementById('searchInput').value = '';
         currentSearchTerm = '';
         document.getElementById('clearSearchBtn').style.display = 'none';
+        
+        const salmistaSelect = document.getElementById('filterSalmista');
+        if (salmistaSelect) salmistaSelect.value = 'ALL';
+        currentSingerFilter = 'ALL';
+
         document.getElementById('filterTipo').value = '';
         document.getElementById('filterTono').value = '';
         document.getElementById('filterTema').value = '';
         document.getElementById('sortBy').value = 'default';
-        currentSingerFilter = 'ALL';
-
-        document.querySelectorAll('.singer-chip').forEach(c => {
-            if (c.getAttribute('data-singer') === 'ALL') c.classList.add('active');
-            else c.classList.remove('active');
-        });
 
         applyFilters();
     }
