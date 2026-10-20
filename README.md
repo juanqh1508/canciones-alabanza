@@ -1,6 +1,6 @@
-# Ministerio de Alabanza - Dashboard Web
+# Ministerio de Alabanza - Iglesia Fuente de Bendición
 
-Plataforma interactiva para la gestión, búsqueda y consulta del repertorio musical del ministerio de alabanza. Conectada en tiempo real con la hoja **ADRIANA** de Google Sheets.
+Plataforma interactiva para la gestión, búsqueda y consulta del repertorio musical del ministerio de alabanza de la **Iglesia Fuente de Bendición**. Conectada en tiempo real con la hoja **ADRIANA** de Google Sheets.
 
 ## 🚀 Características
 - **Buscador en tiempo real:** Búsqueda reactiva por título, letras, salmista, tono musical, temas y citas bíblicas.
