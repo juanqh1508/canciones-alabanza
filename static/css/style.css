@@ -1140,3 +1140,193 @@ body {
         display: none;
     }
 }
+
+/* ============================================================
+   FILTROS EN BOTONES COLORIDOS (MOBILE FIRST & DESKTOP)
+   ============================================================ */
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.filter-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter-group-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.filter-pills-scroll {
+    display: flex;
+    gap: 0.45rem;
+    overflow-x: auto;
+    padding-bottom: 0.45rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+.filter-pills-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Botón Estilo Píldora (Pill) */
+.pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.95rem;
+    border-radius: var(--radius-full);
+    font-size: 0.84rem;
+    font-weight: 700;
+    white-space: nowrap;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    flex-shrink: 0;
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+.pill-btn:active {
+    transform: scale(0.95);
+}
+
+/* Botones Coloridos por Género */
+.pill-genre-all {
+    border-color: #cbd5e1;
+    color: #475569;
+}
+.pill-genre-all.active {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.3);
+}
+
+.pill-genre-adoracion {
+    border-color: rgba(139, 92, 246, 0.45);
+    background: rgba(139, 92, 246, 0.08);
+    color: #7c3aed;
+}
+.pill-genre-adoracion.active {
+    background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+    border-color: #6d28d9;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+.pill-genre-pentecostal {
+    border-color: rgba(245, 158, 11, 0.45);
+    background: rgba(245, 158, 11, 0.08);
+    color: #d97706;
+}
+.pill-genre-pentecostal.active {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border-color: #d97706;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.pill-genre-guerra {
+    border-color: rgba(239, 68, 68, 0.45);
+    background: rgba(239, 68, 68, 0.08);
+    color: #dc2626;
+}
+.pill-genre-guerra.active {
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    border-color: #b91c1c;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.pill-genre-pop {
+    border-color: rgba(14, 165, 233, 0.45);
+    background: rgba(14, 165, 233, 0.08);
+    color: #0284c7;
+}
+.pill-genre-pop.active {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+    border-color: #0369a1;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+}
+
+.pill-genre-himno {
+    border-color: rgba(16, 185, 129, 0.45);
+    background: rgba(16, 185, 129, 0.08);
+    color: #059669;
+}
+.pill-genre-himno.active {
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    border-color: #047857;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* Botones Coloridos por Salmista */
+.pill-singer {
+    border-color: var(--singer-border, #cbd5e1);
+    background: #ffffff;
+    color: var(--text-primary);
+}
+.pill-singer.active {
+    background: var(--singer-bg, #0f172a);
+    border-color: var(--singer-bg, #0f172a);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+.pill-singer .pill-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--singer-dot, #3b82f6);
+    display: inline-block;
+}
+.pill-singer.active .pill-dot {
+    background: #ffffff;
+}
+
+/* Botones Coloridos por Tonalidad (Key) */
+.pill-key {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.8rem;
+    border-color: #e2e8f0;
+    background: #ffffff;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+.pill-key.active {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Sección de Estadísticas al final de la página */
+.stats-section-footer {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 2px dashed var(--border-color);
+}
+
+.stats-section-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

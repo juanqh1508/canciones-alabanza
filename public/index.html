@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ministerio de Alabanza - Dashboard Web</title>
     
     <!-- Google Fonts -->
@@ -31,15 +31,15 @@
             --border-hover: #cbd5e1;
             
             --text-primary: #0f172a;
-            --text-secondary: #475569;
+            --text-secondary: #334155;
             --text-muted: #64748b;
             
             --radius-sm: 8px;
-            --radius-md: 14px;
-            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
             --radius-full: 9999px;
             
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
@@ -50,6 +50,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -58,13 +59,14 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
 
         /* Top Navbar */
         .top-navbar {
             background: #0f172a;
             color: #ffffff;
-            padding: 0.9rem 2rem;
+            padding: 0.75rem 1.25rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -77,29 +79,31 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.65rem;
         }
 
         .brand-icon {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             background: var(--primary-gradient);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             color: white;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
         }
 
         .brand h1 {
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: 800;
+            line-height: 1.2;
             letter-spacing: -0.02em;
         }
 
         .brand span {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: #38bdf8;
             font-weight: 600;
             text-transform: uppercase;
@@ -110,16 +114,16 @@
         .nav-actions {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
         .nav-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 0.95rem;
+            gap: 0.4rem;
+            padding: 0.45rem 0.8rem;
             border-radius: var(--radius-md);
-            font-size: 0.84rem;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
@@ -128,13 +132,14 @@
         }
 
         .nav-btn-sync {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
             color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .nav-btn-sync:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .nav-btn-sync:active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(0.96);
         }
 
         .nav-btn-sync.loading i {
@@ -145,181 +150,23 @@
             100% { transform: rotate(360deg); }
         }
 
-        .nav-btn-sheet {
-            background: #10b981;
-            color: #ffffff;
-        }
-
-        .nav-btn-sheet:hover {
-            background: #059669;
-        }
-
         /* Container */
         .container {
-            max-width: 1380px;
+            max-width: 1200px;
             width: 100%;
             margin: 0 auto;
-            padding: 2rem 1.75rem 4rem;
+            padding: 1.25rem 1rem 4rem;
         }
 
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.25rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1.35rem 1.5rem;
-            box-shadow: var(--shadow-sm);
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-            transition: transform 0.2s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.35rem;
-            flex-shrink: 0;
-        }
-
-        .stat-icon.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-        .stat-icon.green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-        .stat-icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
-        .stat-icon.amber { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-
-        .stat-label {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.2rem;
-        }
-
-        .stat-number {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            line-height: 1.1;
-        }
-
-        .stat-meta {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-        }
-
-        /* Singers Bar */
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.85rem;
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .singers-bar {
-            display: flex;
-            gap: 0.75rem;
-            overflow-x: auto;
-            padding-bottom: 0.75rem;
-            margin-bottom: 2rem;
-            scrollbar-width: thin;
-        }
-
-        .singers-bar::-webkit-scrollbar { height: 6px; }
-        .singers-bar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
-
-        .singer-chip {
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 0.45rem 0.95rem 0.45rem 0.45rem;
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow-sm);
-            flex-shrink: 0;
-            user-select: none;
-        }
-
-        .singer-chip:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-1px);
-        }
-
-        .singer-chip.active {
-            background: #0f172a;
-            border-color: #0f172a;
-            color: white;
-        }
-
-        .singer-chip.active .chip-count {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .chip-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .chip-name {
-            font-size: 0.86rem;
-            font-weight: 600;
-        }
-
-        .chip-count {
-            font-size: 0.72rem;
-            font-weight: 700;
-            background: var(--bg-muted);
-            color: var(--text-secondary);
-            padding: 2px 7px;
-            border-radius: var(--radius-full);
-        }
-
-        /* Controls Card */
+        /* ============================================================
+           FILTROS EN BOTONES COLORIDOS (MOBILE FIRST)
+           ============================================================ */
         .controls-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
-            padding: 1.25rem 1.5rem;
-            margin-bottom: 1.75rem;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
             box-shadow: var(--shadow-sm);
             display: flex;
             flex-direction: column;
@@ -336,19 +183,20 @@
             left: 1.15rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 1.05rem;
+            color: var(--primary-color);
+            font-size: 1.15rem;
             pointer-events: none;
         }
 
         .search-input-wrapper input {
             width: 100%;
-            padding: 0.85rem 2.75rem 0.85rem 3rem;
+            padding: 0.85rem 2.85rem 0.85rem 3rem;
             background: var(--bg-muted);
-            border: 1px solid transparent;
+            border: 2px solid transparent;
             border-radius: var(--radius-md);
-            font-size: 0.95rem;
+            font-size: 16px; /* Evita zoom automático en iPhone */
             color: var(--text-primary);
+            font-weight: 500;
             transition: all 0.2s ease;
         }
 
@@ -368,62 +216,214 @@
             border: none;
             color: var(--text-muted);
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             display: none;
-            padding: 0.25rem;
+            padding: 0.35rem;
         }
 
-        .filter-row {
+        /* Grupos de Botones Coloridos */
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group-header {
             display: flex;
             align-items: center;
-            gap: 0.85rem;
-            flex-wrap: wrap;
             justify-content: space-between;
         }
 
-        .filter-dropdowns {
+        .filter-group-title {
+            font-size: 0.74rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-            flex: 1;
+            gap: 0.35rem;
         }
 
-        .filter-dropdown {
-            background: var(--bg-muted);
-            border: 1px solid transparent;
-            border-radius: var(--radius-md);
-            padding: 0.6rem 0.9rem;
+        .filter-pills-scroll {
+            display: flex;
+            gap: 0.45rem;
+            overflow-x: auto;
+            padding-bottom: 0.35rem;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .filter-pills-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Botón Estilo Píldora (Pill) */
+        .pill-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 0.95rem;
+            border-radius: var(--radius-full);
             font-size: 0.84rem;
-            font-weight: 500;
-            color: var(--text-secondary);
+            font-weight: 700;
+            white-space: nowrap;
+            border: 1.5px solid transparent;
             cursor: pointer;
-            min-width: 140px;
+            transition: all 0.15s ease;
+            user-select: none;
+            flex-shrink: 0;
+            background: #ffffff;
+            box-shadow: var(--shadow-sm);
         }
 
-        .filter-dropdown:focus {
+        .pill-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Botones Coloridos por Género */
+        .pill-genre-all {
+            border-color: #cbd5e1;
+            color: #475569;
+        }
+        .pill-genre-all.active {
+            background: #0f172a;
+            border-color: #0f172a;
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.3);
+        }
+
+        .pill-genre-adoracion {
+            border-color: rgba(139, 92, 246, 0.45);
+            background: rgba(139, 92, 246, 0.08);
+            color: #7c3aed;
+        }
+        .pill-genre-adoracion.active {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            border-color: #6d28d9;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        .pill-genre-pentecostal {
+            border-color: rgba(245, 158, 11, 0.45);
+            background: rgba(245, 158, 11, 0.08);
+            color: #d97706;
+        }
+        .pill-genre-pentecostal.active {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-color: #d97706;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+
+        .pill-genre-guerra {
+            border-color: rgba(239, 68, 68, 0.45);
+            background: rgba(239, 68, 68, 0.08);
+            color: #dc2626;
+        }
+        .pill-genre-guerra.active {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            border-color: #b91c1c;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+
+        .pill-genre-pop {
+            border-color: rgba(14, 165, 233, 0.45);
+            background: rgba(14, 165, 233, 0.08);
+            color: #0284c7;
+        }
+        .pill-genre-pop.active {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+            border-color: #0369a1;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+        }
+
+        .pill-genre-himno {
+            border-color: rgba(16, 185, 129, 0.45);
+            background: rgba(16, 185, 129, 0.08);
+            color: #059669;
+        }
+        .pill-genre-himno.active {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            border-color: #047857;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Botones Coloridos por Salmista */
+        .pill-singer {
+            border-color: var(--singer-border, #cbd5e1);
             background: #ffffff;
-            border-color: var(--primary-color);
-            outline: none;
+            color: var(--text-primary);
+        }
+        .pill-singer.active {
+            background: var(--singer-bg, #0f172a);
+            border-color: var(--singer-bg, #0f172a);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+        .pill-singer .pill-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--singer-dot, #3b82f6);
+            display: inline-block;
+        }
+        .pill-singer.active .pill-dot {
+            background: #ffffff;
+        }
+
+        /* Botones Coloridos por Tonalidad (Key) */
+        .pill-key {
+            padding: 0.45rem 0.8rem;
+            font-size: 0.8rem;
+            border-color: #e2e8f0;
+            background: #ffffff;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+        .pill-key.active {
+            background: #0f172a;
+            border-color: #0f172a;
+            color: #ffffff;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Barra de Filtros Inferior (Reset & Vistas) */
+        .filter-bottom-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-color);
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .btn-reset-filters {
-            background: none;
-            border: none;
-            color: var(--secondary-accent);
-            font-size: 0.84rem;
-            font-weight: 600;
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            padding: 0.45rem 0.85rem;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 700;
             cursor: pointer;
             display: none;
             align-items: center;
             gap: 0.35rem;
-            padding: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        .btn-reset-filters:active {
+            transform: scale(0.95);
         }
 
         .view-toggles {
             display: flex;
             align-items: center;
-            gap: 0.35rem;
+            gap: 0.25rem;
             background: var(--bg-muted);
             padding: 0.25rem;
             border-radius: var(--radius-md);
@@ -432,18 +432,17 @@
         .view-btn {
             background: none;
             border: none;
-            padding: 0.45rem 0.75rem;
+            padding: 0.4rem 0.7rem;
             border-radius: var(--radius-sm);
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
             cursor: pointer;
-            transition: all 0.15s ease;
+            font-weight: 600;
         }
 
         .view-btn.active {
             background: #ffffff;
             color: var(--text-primary);
-            font-weight: 600;
             box-shadow: var(--shadow-sm);
         }
 
@@ -452,76 +451,77 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
+            padding: 0 0.25rem;
         }
 
         .results-count {
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.88rem;
+            font-weight: 700;
             color: var(--text-secondary);
         }
 
         .results-count span {
             color: var(--primary-color);
-            font-weight: 700;
+            font-weight: 800;
         }
 
-        /* Song Cards */
+        /* Song Cards (Mobile Optimized) */
         .songs-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.25rem;
+            gap: 1rem;
+            margin-bottom: 3rem;
         }
 
         .song-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
-            padding: 1.35rem 1.5rem;
+            padding: 1.25rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-shadow: var(--shadow-sm);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.2s ease;
             border-left: 5px solid var(--singer-color, var(--primary-color));
             cursor: pointer;
         }
 
         .song-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .song-card-header {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: space-between;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
+            gap: 0.5rem;
+            margin-bottom: 0.85rem;
         }
 
         .genre-badge {
             font-size: 0.72rem;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             padding: 3px 9px;
             border-radius: var(--radius-full);
         }
 
-        .genre-adoracion { background: rgba(139, 92, 246, 0.12); color: #7c3aed; }
-        .genre-pentecostal { background: rgba(245, 158, 11, 0.12); color: #d97706; }
-        .genre-guerra { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
-        .genre-pop { background: rgba(14, 165, 233, 0.12); color: #0284c7; }
-        .genre-himno { background: rgba(16, 185, 129, 0.12); color: #059669; }
-        .genre-otros { background: rgba(100, 116, 139, 0.12); color: #475569; }
+        .genre-adoracion { background: rgba(139, 92, 246, 0.15); color: #7c3aed; }
+        .genre-pentecostal { background: rgba(245, 158, 11, 0.15); color: #d97706; }
+        .genre-guerra { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
+        .genre-pop { background: rgba(14, 165, 233, 0.15); color: #0284c7; }
+        .genre-himno { background: rgba(16, 185, 129, 0.15); color: #059669; }
+        .genre-otros { background: rgba(100, 116, 139, 0.15); color: #475569; }
 
         .key-badge {
             background: #0f172a;
             color: #ffffff;
-            font-size: 0.78rem;
-            font-weight: 700;
+            font-size: 0.8rem;
+            font-weight: 800;
             padding: 3px 10px;
             border-radius: var(--radius-sm);
             letter-spacing: 0.02em;
@@ -532,12 +532,12 @@
             display: flex;
             flex-direction: column;
             gap: 0.45rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.85rem;
         }
 
         .songs-list li {
-            font-size: 0.94rem;
-            font-weight: 600;
+            font-size: 0.95rem;
+            font-weight: 700;
             color: var(--text-primary);
             display: flex;
             align-items: baseline;
@@ -546,7 +546,7 @@
         }
 
         .songs-list li i {
-            font-size: 0.72rem;
+            font-size: 0.75rem;
             color: var(--primary-color);
             flex-shrink: 0;
             margin-top: 3px;
@@ -555,8 +555,8 @@
         .song-meta-info {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem 1rem;
-            margin-top: 0.85rem;
+            gap: 0.4rem 0.85rem;
+            margin-top: 0.65rem;
             font-size: 0.78rem;
             color: var(--text-muted);
         }
@@ -571,62 +571,67 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-top: 0.9rem;
+            padding-top: 0.85rem;
             border-top: 1px solid var(--border-color);
+            margin-top: 0.5rem;
         }
 
         .singer-info {
             display: flex;
             align-items: center;
-            gap: 0.55rem;
+            gap: 0.5rem;
         }
 
         .singer-info-avatar {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.75rem;
-            font-weight: 700;
+            font-weight: 800;
             color: white;
         }
 
         .singer-info-name {
-            font-size: 0.84rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 700;
             color: var(--text-secondary);
         }
 
         .card-actions {
             display: flex;
             align-items: center;
-            gap: 0.35rem;
+            gap: 0.4rem;
         }
 
         .card-action-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            padding: 0.35rem 0.5rem;
-            border-radius: var(--radius-sm);
+            background: var(--bg-muted);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding: 0.45rem 0.75rem;
+            border-radius: var(--radius-md);
             cursor: pointer;
             transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
         }
 
-        .card-action-btn:hover {
-            color: var(--primary-color);
-            background: var(--bg-muted);
+        .card-action-btn:active {
+            transform: scale(0.95);
+            background: #e2e8f0;
         }
 
         .highlight-match {
             background-color: #fef08a;
             color: #854d0e;
-            padding: 0 2px;
-            border-radius: 3px;
-            font-weight: 700;
+            padding: 0 3px;
+            border-radius: 4px;
+            font-weight: 800;
         }
 
         /* Table */
@@ -637,6 +642,7 @@
             box-shadow: var(--shadow-sm);
             overflow: hidden;
             display: none;
+            margin-bottom: 3rem;
         }
 
         .data-table {
@@ -650,15 +656,15 @@
             background: var(--bg-muted);
             color: var(--text-muted);
             font-size: 0.76rem;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            padding: 1rem 1.25rem;
+            padding: 0.85rem 1rem;
             border-bottom: 1px solid var(--border-color);
         }
 
         .data-table td {
-            padding: 1rem 1.25rem;
+            padding: 0.85rem 1rem;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-secondary);
             vertical-align: middle;
@@ -669,26 +675,89 @@
             cursor: pointer;
         }
 
-        .table-song-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            max-width: 380px;
-        }
-
         /* Empty State */
         .empty-state {
             text-align: center;
-            padding: 4rem 2rem;
+            padding: 3rem 1.5rem;
             background: var(--bg-card);
             border: 1px dashed var(--border-hover);
             border-radius: var(--radius-lg);
             display: none;
+            margin-bottom: 2rem;
         }
 
-        .empty-state-icon {
-            font-size: 3rem;
-            color: #cbd5e1;
+        /* ============================================================
+           SECCIÓN DE ESTADÍSTICAS (AL FINAL DE LA PÁGINA)
+           ============================================================ */
+        .stats-section-footer {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px dashed var(--border-color);
+        }
+
+        .stats-section-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-primary);
             margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.15rem 1.25rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .stat-icon.green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        .stat-icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+        .stat-icon.amber { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+
+        .stat-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.15rem;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .stat-meta {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
         }
 
         /* Modal */
@@ -696,35 +765,35 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(8px);
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(6px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
-            padding: 1.5rem;
+            padding: 1rem;
         }
 
         .modal-container {
             background: var(--bg-card);
             border-radius: var(--radius-lg);
-            max-width: 680px;
+            max-width: 640px;
             width: 100%;
-            max-height: 90vh;
+            max-height: 88vh;
             overflow-y: auto;
             box-shadow: var(--shadow-xl);
             position: relative;
         }
 
         .modal-header {
-            padding: 1.75rem 2rem 1.25rem;
+            padding: 1.25rem 1.5rem 1rem;
             border-bottom: 1px solid var(--border-color);
             position: relative;
         }
 
         .modal-close-btn {
             position: absolute;
-            right: 1.5rem;
-            top: 1.5rem;
+            right: 1.25rem;
+            top: 1.25rem;
             background: var(--bg-muted);
             border: none;
             width: 32px;
@@ -735,34 +804,34 @@
             justify-content: center;
             color: var(--text-muted);
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.05rem;
         }
 
-        .modal-body { padding: 1.75rem 2rem; }
+        .modal-body { padding: 1.25rem 1.5rem; }
 
         .modal-meta-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1.25rem;
-            margin-bottom: 1.75rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.25rem;
             background: var(--bg-muted);
-            padding: 1.25rem;
+            padding: 1rem;
             border-radius: var(--radius-md);
         }
 
         .meta-field label {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: 0.05em;
             color: var(--text-muted);
             display: block;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         .meta-field span {
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 0.92rem;
+            font-weight: 700;
             color: var(--text-primary);
         }
 
@@ -770,44 +839,45 @@
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.45rem;
             margin-top: 0.5rem;
         }
 
         .modal-songs-list li {
             background: #f8fafc;
             border: 1px solid var(--border-color);
-            padding: 0.75rem 1rem;
+            padding: 0.65rem 0.85rem;
             border-radius: var(--radius-md);
             font-size: 0.95rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 0.65rem;
+            gap: 0.55rem;
         }
 
         .modal-songs-list li i { color: var(--primary-color); }
 
         .modal-footer {
-            padding: 1.25rem 2rem 1.75rem;
+            padding: 1rem 1.5rem 1.25rem;
             border-top: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            gap: 0.75rem;
+            gap: 0.65rem;
+            flex-wrap: wrap;
         }
 
         .btn-modal {
-            padding: 0.6rem 1.15rem;
+            padding: 0.55rem 1.1rem;
             border-radius: var(--radius-md);
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             border: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.45rem;
             text-decoration: none;
         }
 
@@ -817,26 +887,31 @@
         /* Toast */
         #toast-container {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            left: 1.5rem;
             z-index: 9999;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            pointer-events: none;
         }
 
         .toast {
             background: #0f172a;
             color: white;
-            padding: 0.9rem 1.25rem;
+            padding: 0.85rem 1.15rem;
             border-radius: var(--radius-md);
             box-shadow: var(--shadow-xl);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.65rem;
             font-size: 0.88rem;
-            min-width: 300px;
+            font-weight: 600;
             border-left: 4px solid var(--primary-color);
+            margin: 0 auto;
+            max-width: 400px;
+            width: 100%;
         }
 
         .toast.success { border-left-color: #10b981; }
@@ -857,18 +932,22 @@
         }
 
         .spinner {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border: 4px solid #e2e8f0;
             border-top-color: var(--primary-color);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
 
+        /* Mobile specific adjustments */
         @media (max-width: 768px) {
-            .container { padding: 1.25rem 1rem 3rem; }
-            .top-navbar { padding: 0.75rem 1rem; }
-            .stats-grid { grid-template-columns: 1fr; }
+            .container { padding: 0.85rem 0.75rem 4rem; }
+            .top-navbar { padding: 0.65rem 0.85rem; }
+            .controls-card { padding: 1rem 0.85rem; }
+            .songs-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+            .song-card { padding: 1.1rem; }
+            .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.65rem; }
             .nav-actions span { display: none; }
         }
     </style>
@@ -878,8 +957,8 @@
     <!-- Loading Screen -->
     <div id="loadingScreen" class="loading-screen">
         <div class="spinner"></div>
-        <p style="font-weight: 700; color: var(--text-primary); font-size: 1.1rem;">Cargando Alabanzas desde Google Sheets...</p>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">Hoja: ADRIANA</p>
+        <p style="font-weight: 800; color: var(--text-primary); font-size: 1.05rem;">Cargando Alabanzas...</p>
+        <p style="font-size: 0.82rem; color: var(--text-muted);">Sincronizando con Google Sheets (ADRIANA)</p>
     </div>
 
     <!-- Top Navbar -->
@@ -890,78 +969,34 @@
             </div>
             <div>
                 <h1>Alabanza Pro</h1>
-                <span>Ministerio Musical • Hoja ADRIANA</span>
+                <span>Ministerio Musical</span>
             </div>
         </div>
 
         <div class="nav-actions">
-            <button class="nav-btn nav-btn-sync" id="btnSync" onclick="fetchData(true)">
+            <button class="nav-btn nav-btn-sync" id="btnSync" onclick="fetchData(true)" title="Actualizar datos">
                 <i class="fa-solid fa-arrows-rotate"></i>
                 <span>Sincronizar</span>
             </button>
-            <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRwfHp4SilrLfMn7kgEqGUGfKOXuGsxs6ybsGaqct5LuGBqYxetOI1GtX2kN6Ck8JMJh22CDSO8oOUI/pubhtml" target="_blank" class="nav-btn nav-btn-sheet" title="Ver hoja en Google Sheets">
+            <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRwfHp4SilrLfMn7kgEqGUGfKOXuGsxs6ybsGaqct5LuGBqYxetOI1GtX2kN6Ck8JMJh22CDSO8oOUI/pubhtml" target="_blank" class="nav-btn nav-btn-sync" title="Abrir Google Sheets">
                 <i class="fa-solid fa-table-cells"></i>
-                <span>Google Sheets</span>
+                <span>Sheets</span>
             </a>
         </div>
     </header>
 
     <div class="container">
-        <!-- KPI Stats -->
-        <section class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon blue">
-                    <i class="fa-solid fa-list-check"></i>
-                </div>
-                <div>
-                    <div class="stat-label">Repertorios / Medleys</div>
-                    <div class="stat-number" id="kpiTotalCantos">-</div>
-                    <div class="stat-meta">Registrados en hoja ADRIANA</div>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon green">
-                    <i class="fa-solid fa-music"></i>
-                </div>
-                <div>
-                    <div class="stat-label">Canciones Desglosadas</div>
-                    <div class="stat-number" id="kpiTotalSongs">-</div>
-                    <div class="stat-meta">Canciones individuales</div>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon purple">
-                    <i class="fa-solid fa-users"></i>
-                </div>
-                <div>
-                    <div class="stat-label">Salmistas Activos</div>
-                    <div class="stat-number" id="kpiTotalSingers">-</div>
-                    <div class="stat-meta">Con repertorio asignado</div>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon amber">
-                    <i class="fa-solid fa-guitar"></i>
-                </div>
-                <div>
-                    <div class="stat-label">Género Principal</div>
-                    <div class="stat-number" id="kpiTopGenre" style="font-size: 1.45rem;">-</div>
-                    <div class="stat-meta" id="kpiTopGenreMeta">-</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Search & Filter Controls -->
+        <!-- ============================================================
+             1. LO PRIMERO QUE APARECE: BUSCADOR Y FILTROS COLORIDOS
+             ============================================================ -->
         <section class="controls-card">
+            <!-- Barra de Búsqueda -->
             <div class="search-input-wrapper">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 <input 
                     type="text" 
                     id="searchInput" 
-                    placeholder="Buscar por canción, letra, salmista, tono, tema o cita bíblica..." 
+                    placeholder="Buscar canción, letra, salmista, tono..." 
                     autocomplete="off"
                     oninput="handleSearchInput()"
                 >
@@ -970,70 +1005,106 @@
                 </button>
             </div>
 
-            <div class="filter-row">
-                <div class="filter-dropdowns">
-                    <!-- Dropdown de Salmista / Cantante -->
-                    <select id="filterSalmista" class="filter-dropdown" style="font-weight: 600; color: var(--primary-color);" onchange="handleSingerDropdown(this.value)">
-                        <option value="ALL">🎤 Todos los Salmistas</option>
-                    </select>
-
-                    <select id="filterTipo" class="filter-dropdown" onchange="applyFilters()">
-                        <option value="">Todos los géneros</option>
-                    </select>
-
-                    <select id="filterTono" class="filter-dropdown" onchange="applyFilters()">
-                        <option value="">Todos los tonos</option>
-                    </select>
-
-                    <select id="filterTema" class="filter-dropdown" onchange="applyFilters()">
-                        <option value="">Todos los temas</option>
-                    </select>
-
-                    <select id="sortBy" class="filter-dropdown" onchange="applyFilters()">
-                        <option value="default">Orden: Predeterminado</option>
-                        <option value="singer">Por Salmista (A-Z)</option>
-                        <option value="title">Por Título (A-Z)</option>
-                        <option value="key">Por Tono</option>
-                    </select>
-
-                    <button class="btn-reset-filters" id="btnResetFilters" onclick="resetAllFilters()">
-                        <i class="fa-solid fa-rotate-left"></i>
-                        <span>Limpiar filtros</span>
+            <!-- Filtro 1: Género / Ritmo en Botones Coloridos -->
+            <div class="filter-group">
+                <div class="filter-group-header">
+                    <span class="filter-group-title">
+                        <i class="fa-solid fa-tags" style="color: #8b5cf6;"></i> Género Musical
+                    </span>
+                </div>
+                <div class="filter-pills-scroll" id="genrePillsRow">
+                    <button class="pill-btn pill-genre-all active" onclick="setGenreFilter('', this)">
+                        Todos
+                    </button>
+                    <button class="pill-btn pill-genre-adoracion" onclick="setGenreFilter('Adoración', this)">
+                        💜 Adoración
+                    </button>
+                    <button class="pill-btn pill-genre-pentecostal" onclick="setGenreFilter('Pentecostal', this)">
+                        🔥 Pentecostal
+                    </button>
+                    <button class="pill-btn pill-genre-guerra" onclick="setGenreFilter('Guerra', this)">
+                        ⚔️ Guerra y Júbilo
+                    </button>
+                    <button class="pill-btn pill-genre-pop" onclick="setGenreFilter('Pop', this)">
+                        🎸 Pop/Rock
+                    </button>
+                    <button class="pill-btn pill-genre-himno" onclick="setGenreFilter('Himno', this)">
+                        🕊️ Himnos
                     </button>
                 </div>
+            </div>
 
-                <div class="view-toggles">
+            <!-- Filtro 2: Salmistas / Cantantes en Botones Coloridos -->
+            <div class="filter-group">
+                <div class="filter-group-header">
+                    <span class="filter-group-title">
+                        <i class="fa-solid fa-microphone-lines" style="color: var(--primary-color);"></i> Salmistas / Cantantes
+                    </span>
+                </div>
+                <div class="filter-pills-scroll" id="singerPillsRow">
+                    <button class="pill-btn pill-singer active" onclick="setSingerFilter('ALL', this)">
+                        Todos
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtro 3: Tonalidad Musical (Key) en Botones Coloridos -->
+            <div class="filter-group">
+                <div class="filter-group-header">
+                    <span class="filter-group-title">
+                        <i class="fa-solid fa-guitar" style="color: #f59e0b;"></i> Tono Musical
+                    </span>
+                </div>
+                <div class="filter-pills-scroll" id="keyPillsRow">
+                    <button class="pill-btn pill-key active" onclick="setKeyFilter('', this)">Todos</button>
+                    <button class="pill-btn pill-key" onclick="setKeyFilter('DO', this)">DO</button>
+                    <button class="pill-btn pill-key" onclick="setKeyFilter('RE', this)">RE</button>
+                    <button class="pill-btn pill-key" onclick="setKeyFilter('MI', this)">MI</button>
+                    <button class="pill-btn pill-key" onclick="setKeyFilter('FA', this)">FA</button>
+                    <button class="pill-btn pill-key" onclick="setKeyFilter('SOL', this)">SOL</button>
+                    <button class="pill-btn pill-key" onclick="setKeyFilter('LA', this)">LA</button>
+                    <button class="pill-btn pill-key" onclick="setKeyFilter('SI', this)">SI</button>
+                    <button class="pill-btn pill-key" onclick="setKeyFilter('LAm', this)">LAm</button>
+                    <button class="pill-btn pill-key" onclick="setKeyFilter('MIm', this)">MIm</button>
+                    <button class="pill-btn pill-key" onclick="setKeyFilter('SOLm', this)">SOLm</button>
+                </div>
+            </div>
+
+            <!-- Fila Inferior de Controles (Reset y Vistas) -->
+            <div class="filter-bottom-bar">
+                <button class="btn-reset-filters" id="btnResetFilters" onclick="resetAllFilters()">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Limpiar filtros</span>
+                </button>
+
+                <div class="view-toggles" style="margin-left: auto;">
                     <button class="view-btn active" id="viewCardsBtn" onclick="setViewMode('cards')">
-                        <i class="fa-solid fa-grip"></i>
-                        <span style="margin-left: 4px;">Tarjetas</span>
+                        <i class="fa-solid fa-grip"></i> Tarjetas
                     </button>
                     <button class="view-btn" id="viewTableBtn" onclick="setViewMode('table')">
-                        <i class="fa-solid fa-table-list"></i>
-                        <span style="margin-left: 4px;">Tabla</span>
+                        <i class="fa-solid fa-table-list"></i> Tabla
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- Results Summary -->
+        <!-- Resumen de Resultados -->
         <div class="results-summary">
             <div class="results-count" id="resultsCount">Cargando alabanzas...</div>
         </div>
 
-        <!-- Empty State -->
+        <!-- Estado Vacío -->
         <div class="empty-state" id="emptyState">
-            <div class="empty-state-icon">
-                <i class="fa-solid fa-music-slash"></i>
-            </div>
-            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">No se encontraron alabanzas</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">No hay canciones que coincidan con la búsqueda.</p>
+            <i class="fa-solid fa-music-slash" style="font-size: 2.5rem; color: #cbd5e1; margin-bottom: 0.75rem;"></i>
+            <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem;">No se encontraron alabanzas</h3>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.25rem;">Prueba con otro filtro o término de búsqueda.</p>
             <button class="btn-modal btn-modal-prim" onclick="resetAllFilters()">Restablecer Filtros</button>
         </div>
 
-        <!-- Cards View -->
+        <!-- Vista de Tarjetas -->
         <div class="songs-grid" id="songsGrid"></div>
 
-        <!-- Table View -->
+        <!-- Vista de Tabla -->
         <div class="table-container" id="tableContainer">
             <table class="data-table">
                 <thead>
@@ -1042,7 +1113,6 @@
                         <th>Salmista</th>
                         <th>Género</th>
                         <th>Tono</th>
-                        <th>Tema / Ref.</th>
                         <th>Fecha</th>
                         <th style="text-align: right;">Acciones</th>
                     </tr>
@@ -1050,17 +1120,73 @@
                 <tbody id="tableBody"></tbody>
             </table>
         </div>
+
+        <!-- ============================================================
+             2. ESTADÍSTICAS DEL MINISTERIO (AL FINAL DE LA PÁGINA)
+             ============================================================ -->
+        <section class="stats-section-footer">
+            <div class="stats-section-title">
+                <i class="fa-solid fa-chart-pie" style="color: var(--primary-color);"></i>
+                <span>Resumen del Ministerio de Alabanza</span>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Repertorios / Medleys</div>
+                        <div class="stat-number" id="kpiTotalCantos">-</div>
+                        <div class="stat-meta">Registrados en hoja ADRIANA</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Canciones Desglosadas</div>
+                        <div class="stat-number" id="kpiTotalSongs">-</div>
+                        <div class="stat-meta">Canciones individuales</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Salmistas Activos</div>
+                        <div class="stat-number" id="kpiTotalSingers">-</div>
+                        <div class="stat-meta">Con canciones asignadas</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon amber">
+                        <i class="fa-solid fa-guitar"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Género Principal</div>
+                        <div class="stat-number" id="kpiTopGenre" style="font-size: 1.35rem;">-</div>
+                        <div class="stat-meta" id="kpiTopGenreMeta">-</div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <!-- Modal Details -->
+    <!-- Modal de Detalles -->
     <div id="songModal" class="modal-overlay" onclick="handleModalClick(event)">
         <div class="modal-container">
             <div class="modal-header">
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem;">
                     <span id="modalGenreBadge" class="genre-badge genre-adoracion"></span>
                     <span id="modalKeyBadge" class="key-badge"></span>
                 </div>
-                <h3 id="modalSingerName" style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin: 0;"></h3>
+                <h3 id="modalSingerName" style="font-size: 1.2rem; font-weight: 800; color: var(--text-primary); margin: 0;"></h3>
                 <button class="modal-close-btn" onclick="closeModal()">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
@@ -1068,13 +1194,13 @@
 
             <div class="modal-body">
                 <div>
-                    <h4 style="font-size: 0.85rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">Canciones del Medley</h4>
+                    <h4 style="font-size: 0.8rem; text-transform: uppercase; font-weight: 800; color: var(--text-muted); margin-bottom: 0.4rem;">Canciones del Repertorio</h4>
                     <ul id="modalSongsList" class="modal-songs-list"></ul>
                 </div>
 
-                <div class="modal-meta-grid" style="margin-top: 1.5rem;">
+                <div class="modal-meta-grid">
                     <div class="meta-field">
-                        <label>Tono / Tonalidad</label>
+                        <label>Tono Musical</label>
                         <span id="modalKey"></span>
                     </div>
                     <div class="meta-field">
@@ -1082,7 +1208,7 @@
                         <span id="modalAcompanante"></span>
                     </div>
                     <div class="meta-field">
-                        <label>Tema de Alabanza</label>
+                        <label>Tema</label>
                         <span id="modalTheme"></span>
                     </div>
                     <div class="meta-field">
@@ -1090,29 +1216,29 @@
                         <span id="modalBible"></span>
                     </div>
                     <div class="meta-field">
-                        <label>Fecha Ministración</label>
+                        <label>Fecha</label>
                         <span id="modalFecha"></span>
                     </div>
                     <div class="meta-field">
-                        <label>ID Registro</label>
+                        <label>ID Canto</label>
                         <span id="modalIdCanto" style="font-family: monospace;"></span>
                     </div>
                 </div>
 
                 <div id="modalNotesSection" style="margin-top: 1rem; display: none;">
-                    <h4 style="font-size: 0.82rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">Observaciones</h4>
-                    <p id="modalNotes" style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; background: var(--bg-muted); padding: 0.85rem 1rem; border-radius: var(--radius-md);"></p>
+                    <h4 style="font-size: 0.78rem; text-transform: uppercase; font-weight: 800; color: var(--text-muted); margin-bottom: 0.35rem;">Observaciones</h4>
+                    <p id="modalNotes" style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; background: var(--bg-muted); padding: 0.75rem 0.85rem; border-radius: var(--radius-md);"></p>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button class="btn-modal btn-modal-sec" onclick="copyModalContent()">
                     <i class="fa-regular fa-copy"></i>
-                    <span>Copiar Repertorio</span>
+                    <span>Copiar WhatsApp</span>
                 </button>
                 <a id="modalArchiveLink" href="#" target="_blank" class="btn-modal btn-modal-prim" style="display: none;">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    <span>Ver Archivo / Acordes</span>
+                    <span>Ver Acordes</span>
                 </a>
                 <button class="btn-modal btn-modal-sec" onclick="closeModal()">Cerrar</button>
             </div>
@@ -1145,12 +1271,10 @@
     let currentSearchTerm = '';
     let currentTipoFilter = '';
     let currentTonoFilter = '';
-    let currentTemaFilter = '';
-    let currentSort = 'default';
     let currentViewMode = 'cards';
     let currentModalData = null;
 
-    // Helper: parse song titles from string
+    // Helper: parse song titles
     function parseSongTitles(raw) {
         if (!raw) return [];
         const text = String(raw).replace(/\r/g, '');
@@ -1170,7 +1294,6 @@
         const btnSync = document.getElementById('btnSync');
         btnSync.classList.add('loading');
 
-        // Check cache first if not force refresh
         if (!forceRefresh) {
             const cached = localStorage.getItem('alabanza_cantos_cache');
             if (cached) {
@@ -1178,7 +1301,6 @@
                     ALL_CANTOS = JSON.parse(cached);
                     document.getElementById('loadingScreen').style.display = 'none';
                     initDashboard();
-                    // Still fetch in background to check updates
                     fetchDataInBackground();
                     return;
                 } catch (e) {}
@@ -1224,7 +1346,6 @@
         let idCounter = 1;
 
         rows.forEach(row => {
-            // Normalize keys
             let normalizedRow = {};
             for (let k in row) {
                 normalizedRow[k.trim()] = (row[k] || '').trim();
@@ -1270,7 +1391,7 @@
 
     function initDashboard() {
         populateKPIs();
-        populateFilterDropdowns();
+        populateSingerPills();
         applyFilters();
     }
 
@@ -1291,50 +1412,65 @@
         const sortedGenres = Object.entries(genreCounts).sort((a,b) => b[1] - a[1]);
         if (sortedGenres.length > 0) {
             document.getElementById('kpiTopGenre').innerText = sortedGenres[0][0];
-            document.getElementById('kpiTopGenreMeta').innerText = `${sortedGenres[0][1]} alabanzas registradas`;
+            document.getElementById('kpiTopGenreMeta').innerText = `${sortedGenres[0][1]} alabanzas`;
         }
     }
 
-    function populateFilterDropdowns() {
-        // Dropdown de Salmistas
-        const salmistaSelect = document.getElementById('filterSalmista');
-        salmistaSelect.innerHTML = `<option value="ALL">🎤 Todos los Salmistas (${ALL_CANTOS.length})</option>`;
-        
+    function populateSingerPills() {
+        const row = document.getElementById('singerPillsRow');
+        row.innerHTML = '';
+
+        // All singers pill
+        const allBtn = document.createElement('button');
+        allBtn.className = 'pill-btn pill-singer active';
+        allBtn.onclick = () => setSingerFilter('ALL', allBtn);
+        allBtn.innerHTML = `Todos (${ALL_CANTOS.length})`;
+        row.appendChild(allBtn);
+
+        // Count per singer
         const singerCounts = {};
         ALL_CANTOS.forEach(c => {
             singerCounts[c.salmista_nombre] = (singerCounts[c.salmista_nombre] || 0) + 1;
         });
 
         const sortedSingers = Object.entries(singerCounts).sort((a,b) => b[1] - a[1]);
+
         sortedSingers.forEach(([name, count]) => {
-            salmistaSelect.innerHTML += `<option value="${name}">${name} (${count} alabanzas)</option>`;
+            const color = SINGER_COLORS[name] || '#8b5cf6';
+            const btn = document.createElement('button');
+            btn.className = 'pill-btn pill-singer';
+            btn.style.setProperty('--singer-dot', color);
+            btn.style.setProperty('--singer-border', color);
+            btn.style.setProperty('--singer-bg', color);
+            btn.onclick = () => setSingerFilter(name, btn);
+            btn.innerHTML = `
+                <span class="pill-dot"></span>
+                <span>${name}</span>
+                <span style="font-size:0.75rem; opacity:0.85;">(${count})</span>
+            `;
+            row.appendChild(btn);
         });
-
-        const tipos = new Set();
-        const tonos = new Set();
-        const temas = new Set();
-
-        ALL_CANTOS.forEach(c => {
-            if (c.tipo) tipos.add(c.tipo);
-            if (c.tono && c.tono !== 'N/A') tonos.add(c.tono);
-            if (c.tema) temas.add(c.tema.trim());
-        });
-
-        const tipoSelect = document.getElementById('filterTipo');
-        tipoSelect.innerHTML = '<option value="">Todos los géneros</option>';
-        [...tipos].sort().forEach(t => tipoSelect.innerHTML += `<option value="${t}">${t}</option>`);
-
-        const tonoSelect = document.getElementById('filterTono');
-        tonoSelect.innerHTML = '<option value="">Todas las notas / tonos</option>';
-        [...tonos].sort().forEach(t => tonoSelect.innerHTML += `<option value="${t}">Tono: ${t}</option>`);
-
-        const temaSelect = document.getElementById('filterTema');
-        temaSelect.innerHTML = '<option value="">Todos los temas</option>';
-        [...temas].sort().forEach(t => temaSelect.innerHTML += `<option value="${t}">${t}</option>`);
     }
 
-    function handleSingerDropdown(val) {
-        currentSingerFilter = val;
+    // Filter Trigger Functions
+    function setGenreFilter(genre, el) {
+        currentTipoFilter = genre;
+        document.querySelectorAll('#genrePillsRow .pill-btn').forEach(b => b.classList.remove('active'));
+        if (el) el.classList.add('active');
+        applyFilters();
+    }
+
+    function setSingerFilter(singer, el) {
+        currentSingerFilter = singer;
+        document.querySelectorAll('#singerPillsRow .pill-btn').forEach(b => b.classList.remove('active'));
+        if (el) el.classList.add('active');
+        applyFilters();
+    }
+
+    function setKeyFilter(key, el) {
+        currentTonoFilter = key;
+        document.querySelectorAll('#keyPillsRow .pill-btn').forEach(b => b.classList.remove('active'));
+        if (el) el.classList.add('active');
         applyFilters();
     }
 
@@ -1358,14 +1494,14 @@
         currentSearchTerm = '';
         document.getElementById('clearSearchBtn').style.display = 'none';
         
-        const salmistaSelect = document.getElementById('filterSalmista');
-        if (salmistaSelect) salmistaSelect.value = 'ALL';
-        currentSingerFilter = 'ALL';
+        currentTipoFilter = '';
+        document.querySelectorAll('#genrePillsRow .pill-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
 
-        document.getElementById('filterTipo').value = '';
-        document.getElementById('filterTono').value = '';
-        document.getElementById('filterTema').value = '';
-        document.getElementById('sortBy').value = 'default';
+        currentSingerFilter = 'ALL';
+        document.querySelectorAll('#singerPillsRow .pill-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+
+        currentTonoFilter = '';
+        document.querySelectorAll('#keyPillsRow .pill-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
 
         applyFilters();
     }
@@ -1390,18 +1526,12 @@
     }
 
     function applyFilters() {
-        currentTipoFilter = document.getElementById('filterTipo').value;
-        currentTonoFilter = document.getElementById('filterTono').value;
-        currentTemaFilter = document.getElementById('filterTema').value;
-        currentSort = document.getElementById('sortBy').value;
-
         const normQuery = normalizeStr(currentSearchTerm);
 
         let filtered = ALL_CANTOS.filter(canto => {
             if (currentSingerFilter !== 'ALL' && canto.salmista_nombre !== currentSingerFilter) return false;
             if (currentTipoFilter && !canto.tipo.toLowerCase().includes(currentTipoFilter.toLowerCase())) return false;
-            if (currentTonoFilter && canto.tono !== currentTonoFilter) return false;
-            if (currentTemaFilter && !canto.tema.toLowerCase().includes(currentTemaFilter.toLowerCase())) return false;
+            if (currentTonoFilter && !canto.tono.toLowerCase().startsWith(currentTonoFilter.toLowerCase())) return false;
 
             if (normQuery) {
                 const corpus = normalizeStr([
@@ -1420,17 +1550,13 @@
             return true;
         });
 
-        if (currentSort === 'singer') filtered.sort((a,b) => a.salmista_nombre.localeCompare(b.salmista_nombre));
-        else if (currentSort === 'title') filtered.sort((a,b) => a.titulo.localeCompare(b.titulo));
-        else if (currentSort === 'key') filtered.sort((a,b) => (a.tono || '').localeCompare(b.tono || ''));
-
-        const hasActive = currentSearchTerm || currentSingerFilter !== 'ALL' || currentTipoFilter || currentTonoFilter || currentTemaFilter || currentSort !== 'default';
+        const hasActive = currentSearchTerm || currentSingerFilter !== 'ALL' || currentTipoFilter || currentTonoFilter;
         document.getElementById('btnResetFilters').style.display = hasActive ? 'inline-flex' : 'none';
 
         const totalInd = filtered.reduce((acc, c) => acc + c.titulos_lista.length, 0);
         document.getElementById('resultsCount').innerHTML = `
             Mostrando <span>${filtered.length}</span> de ${ALL_CANTOS.length} repertorios 
-            <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted); margin-left:6px;">(${totalInd} canciones individuales)</span>
+            <span style="font-size:0.78rem; font-weight:normal; color:var(--text-muted); margin-left:4px;">(${totalInd} canciones)</span>
         `;
 
         const empty = document.getElementById('emptyState');
@@ -1485,7 +1611,6 @@
                     <div class="song-meta-info">
                         ${canto.biblia ? `<span class="meta-item"><i class="fa-solid fa-book-bible"></i> ${highlightText(canto.biblia, query)}</span>` : ''}
                         ${canto.acompanante ? `<span class="meta-item"><i class="fa-solid fa-guitar"></i> ${canto.acompanante}</span>` : ''}
-                        ${canto.tema ? `<span class="meta-item"><i class="fa-solid fa-tag"></i> ${canto.tema}</span>` : ''}
                     </div>
                 </div>
                 <div class="song-card-footer">
@@ -1496,9 +1621,9 @@
                         <span class="singer-info-name">${highlightText(canto.salmista_nombre, query)}</span>
                     </div>
                     <div class="card-actions">
-                        ${canto.archivo ? `<a href="${canto.archivo}" target="_blank" class="card-action-btn" title="Ver archivo" onclick="event.stopPropagation()"><i class="fa-solid fa-file-pdf"></i></a>` : ''}
-                        <button class="card-action-btn" title="Copiar" onclick="quickCopy(${canto.id}, event)">
+                        <button class="card-action-btn" title="Copiar WhatsApp" onclick="quickCopy(${canto.id}, event)">
                             <i class="fa-regular fa-copy"></i>
+                            <span>Copiar</span>
                         </button>
                         <button class="card-action-btn" title="Ver detalle">
                             <i class="fa-solid fa-chevron-right"></i>
@@ -1520,20 +1645,18 @@
             const titlesFormatted = canto.titulos_lista.map(t => highlightText(t, query)).join('<br>• ');
 
             tr.innerHTML = `
-                <td class="table-song-title"><strong>• ${titlesFormatted}</strong></td>
+                <td><strong>• ${titlesFormatted}</strong></td>
                 <td>
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="width: 10px; height: 10px; border-radius: 50%; background: ${canto.salmista_color}; display: inline-block;"></span>
-                        <span>${highlightText(canto.salmista_nombre, query)}</span>
+                    <div style="display: flex; align-items: center; gap: 0.45rem;">
+                        <span style="width: 8px; height: 8px; border-radius: 50%; background: ${canto.salmista_color}; display: inline-block;"></span>
+                        <span style="font-weight: 600;">${highlightText(canto.salmista_nombre, query)}</span>
                     </div>
                 </td>
-                <td><span style="font-size: 0.8rem; font-weight: 600;">${canto.tipo}</span></td>
+                <td><span style="font-size: 0.8rem; font-weight: 700;">${canto.tipo}</span></td>
                 <td><span class="key-badge" style="font-size: 0.75rem;">${canto.tono}</span></td>
-                <td><span style="font-size: 0.8rem; color: var(--text-muted);">${canto.tema || canto.biblia || '-'}</span></td>
                 <td style="font-size: 0.8rem; color: var(--text-muted);">${canto.fecha || '-'}</td>
                 <td style="text-align: right;">
-                    <button class="card-action-btn" title="Copiar" onclick="quickCopy(${canto.id}, event)"><i class="fa-regular fa-copy"></i></button>
-                    <button class="card-action-btn" title="Detalle"><i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+                    <button class="card-action-btn" onclick="quickCopy(${canto.id}, event)"><i class="fa-regular fa-copy"></i></button>
                 </td>
             `;
             tr.onclick = () => openDetails(canto);
@@ -1545,7 +1668,7 @@
     function openDetails(canto) {
         currentModalData = canto;
         document.getElementById('modalSingerName').innerHTML = `
-            <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${canto.salmista_color}; margin-right:8px;"></span>
+            <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${canto.salmista_color}; margin-right:6px;"></span>
             ${canto.salmista_nombre}
         `;
         document.getElementById('modalGenreBadge').innerText = canto.tipo;
@@ -1601,7 +1724,7 @@
         const canto = ALL_CANTOS.find(c => c.id === id);
         if (!canto) return;
         const text = `🎶 *${canto.salmista_nombre.toUpperCase()}*\n🎹 *Tono:* ${canto.tono} | 🏷️ ${canto.tipo}\n- ${canto.titulos_lista.join('\n- ')}`;
-        navigator.clipboard.writeText(text).then(() => showToast('¡Copiado!', 'success')).catch(() => showToast('Error al copiar', 'error'));
+        navigator.clipboard.writeText(text).then(() => showToast('¡Copiado para WhatsApp!', 'success')).catch(() => showToast('Error al copiar', 'error'));
     }
 
     function showToast(message, type = 'info') {
@@ -1613,8 +1736,9 @@
         container.appendChild(toast);
         setTimeout(() => {
             toast.style.opacity = '0';
+            toast.style.transition = 'all 0.3s ease';
             setTimeout(() => toast.remove(), 300);
-        }, 3500);
+        }, 3000);
     }
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
