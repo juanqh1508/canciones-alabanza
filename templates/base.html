@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Ministerio de Alabanza - Dashboard{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-music"></i>
+            </div>
+            <div class="brand-info">
+                <h2>Alabanza Pro</h2>
+                <span>Ministerio Musical</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Principal</div>
+            <a href="{{ url_for('index') }}" class="sidebar-link {{ 'active' if request.endpoint == 'index' }}">
+                <i class="fa-solid fa-layer-group"></i>
+                Dashboard & Buscador
+            </a>
+            <a href="{{ url_for('add_song') }}" class="sidebar-link {{ 'active' if request.endpoint == 'add_song' }}">
+                <i class="fa-solid fa-circle-plus"></i>
+                Añadir Canto
+            </a>
+
+            <div class="nav-section-title">Cantantes / Salmistas</div>
+            <div style="display: flex; flex-direction: column; gap: 0.25rem; max-height: 40vh; overflow-y: auto;">
+                {% for s in salmistas_nav|default([]) %}
+                <a href="{{ url_for('view_singer', id=s.id) }}" class="sidebar-link {{ 'active' if request.endpoint == 'view_singer' and request.view_args.get('id') == s.id }}">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: {{ s.color }}; display: inline-block;"></span>
+                    <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ s.nombre }}</span>
+                    <span style="font-size: 0.72rem; color: #64748b;">{{ s.cantos|length }}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sheet-badge">
+                <i class="fa-solid fa-table-cells"></i>
+                <div>
+                    <strong>Hoja: ADRIANA</strong>
+                    <div style="font-size: 0.7rem; opacity: 0.85;">Google Sheets Sincronizado</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Abrir Menú">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="breadcrumb-title">
+                    {% block header_title %}Dashboard de Repertorio{% endblock %}
+                </div>
+            </div>
+
+            <div class="top-bar-right">
+                <button class="sync-btn" id="btnSyncGoogleSheets" onclick="syncWithGoogleSheets()">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <span>Sincronizar Sheets</span>
+                </button>
+                <a href="{{ url_for('add_song') }}" class="btn-primary">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Nuevo Canto</span>
+                </a>
+            </div>
+        </header>
+
+        <main class="content-body">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div style="margin-bottom: 1.5rem; padding: 1rem 1.25rem; border-radius: var(--radius-md); background: {% if category == 'success' %}#ecfdf5; color: #065f46; border: 1px solid #a7f3d0;{% else %}#fef2f2; color: #991b1b; border: 1px solid #fecaca;{% endif %} display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <i class="fa-solid {% if category == 'success' %}fa-circle-check{% else %}fa-triangle-exclamation{% endif %}"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <!-- Universal Song Details Modal -->
+    <div id="songModal" class="modal-overlay" onclick="handleModalClick(event)">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                    <span id="modalGenreBadge" class="genre-badge genre-adoracion"></span>
+                    <span id="modalKeyBadge" class="key-badge"></span>
+                </div>
+                <h3 id="modalSingerName" style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin: 0;"></h3>
+                <button class="modal-close-btn" onclick="closeModal()" aria-label="Cerrar modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-songs-container">
+                    <h4>Canciones del Repertorio / Medley</h4>
+                    <ul id="modalSongsList" class="modal-songs-list"></ul>
+                </div>
+
+                <div class="modal-meta-grid">
+                    <div class="meta-field">
+                        <label>Tono / Tonalidad</label>
+                        <span id="modalKey"></span>
+                    </div>
+                    <div class="meta-field">
+                        <label>Acompañante</label>
+                        <span id="modalAcompanante"></span>
+                    </div>
+                    <div class="meta-field">
+                        <label>Tema de Alabanza</label>
+                        <span id="modalTheme"></span>
+                    </div>
+                    <div class="meta-field">
+                        <label>Cita Bíblica</label>
+                        <span id="modalBible"></span>
+                    </div>
+                    <div class="meta-field">
+                        <label>Fecha Ministración</label>
+                        <span id="modalFecha"></span>
+                    </div>
+                    <div class="meta-field">
+                        <label>ID Registro</label>
+                        <span id="modalIdCanto" style="font-family: monospace; font-size: 0.85rem;"></span>
+                    </div>
+                </div>
+
+                <div id="modalNotesSection" style="margin-top: 1rem;">
+                    <h4 style="font-size: 0.82rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">Observaciones & Notas</h4>
+                    <p id="modalNotes" style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; background: var(--bg-muted); padding: 0.85rem 1rem; border-radius: var(--radius-md);"></p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="copyModalContent()">
+                    <i class="fa-regular fa-copy"></i>
+                    <span>Copiar Repertorio</span>
+                </button>
+                <a id="modalArchiveLink" href="#" target="_blank" class="btn-primary" style="display: none;">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    <span>Ver Archivo / Acordes</span>
+                </a>
+                <button class="btn-secondary" onclick="closeModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <script>
+    // Sidebar toggle for mobile
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    // Modal Details functions
+    let currentModalData = null;
+
+    function openDetails(canto) {
+        currentModalData = canto;
+        
+        // Singer and badges
+        document.getElementById('modalSingerName').innerHTML = `
+            <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${canto.salmista_color || '#3b82f6'}; margin-right:8px;"></span>
+            ${canto.salmista_nombre}
+        `;
+        
+        const genreBadge = document.getElementById('modalGenreBadge');
+        genreBadge.innerText = canto.tipo || 'General';
+        const tipoLower = (canto.tipo || '').toLowerCase();
+        genreBadge.className = 'genre-badge ' + (
+            tipoLower.includes('adorac') ? 'genre-adoracion' :
+            tipoLower.includes('pentecostal') ? 'genre-pentecostal' :
+            tipoLower.includes('guerra') ? 'genre-guerra' :
+            tipoLower.includes('pop') ? 'genre-pop' :
+            tipoLower.includes('himno') ? 'genre-himno' : 'genre-otros'
+        );
+
+        document.getElementById('modalKeyBadge').innerText = 'Tono: ' + (canto.tono || 'N/A');
+        document.getElementById('modalKey').innerText = canto.tono || 'No especificado';
+        document.getElementById('modalAcompanante').innerText = canto.acompanante || 'Ninguno';
+        document.getElementById('modalTheme').innerText = canto.tema || 'General';
+        document.getElementById('modalBible').innerText = canto.biblia || 'Sin referencia';
+        document.getElementById('modalFecha').innerText = canto.fecha || 'Sin fecha';
+        document.getElementById('modalIdCanto').innerText = canto.id_canto || ('#' + canto.id);
+
+        // Songs list
+        const songsList = document.getElementById('modalSongsList');
+        songsList.innerHTML = '';
+        const titles = canto.titulos_lista && canto.titulos_lista.length > 0 ? canto.titulos_lista : [canto.titulo];
+        titles.forEach(t => {
+            const li = document.createElement('li');
+            li.innerHTML = `<i class="fa-solid fa-music"></i> <span>${t}</span>`;
+            songsList.appendChild(li);
+        });
+
+        // Notes
+        const notesSection = document.getElementById('modalNotesSection');
+        if (canto.observaciones && canto.observaciones.trim() !== '') {
+            document.getElementById('modalNotes').innerText = canto.observaciones;
+            notesSection.style.display = 'block';
+        } else {
+            notesSection.style.display = 'none';
+        }
+
+        // Archive link
+        const archiveLink = document.getElementById('modalArchiveLink');
+        if (canto.archivo && canto.archivo.trim() !== '' && canto.archivo.toLowerCase() !== 'nan') {
+            archiveLink.href = canto.archivo;
+            archiveLink.style.display = 'inline-flex';
+        } else {
+            archiveLink.style.display = 'none';
+        }
+
+        document.getElementById('songModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('songModal').style.display = 'none';
+    }
+
+    function handleModalClick(e) {
+        if (e.target.id === 'songModal') {
+            closeModal();
+        }
+    }
+
+    function copyModalContent() {
+        if (!currentModalData) return;
+        const titles = currentModalData.titulos_lista && currentModalData.titulos_lista.length > 0 
+            ? currentModalData.titulos_lista.join('\n- ') 
+            : currentModalData.titulo;
+            
+        const text = `🎶 *REPERTORIO DE ALABANZA*\n` +
+                     `👤 *Salmista:* ${currentModalData.salmista_nombre}\n` +
+                     `🎹 *Tono:* ${currentModalData.tono || 'N/A'}\n` +
+                     `🏷️ *Género:* ${currentModalData.tipo || 'N/A'}\n` +
+                     (currentModalData.acompanante ? `🎸 *Acompañante:* ${currentModalData.acompanante}\n` : '') +
+                     (currentModalData.biblia ? `📖 *Cita Bíblica:* ${currentModalData.biblia}\n` : '') +
+                     `\n*Canciones:*\n- ${titles}`;
+
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('¡Repertorio copiado al portapapeles!', 'success');
+        }).catch(() => {
+            showToast('No se pudo copiar automáticamente', 'error');
+        });
+    }
+
+    // Toast function
+    function showToast(message, type = 'info') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        const iconClass = type === 'success' ? 'fa-circle-check' :
+                          type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-info';
+                          
+        toast.innerHTML = `<i class="fa-solid ${iconClass}"></i> <span>${message}</span>`;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(50px)';
+            toast.style.transition = 'all 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    }
+
+    // Live Sync with Google Sheets
+    function syncWithGoogleSheets() {
+        const btn = document.getElementById('btnSyncGoogleSheets');
+        btn.classList.add('loading');
+        btn.disabled = true;
+        showToast('Sincronizando con Google Sheets (hoja ADRIANA)...', 'info');
+
+        fetch('/api/sync', { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    setTimeout(() => window.location.reload(), 1200);
+                } else {
+                    showToast(data.message || 'Error al sincronizar', 'error');
+                }
+            })
+            .catch(err => {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+                showToast('Error de red al conectar con el servidor', 'error');
+            });
+    }
+
+    // Keyboard shortcut ESC for modal
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
