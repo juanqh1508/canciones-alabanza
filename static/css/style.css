@@ -37,6 +37,231 @@
     --sidebar-width: 270px;
 }
 
+/* ============================================================
+   MODO OSCURO (DARK THEME)
+   ============================================================ */
+[data-theme="dark"] {
+    --bg-page: #0b0f19;
+    --bg-card: #131d31;
+    --bg-muted: #1c273e;
+    --bg-input: #1c273e;
+    --sidebar-bg: #080c16;
+    --border-color: #27364f;
+    --border-hover: #3b4d6e;
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+}
+
+[data-theme="dark"] body {
+    background: #0b0f19;
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .top-bar {
+    background: #080c16;
+    border-bottom: 1px solid #1e293b;
+}
+
+[data-theme="dark"] .controls-card {
+    background: #131d31;
+    border-color: #27364f;
+}
+
+[data-theme="dark"] .search-input-wrapper input {
+    background: #1c273e;
+    color: #f8fafc;
+    border-color: transparent;
+}
+
+[data-theme="dark"] .search-input-wrapper input:focus {
+    background: #1c273e;
+    border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .pill-btn {
+    background: #1c273e;
+    color: #f8fafc;
+    border-color: #27364f;
+}
+
+[data-theme="dark"] .pill-genre-all {
+    border-color: #475569;
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .pill-genre-all.active {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #0f172a;
+}
+
+[data-theme="dark"] .pill-genre-adoracion {
+    border-color: rgba(168, 85, 247, 0.5);
+    background: rgba(168, 85, 247, 0.15);
+    color: #c084fc;
+}
+
+[data-theme="dark"] .pill-genre-pentecostal {
+    border-color: rgba(245, 158, 11, 0.5);
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+}
+
+[data-theme="dark"] .pill-genre-guerra {
+    border-color: rgba(239, 68, 68, 0.5);
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+}
+
+[data-theme="dark"] .pill-genre-pop {
+    border-color: rgba(14, 165, 233, 0.5);
+    background: rgba(14, 165, 233, 0.15);
+    color: #38bdf8;
+}
+
+[data-theme="dark"] .pill-genre-himno {
+    border-color: rgba(16, 185, 129, 0.5);
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+}
+
+[data-theme="dark"] .pill-singer {
+    background: #1c273e;
+    border-color: var(--singer-border, #334155);
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .pill-key {
+    background: #1c273e;
+    border-color: #27364f;
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .pill-key.active {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #0f172a;
+}
+
+[data-theme="dark"] .song-card {
+    background: #131d31;
+    border-color: #27364f;
+}
+
+[data-theme="dark"] .song-card:hover {
+    border-color: #3b4d6e;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .songs-list li {
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .card-action-btn {
+    background: #1c273e;
+    border-color: #27364f;
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .card-action-btn:active {
+    background: #27364f;
+}
+
+[data-theme="dark"] .table-container {
+    background: #131d31;
+    border-color: #27364f;
+}
+
+[data-theme="dark"] .data-table th {
+    background: #1c273e;
+    border-color: #27364f;
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .data-table td {
+    border-color: #27364f;
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .data-table tr:hover td {
+    background: #1c273e;
+}
+
+[data-theme="dark"] .stat-card {
+    background: #131d31;
+    border-color: #27364f;
+}
+
+[data-theme="dark"] .modal-container {
+    background: #131d31;
+    border: 1px solid #27364f;
+}
+
+[data-theme="dark"] .modal-header {
+    border-bottom-color: #27364f;
+}
+
+[data-theme="dark"] .modal-songs-list li {
+    background: #1c273e;
+    border-color: #27364f;
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .meta-field {
+    background: #1c273e;
+    border-color: #27364f;
+}
+
+[data-theme="dark"] .modal-footer {
+    border-top-color: #27364f;
+}
+
+[data-theme="dark"] .key-badge {
+    background: #1c273e;
+    border-color: #3b82f6;
+    color: #60a5fa;
+}
+
+[data-theme="dark"] .view-btn {
+    background: #1c273e;
+    color: #94a3b8;
+    border-color: #27364f;
+}
+
+[data-theme="dark"] .view-btn.active {
+    background: #3b82f6;
+    color: #ffffff;
+    border-color: #3b82f6;
+}
+
+[data-theme="dark"] .singer-filter-card {
+    background: #131d31;
+    border-color: #27364f;
+}
+
+[data-theme="dark"] .singer-profile-card {
+    background: #131d31;
+    border-color: #27364f;
+}
+
+[data-theme="dark"] .form-card {
+    background: #131d31;
+    border-color: #27364f;
+}
+
+[data-theme="dark"] .form-control {
+    background: #1c273e;
+    color: #f8fafc;
+    border-color: #27364f;
+}
+
+[data-theme="dark"] .form-control:focus {
+    background: #1c273e;
+    border-color: var(--primary-color);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -1170,14 +1395,10 @@ body {
 
 .filter-pills-scroll {
     display: flex;
+    flex-wrap: wrap; /* Distribución hacia abajo en móvil y pantallas reducidas */
     gap: 0.45rem;
-    overflow-x: auto;
-    padding-bottom: 0.45rem;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-}
-.filter-pills-scroll::-webkit-scrollbar {
-    display: none;
+    overflow-x: visible;
+    padding-bottom: 0.2rem;
 }
 
 /* Botón Estilo Píldora (Pill) */

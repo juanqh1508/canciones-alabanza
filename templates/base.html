@@ -76,6 +76,10 @@
             </div>
 
             <div class="top-bar-right">
+                <button class="sync-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar Modo Oscuro / Claro" style="background: var(--bg-card); border: 1.5px solid var(--border-color); color: var(--text-primary); cursor: pointer;">
+                    <i class="fa-solid fa-moon"></i>
+                    <span id="themeToggleText">Oscuro</span>
+                </button>
                 <button class="sync-btn" id="btnSyncGoogleSheets" onclick="syncWithGoogleSheets()">
                     <i class="fa-solid fa-arrows-rotate"></i>
                     <span>Sincronizar Sheets</span>
@@ -319,6 +323,34 @@
                 showToast('Error de red al conectar con el servidor', 'error');
             });
     }
+
+    // Theme Management (Dark / Light)
+    function initTheme() {
+        const saved = localStorage.getItem('alabanza_theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved ? saved : (prefersDark ? 'dark' : 'light');
+        setTheme(theme);
+    }
+
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('alabanza_theme', theme);
+        const btn = document.getElementById('themeToggleBtn');
+        if (!btn) return;
+        if (theme === 'dark') {
+            btn.innerHTML = '<i class="fa-solid fa-sun" style="color: #f59e0b;"></i> <span id="themeToggleText">Claro</span>';
+        } else {
+            btn.innerHTML = '<i class="fa-solid fa-moon"></i> <span id="themeToggleText">Oscuro</span>';
+        }
+    }
+
+    function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+    }
+
+    initTheme();
 
     // Keyboard shortcut ESC for modal
     document.addEventListener('keydown', (e) => {
