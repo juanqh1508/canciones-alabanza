@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}Ministerio de Alabanza - Iglesia Fuente de Bendición{% endblock %}
-{% block header_title %}Ministerio de Alabanza - Iglesia Fuente de Bendición{% endblock %}
+{% block module_title %}Repertorio de Alabanza{% endblock %}
+{% block module_subtitle %}Consulta de cantos, medleys, letras y acordes en tiempo real{% endblock %}
 
 {% block content %}
 <!-- ============================================================
-     1. LO PRIMERO QUE APARECE: BUSCADOR Y FILTROS COLORIDOS
+     1. CARD DE CONTROL (BUSCADOR Y FILTROS COLORIDOS)
      ============================================================ -->
-<section class="controls-card">
-    <!-- Live Search Input -->
+<div class="card" id="repertorio">
+    <!-- Barra de Búsqueda -->
     <div class="search-input-wrapper">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
         <input 
             type="text" 
             id="searchInput" 
-            placeholder="Buscar por canción, letra, salmista, tono musical, tema o cita bíblica..." 
+            placeholder="Buscar canción, letra, salmista, tono, tema o cita bíblica..." 
             autocomplete="off"
             oninput="handleSearchInput()"
         >
@@ -23,12 +24,10 @@
         </button>
     </div>
 
-    <!-- Filtro 1: Género Musical en Botones Coloridos -->
-    <div class="filter-group">
-        <div class="filter-group-header">
-            <span class="filter-group-title">
-                <i class="fa-solid fa-tags" style="color: #8b5cf6;"></i> Género Musical
-            </span>
+    <!-- Filtro 1: Género Musical -->
+    <div id="generos">
+        <div class="section-title">
+            <i class="fa-solid fa-tags" style="color: #8b5cf6;"></i> Género Musical
         </div>
         <div class="filter-pills-scroll" id="genrePillsRow">
             <button class="pill-btn pill-genre-all active" onclick="setGenreFilter('', this)">
@@ -52,12 +51,10 @@
         </div>
     </div>
 
-    <!-- Filtro 2: Salmistas / Cantantes en Botones Coloridos -->
-    <div class="filter-group">
-        <div class="filter-group-header">
-            <span class="filter-group-title">
-                <i class="fa-solid fa-microphone-lines" style="color: var(--primary-color);"></i> Salmistas / Cantantes
-            </span>
+    <!-- Filtro 2: Salmistas / Cantantes -->
+    <div id="salmistas" style="margin-top: 1rem;">
+        <div class="section-title">
+            <i class="fa-solid fa-microphone-lines" style="color: var(--primary);"></i> Salmistas / Cantantes
         </div>
         <div class="filter-pills-scroll" id="singerPillsRow">
             <button class="pill-btn pill-singer active" onclick="setSingerFilter('ALL', this)">
@@ -73,12 +70,10 @@
         </div>
     </div>
 
-    <!-- Filtro 3: Tonos Musicales Rápidos en Botones Coloridos -->
-    <div class="filter-group">
-        <div class="filter-group-header">
-            <span class="filter-group-title">
-                <i class="fa-solid fa-guitar" style="color: #f59e0b;"></i> Tono Musical
-            </span>
+    <!-- Filtro 3: Tono Musical -->
+    <div id="tonos" style="margin-top: 1rem;">
+        <div class="section-title">
+            <i class="fa-solid fa-guitar" style="color: #f59e0b;"></i> Tono Musical
         </div>
         <div class="filter-pills-scroll" id="keyPillsRow">
             <button class="pill-btn pill-key active" onclick="setKeyFilter('', this)">Todos</button>
@@ -95,51 +90,41 @@
         </div>
     </div>
 
-    <!-- Fila Inferior: Limpiar Filtros y Selector de Vistas -->
-    <div class="filter-row" style="padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
-        <button class="btn-reset-filters" id="btnResetFilters" onclick="resetAllFilters()" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; padding: 0.45rem 0.85rem; border-radius: var(--radius-full); font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 0.35rem;">
+    <!-- Barra Inferior de Filtros -->
+    <div class="filter-bottom-bar">
+        <button class="btn-reset-filters" id="btnResetFilters" onclick="resetAllFilters()">
             <i class="fa-solid fa-rotate-left"></i>
             <span>Limpiar filtros</span>
         </button>
 
         <div class="view-toggles" style="margin-left: auto;">
-            <button class="view-btn active" id="viewCardsBtn" onclick="setViewMode('cards')" title="Vista en Tarjetas">
-                <i class="fa-solid fa-grip"></i>
-                <span style="margin-left: 4px;">Tarjetas</span>
+            <button class="view-btn active" id="viewCardsBtn" onclick="setViewMode('cards')">
+                <i class="fa-solid fa-grip"></i> Tarjetas
             </button>
-            <button class="view-btn" id="viewTableBtn" onclick="setViewMode('table')" title="Vista en Tabla">
-                <i class="fa-solid fa-table-list"></i>
-                <span style="margin-left: 4px;">Tabla</span>
+            <button class="view-btn" id="viewTableBtn" onclick="setViewMode('table')">
+                <i class="fa-solid fa-table-list"></i> Tabla
             </button>
         </div>
     </div>
-</section>
+</div>
 
-<!-- Results Header Summary -->
+<!-- Resumen de Resultados -->
 <div class="results-summary">
-    <div class="results-count" id="resultsCount">
-        Cargando repertorio...
-    </div>
-    <div style="font-size: 0.8rem; color: var(--text-muted);" id="activeFiltersIndicator"></div>
+    <div class="results-count" id="resultsCount">Cargando repertorio...</div>
 </div>
 
-<!-- Empty State Message -->
+<!-- Estado Vacío -->
 <div class="empty-state" id="emptyState">
-    <div class="empty-state-icon">
-        <i class="fa-solid fa-music-slash"></i>
-    </div>
-    <h3>No se encontraron alabanzas</h3>
-    <p>No hay canciones que coincidan con los filtros seleccionados o el término de búsqueda.</p>
-    <button class="btn-primary" onclick="resetAllFilters()">
-        <i class="fa-solid fa-rotate-left"></i>
-        <span>Restablecer Filtros</span>
-    </button>
+    <i class="fa-solid fa-music-slash" style="font-size: 2.75rem; color: #cbd5e1; margin-bottom: 0.75rem;"></i>
+    <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.35rem; color: var(--text-main);">No se encontraron alabanzas</h3>
+    <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.25rem;">Prueba con otro filtro o término de búsqueda.</p>
+    <button class="btn-modal btn-modal-prim" onclick="resetAllFilters()">Restablecer Filtros</button>
 </div>
 
-<!-- Container for Cards View -->
+<!-- Vista de Tarjetas -->
 <div class="songs-grid" id="songsGrid"></div>
 
-<!-- Container for Table View -->
+<!-- Vista de Tabla -->
 <div class="table-container" id="tableContainer">
     <table class="data-table">
         <thead>
@@ -157,60 +142,64 @@
 </div>
 
 <!-- ============================================================
-     2. ESTADÍSTICAS DEL MINISTERIO (AL FINAL DE LA PÁGINA)
+     2. ESTADÍSTICAS DEL MINISTERIO (GRADIENTES ESTILO ASISTENCIAAPP)
      ============================================================ -->
-<section class="stats-section-footer">
-    <div class="stats-section-title">
-        <i class="fa-solid fa-chart-pie" style="color: var(--primary-color);"></i>
+<section class="stats-section-footer" id="estadisticas">
+    <div class="section-title" style="font-size: 1.35rem; margin-bottom: 1.25rem;">
+        <i class="fa-solid fa-chart-pie" style="color: var(--primary);"></i>
         <span>Resumen del Ministerio de Alabanza</span>
     </div>
 
     <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon blue">
+        <!-- Stat 1: Repertorios -->
+        <div class="stat-card-gradient stat-grad-blue">
+            <div class="stat-card-header">
                 <i class="fa-solid fa-list-check"></i>
+                <h3>Repertorios</h3>
             </div>
-            <div class="stat-details">
-                <span class="stat-label">Repertorios / Medleys</span>
-                <span class="stat-number">{{ total_cantos }}</span>
-                <span class="stat-meta">Registrados en hoja ADRIANA</span>
+            <div class="stat-card-box">
+                <div class="stat-big-number">{{ total_cantos }}</div>
+                <div class="stat-meta-text">Registrados en hoja ADRIANA</div>
             </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-icon green">
+        <!-- Stat 2: Canciones Desglosadas -->
+        <div class="stat-card-gradient stat-grad-green">
+            <div class="stat-card-header">
                 <i class="fa-solid fa-music"></i>
+                <h3>Canciones</h3>
             </div>
-            <div class="stat-details">
-                <span class="stat-label">Canciones Desglosadas</span>
-                <span class="stat-number">{{ total_songs_parsed }}</span>
-                <span class="stat-meta">Desglosadas en repertorios</span>
+            <div class="stat-card-box">
+                <div class="stat-big-number">{{ total_songs_parsed }}</div>
+                <div class="stat-meta-text">Canciones individuales</div>
             </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-icon purple">
+        <!-- Stat 3: Salmistas Activos -->
+        <div class="stat-card-gradient stat-grad-purple">
+            <div class="stat-card-header">
                 <i class="fa-solid fa-users"></i>
+                <h3>Salmistas</h3>
             </div>
-            <div class="stat-details">
-                <span class="stat-label">Cantantes / Salmistas</span>
-                <span class="stat-number">{{ total_salmistas }}</span>
-                <span class="stat-meta">Con repertorio asignado</span>
+            <div class="stat-card-box">
+                <div class="stat-big-number">{{ total_salmistas }}</div>
+                <div class="stat-meta-text">Con repertorio asignado</div>
             </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-icon amber">
+        <!-- Stat 4: Género Principal -->
+        <div class="stat-card-gradient stat-grad-rose">
+            <div class="stat-card-header">
                 <i class="fa-solid fa-guitar"></i>
+                <h3>Género Top</h3>
             </div>
-            <div class="stat-details">
-                <span class="stat-label">Género Principal</span>
-                <span class="stat-number" style="font-size: 1.45rem;">
+            <div class="stat-card-box">
+                <div class="stat-big-number" style="font-size: 1.85rem;">
                     {% if top_genres %}{{ top_genres[0][0] }}{% else %}Adoración{% endif %}
-                </span>
-                <span class="stat-meta">
+                </div>
+                <div class="stat-meta-text">
                     {% if top_genres %}{{ top_genres[0][1] }} alabanzas registradas{% endif %}
-                </span>
+                </div>
             </div>
         </div>
     </div>
@@ -235,18 +224,11 @@ document.addEventListener('DOMContentLoaded', () => {
     applyFilters();
 });
 
-// Search input handler with clear button visibility
 function handleSearchInput() {
     const input = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearSearchBtn');
     currentSearchTerm = input.value.trim().toLowerCase();
-    
-    if (currentSearchTerm.length > 0) {
-        clearBtn.style.display = 'block';
-    } else {
-        clearBtn.style.display = 'none';
-    }
-    
+    clearBtn.style.display = currentSearchTerm.length > 0 ? 'block' : 'none';
     applyFilters();
 }
 
@@ -259,7 +241,6 @@ function clearSearch() {
     input.focus();
 }
 
-// Filter button click handlers
 function setGenreFilter(genre, el) {
     currentTipoFilter = genre;
     document.querySelectorAll('#genrePillsRow .pill-btn').forEach(b => b.classList.remove('active'));
@@ -281,7 +262,6 @@ function setKeyFilter(key, el) {
     applyFilters();
 }
 
-// Reset all filters
 function resetAllFilters() {
     document.getElementById('searchInput').value = '';
     currentSearchTerm = '';
@@ -299,28 +279,14 @@ function resetAllFilters() {
     applyFilters();
 }
 
-// Set View Mode: cards or table
 function setViewMode(mode) {
     currentViewMode = mode;
-    const cardsBtn = document.getElementById('viewCardsBtn');
-    const tableBtn = document.getElementById('viewTableBtn');
-    const cardsContainer = document.getElementById('songsGrid');
-    const tableContainer = document.getElementById('tableContainer');
-
-    if (mode === 'cards') {
-        cardsBtn.classList.add('active');
-        tableBtn.classList.remove('active');
-        cardsContainer.style.display = 'grid';
-        tableContainer.style.display = 'none';
-    } else {
-        tableBtn.classList.add('active');
-        cardsBtn.classList.remove('active');
-        cardsContainer.style.display = 'none';
-        tableContainer.style.display = 'block';
-    }
+    document.getElementById('viewCardsBtn').classList.toggle('active', mode === 'cards');
+    document.getElementById('viewTableBtn').classList.toggle('active', mode === 'table');
+    document.getElementById('songsGrid').style.display = mode === 'cards' ? 'flex' : 'none';
+    document.getElementById('tableContainer').style.display = mode === 'table' ? 'block' : 'none';
 }
 
-// Text highlighting helper
 function highlightText(text, query) {
     if (!query || !text) return text;
     const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -328,35 +294,24 @@ function highlightText(text, query) {
     return text.replace(regex, '<span class="highlight-match">$1</span>');
 }
 
-// Normalize strings for accent-insensitive search
 function normalizeStr(str) {
-    return (str || '')
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase();
+    return (str || '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
 
-// Main filter & render function
 function applyFilters() {
     const normalizedQuery = normalizeStr(currentSearchTerm);
 
     let filtered = ALL_CANTOS.filter(canto => {
-        // Singer filter
         if (currentSingerFilter !== 'ALL' && canto.salmista_id !== currentSingerFilter) {
             return false;
         }
-
-        // Tipo filter
         if (currentTipoFilter && !canto.tipo.toLowerCase().includes(currentTipoFilter.toLowerCase())) {
             return false;
         }
-
-        // Tono filter
         if (currentTonoFilter && !canto.tono.toLowerCase().startsWith(currentTonoFilter.toLowerCase())) {
             return false;
         }
 
-        // Search Query filter
         if (normalizedQuery) {
             const searchable = normalizeStr([
                 canto.titulo,
@@ -374,22 +329,18 @@ function applyFilters() {
                 return false;
             }
         }
-
         return true;
     });
 
-    // Toggle reset filters button visibility
     const hasActiveFilters = currentSearchTerm || currentSingerFilter !== 'ALL' || currentTipoFilter || currentTonoFilter;
     document.getElementById('btnResetFilters').style.display = hasActiveFilters ? 'inline-flex' : 'none';
 
-    // Update results count
     const totalIndividualSongs = filtered.reduce((acc, c) => acc + (c.titulos_lista ? c.titulos_lista.length : 1), 0);
     document.getElementById('resultsCount').innerHTML = `
         Mostrando <span>${filtered.length}</span> de ${ALL_CANTOS.length} repertorios 
-        <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted); margin-left:6px;">(${totalIndividualSongs} canciones)</span>
+        <span style="font-size:0.85rem; font-weight:normal; color:var(--text-muted); margin-left:6px;">(${totalIndividualSongs} canciones individuales)</span>
     `;
 
-    // Empty state handling
     const emptyState = document.getElementById('emptyState');
     const cardsGrid = document.getElementById('songsGrid');
     const tableContainer = document.getElementById('tableContainer');
@@ -401,38 +352,28 @@ function applyFilters() {
         return;
     } else {
         emptyState.style.display = 'none';
-        if (currentViewMode === 'cards') {
-            cardsGrid.style.display = 'grid';
-            tableContainer.style.display = 'none';
-        } else {
-            cardsGrid.style.display = 'none';
-            tableContainer.style.display = 'block';
-        }
+        cardsGrid.style.display = currentViewMode === 'cards' ? 'flex' : 'none';
+        tableContainer.style.display = currentViewMode === 'table' ? 'block' : 'none';
     }
 
-    // Render Cards
     renderCards(filtered, currentSearchTerm);
-
-    // Render Table
     renderTable(filtered, currentSearchTerm);
 }
 
-// Render song cards
 function renderCards(cantos, query) {
     const grid = document.getElementById('songsGrid');
     grid.innerHTML = '';
 
     cantos.forEach(canto => {
         const card = document.createElement('div');
-        card.className = 'song-card';
-        card.style.setProperty('--singer-color', canto.salmista_color || '#3b82f6');
-        
+        card.className = 'card song-card';
+
         const tipoLower = (canto.tipo || '').toLowerCase();
-        const genreClass = tipoLower.includes('adorac') ? 'genre-adoracion' :
-                           tipoLower.includes('pentecostal') ? 'genre-pentecostal' :
-                           tipoLower.includes('guerra') ? 'genre-guerra' :
-                           tipoLower.includes('pop') ? 'genre-pop' :
-                           tipoLower.includes('himno') ? 'genre-himno' : 'genre-otros';
+        const gradClass = tipoLower.includes('adorac') ? 'gradient-adoracion' :
+                          tipoLower.includes('pentecostal') ? 'gradient-pentecostal' :
+                          tipoLower.includes('guerra') ? 'gradient-guerra' :
+                          tipoLower.includes('pop') ? 'gradient-pop' :
+                          tipoLower.includes('himno') ? 'gradient-himno' : 'gradient-otros';
 
         const titles = canto.titulos_lista && canto.titulos_lista.length > 0 ? canto.titulos_lista : [canto.titulo];
         let songsHtml = '';
@@ -441,47 +382,83 @@ function renderCards(cantos, query) {
             songsHtml += `<li><i class="fa-solid fa-music"></i> <span>${highlighted}</span></li>`;
         });
 
+        const initialLetter = canto.salmista_nombre ? canto.salmista_nombre[0].toUpperCase() : 'A';
+
         card.innerHTML = `
-            <div>
-                <div class="song-card-header">
-                    <span class="genre-badge ${genreClass}">${canto.tipo || 'Alabanza'}</span>
-                    <span class="key-badge">${canto.tono || 'N/A'}</span>
+            <!-- Header con gradiente estilo asistenciaapp -->
+            <div class="song-card-header-gradient ${gradClass}">
+                <div class="card-singer-header">
+                    <div class="singer-avatar-circle">
+                        ${initialLetter}
+                    </div>
+                    <div>
+                        <span class="card-singer-name">${highlightText(canto.salmista_nombre, query)}</span>
+                        <span class="card-meta-date">${canto.fecha ? `📅 ${canto.fecha}` : 'Repertorio Oficial'}</span>
+                    </div>
                 </div>
-                <div class="song-card-body">
+                <div class="card-header-right">
+                    <h2 class="card-genre-title">${canto.tipo || 'Alabanza'}</h2>
+                    <span class="card-key-pill">Tono: ${canto.tono || 'N/A'}</span>
+                </div>
+            </div>
+
+            <div class="song-card-body">
+                <!-- Banner de Tema / Cita estilo asistenciaapp -->
+                <div class="card-tag-banner">
+                    ${canto.tema ? `
+                        <div class="tag-pill-accent">
+                            <strong>Tema:</strong> <span>${highlightText(canto.tema, query)}</span>
+                        </div>
+                    ` : `
+                        <div class="tag-pill-accent">
+                            <strong>Categoría:</strong> <span>${canto.tipo || 'Culto de Adoración'}</span>
+                        </div>
+                    `}
+                    ${canto.biblia ? `
+                        <div class="tag-pill-accent" style="border-left-color: #10b981;">
+                            <i class="fa-solid fa-book-bible" style="color: #10b981;"></i>
+                            <strong>Cita:</strong> <span>${highlightText(canto.biblia, query)}</span>
+                        </div>
+                    ` : ''}
+                    ${canto.acompanante ? `
+                        <div class="tag-pill-accent" style="border-left-color: #f59e0b;">
+                            <i class="fa-solid fa-guitar" style="color: #f59e0b;"></i>
+                            <strong>Acompaña:</strong> <span>${canto.acompanante}</span>
+                        </div>
+                    ` : ''}
+                </div>
+
+                <!-- Caja con canciones del medley -->
+                <div class="card-songs-box">
+                    <div class="card-songs-header">
+                        <i class="fa-solid fa-list-ol" style="color: var(--primary);"></i>
+                        Canciones del Popurrí / Repertorio (${titles.length})
+                    </div>
                     <ul class="songs-list">
                         ${songsHtml}
                     </ul>
-                    <div class="song-meta-info">
-                        ${canto.biblia ? `<span class="meta-item"><i class="fa-solid fa-book-bible"></i> ${highlightText(canto.biblia, query)}</span>` : ''}
-                        ${canto.acompanante ? `<span class="meta-item"><i class="fa-solid fa-guitar"></i> ${canto.acompanante}</span>` : ''}
-                    </div>
                 </div>
-            </div>
-            <div class="song-card-footer">
-                <div class="singer-info">
-                    <div class="singer-info-avatar" style="background: ${canto.salmista_color || '#3b82f6'};">
-                        ${canto.salmista_nombre ? canto.salmista_nombre[0].toUpperCase() : 'A'}
+
+                <!-- Botones de Acción -->
+                <div class="song-card-footer">
+                    <div class="card-actions">
+                        <button class="btn-card-copy" onclick="quickCopy(${canto.id}, event)" title="Copiar Repertorio para WhatsApp">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copiar Repertorio</span>
+                        </button>
+                        <button class="btn-card-detail" title="Ver Detalles y Acordes">
+                            <span>Detalles</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <span class="singer-info-name">${highlightText(canto.salmista_nombre, query)}</span>
-                </div>
-                <div class="card-actions">
-                    <button class="card-action-btn" title="Copiar WhatsApp" onclick="quickCopyCanto(${canto.id}, event)">
-                        <i class="fa-regular fa-copy"></i>
-                        <span>Copiar</span>
-                    </button>
-                    <button class="card-action-btn" title="Ver detalles completos">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
                 </div>
             </div>
         `;
-
         card.onclick = () => openDetails(canto);
         grid.appendChild(card);
     });
 }
 
-// Render data table
 function renderTable(cantos, query) {
     const tbody = document.getElementById('tableBody');
     tbody.innerHTML = '';
@@ -492,48 +469,22 @@ function renderTable(cantos, query) {
         const titlesFormatted = titles.map(t => highlightText(t, query)).join('<br>• ');
 
         tr.innerHTML = `
-            <td class="table-song-title">
-                <strong>• ${titlesFormatted}</strong>
-            </td>
+            <td><strong>• ${titlesFormatted}</strong></td>
             <td>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="width: 8px; height: 8px; border-radius: 50%; background: ${canto.salmista_color || '#3b82f6'}; display: inline-block;"></span>
-                    <span style="font-weight: 600;">${highlightText(canto.salmista_nombre, query)}</span>
+                <div style="display: flex; align-items: center; gap: 0.55rem;">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: ${canto.salmista_color || '#6366f1'}; display: inline-block;"></span>
+                    <span style="font-weight: 700;">${highlightText(canto.salmista_nombre, query)}</span>
                 </div>
             </td>
-            <td><span style="font-size: 0.8rem; font-weight: 700;">${canto.tipo || 'N/A'}</span></td>
-            <td><span class="key-badge" style="font-size: 0.75rem;">${canto.tono || 'N/A'}</span></td>
-            <td style="font-size: 0.8rem; color: var(--text-muted);">${canto.fecha || '-'}</td>
+            <td><span style="font-size: 0.85rem; font-weight: 700;">${canto.tipo}</span></td>
+            <td><span class="card-key-pill" style="color: var(--text-main); border-color: var(--border); background: #f1f5f9; font-size: 0.8rem; padding: 0.2rem 0.6rem;">${canto.tono}</span></td>
+            <td style="font-size: 0.85rem; color: var(--text-muted);">${canto.fecha || '-'}</td>
             <td style="text-align: right;">
-                <button class="card-action-btn" title="Copiar" onclick="quickCopyCanto(${canto.id}, event)">
-                    <i class="fa-regular fa-copy"></i>
-                </button>
+                <button class="btn-card-copy" style="padding: 0.4rem 0.75rem; font-size: 0.82rem; border-radius: 0.65rem;" onclick="quickCopy(${canto.id}, event)" title="Copiar"><i class="fa-regular fa-copy"></i></button>
             </td>
         `;
-
         tr.onclick = () => openDetails(canto);
         tbody.appendChild(tr);
-    });
-}
-
-// Quick copy canto button
-function quickCopyCanto(cantoId, event) {
-    event.stopPropagation();
-    const canto = ALL_CANTOS.find(c => c.id === cantoId);
-    if (!canto) return;
-
-    const titles = canto.titulos_lista && canto.titulos_lista.length > 0 
-        ? canto.titulos_lista.join('\n- ') 
-        : canto.titulo;
-
-    const text = `🎶 *${canto.salmista_nombre.toUpperCase()}*\n` +
-                 `🎹 *Tono:* ${canto.tono || 'N/A'} | 🏷️ ${canto.tipo || 'Alabanza'}\n` +
-                 `- ${titles}`;
-
-    navigator.clipboard.writeText(text).then(() => {
-        showToast('¡Copiado para WhatsApp!', 'success');
-    }).catch(() => {
-        showToast('No se pudo copiar automáticamente', 'error');
     });
 }
 </script>

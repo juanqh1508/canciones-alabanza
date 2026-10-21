@@ -5,338 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ministerio de Alabanza - Iglesia Fuente de Bendición</title>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Font Awesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- PapaParse for robust CSV parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
     <style>
         :root {
-            --primary-color: #3b82f6;
-            --primary-hover: #2563eb;
-            --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            --accent-color: #10b981;
-            --secondary-accent: #f43f5e;
-            
-            --bg-page: #f8fafc;
-            --bg-card: #ffffff;
-            --bg-muted: #f1f5f9;
-            --border-color: #e2e8f0;
-            --border-hover: #cbd5e1;
-            
-            --text-primary: #0f172a;
-            --text-secondary: #334155;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #1e293b;
+            --text-dark: #0f172a;
             --text-muted: #64748b;
-            
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 18px;
-            --radius-full: 9999px;
-            
-            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+            --glass: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.4);
         }
 
-        /* ============================================================
-           MODO OSCURO (DARK THEME)
-           ============================================================ */
         [data-theme="dark"] {
-            --bg-page: #0b0f19;
-            --bg-card: #131d31;
-            --bg-muted: #1c273e;
-            --border-color: #27364f;
-            --border-hover: #3b4d6e;
-            
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
+            --primary: #818cf8;
+            --primary-hover: #6366f1;
+            --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #1e293b 100%);
+            --card-bg: rgba(30, 41, 59, 0.95);
+            --text-main: #f8fafc;
+            --text-dark: #ffffff;
             --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            --glass: rgba(30, 41, 59, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        [data-theme="dark"] body {
-            background: #0b0f19;
-            color: #f8fafc;
-        }
-
-        [data-theme="dark"] .top-navbar {
-            background: #080c16;
-            border-bottom: 1px solid #1e293b;
-        }
-
-        [data-theme="dark"] .controls-card {
-            background: #131d31;
-            border-color: #27364f;
-        }
-
-        [data-theme="dark"] .search-input-wrapper input {
-            background: #1c273e;
-            color: #f8fafc;
-            border-color: transparent;
-        }
-
-        [data-theme="dark"] .search-input-wrapper input:focus {
-            background: #1c273e;
-            border-color: var(--primary-color);
-        }
-
-        [data-theme="dark"] .pill-btn {
-            background: #1c273e;
-            color: #f8fafc;
-            border-color: #27364f;
-        }
-
-        [data-theme="dark"] .pill-genre-all {
-            border-color: #475569;
-            color: #cbd5e1;
-        }
-
-        [data-theme="dark"] .pill-genre-all.active {
-            background: #ffffff;
-            border-color: #ffffff;
-            color: #0f172a;
-        }
-
-        [data-theme="dark"] .pill-genre-adoracion {
-            border-color: rgba(168, 85, 247, 0.5);
-            background: rgba(168, 85, 247, 0.15);
-            color: #c084fc;
-        }
-
-        [data-theme="dark"] .pill-genre-pentecostal {
-            border-color: rgba(245, 158, 11, 0.5);
-            background: rgba(245, 158, 11, 0.15);
-            color: #fbbf24;
-        }
-
-        [data-theme="dark"] .pill-genre-guerra {
-            border-color: rgba(239, 68, 68, 0.5);
-            background: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-        }
-
-        [data-theme="dark"] .pill-genre-pop {
-            border-color: rgba(14, 165, 233, 0.5);
-            background: rgba(14, 165, 233, 0.15);
-            color: #38bdf8;
-        }
-
-        [data-theme="dark"] .pill-genre-himno {
-            border-color: rgba(16, 185, 129, 0.5);
-            background: rgba(16, 185, 129, 0.15);
-            color: #34d399;
-        }
-
-        [data-theme="dark"] .pill-singer {
-            background: #1c273e;
-            border-color: var(--singer-border, #334155);
-            color: #f8fafc;
-        }
-
-        [data-theme="dark"] .pill-key {
-            background: #1c273e;
-            border-color: #27364f;
-            color: #cbd5e1;
-        }
-
-        [data-theme="dark"] .pill-key.active {
-            background: #ffffff;
-            border-color: #ffffff;
-            color: #0f172a;
-        }
-
-        [data-theme="dark"] .song-card {
-            background: #131d31;
-            border-color: #27364f;
-        }
-
-        [data-theme="dark"] .song-card:hover {
-            border-color: #3b4d6e;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-        }
-
-        [data-theme="dark"] .songs-list li {
-            color: #f1f5f9;
-        }
-
-        [data-theme="dark"] .card-action-btn {
-            background: #1c273e;
-            border-color: #27364f;
-            color: #cbd5e1;
-        }
-
-        [data-theme="dark"] .card-action-btn:active {
-            background: #27364f;
-        }
-
-        [data-theme="dark"] .table-container {
-            background: #131d31;
-            border-color: #27364f;
-        }
-
-        [data-theme="dark"] .data-table th {
-            background: #1c273e;
-            border-color: #27364f;
-            color: #94a3b8;
-        }
-
-        [data-theme="dark"] .data-table td {
-            border-color: #27364f;
-            color: #cbd5e1;
-        }
-
-        [data-theme="dark"] .data-table tr:hover td {
-            background: #1c273e;
-        }
-
-        [data-theme="dark"] .stat-card {
-            background: #131d31;
-            border-color: #27364f;
-        }
-
-        [data-theme="dark"] .modal-container {
-            background: #131d31;
-            border: 1px solid #27364f;
-        }
-
-        [data-theme="dark"] .modal-meta-grid {
-            background: #1c273e;
-        }
-
-        [data-theme="dark"] .modal-songs-list li {
-            background: #1c273e;
-            border-color: #27364f;
-            color: #f1f5f9;
-        }
-
-        [data-theme="dark"] .btn-modal-sec {
-            background: #1c273e;
-            border-color: #27364f;
-            color: #cbd5e1;
-        }
-
-        [data-theme="dark"] .loading-screen {
-            background: rgba(11, 15, 25, 0.95);
-        }
-
-        [data-theme="dark"] .empty-state {
-            background: #131d31;
-            border-color: #27364f;
-        }
-
-        [data-theme="dark"] .highlight-match {
-            background-color: #854d0e;
-            color: #fef08a;
-        }
-
-        /* ============================================================
-           RESET Y ESTILOS BASE
-           ============================================================ */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: var(--bg-page);
-            color: var(--text-primary);
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            line-height: 1.5;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
-            transition: background-color 0.25s ease, color 0.25s ease;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* Top Navbar */
-        .top-navbar {
-            background: #0f172a;
-            color: #ffffff;
-            padding: 0.75rem 1.25rem;
+        .container {
+            max-width: 950px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.25rem 1rem 3rem;
+            flex: 1;
+        }
+
+        /* ============================================================
+           HEADER ESTILO ASISTENCIAAPP
+           ============================================================ */
+        .app-header {
+            background: #1e293b;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.25);
+        }
+
+        .app-header .user-info {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow-md);
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+            gap: 0.75rem;
         }
 
-        .brand {
+        .app-brand {
             display: flex;
             align-items: center;
             gap: 0.65rem;
         }
 
-        .brand-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--primary-gradient);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            color: white;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+        .app-brand-icon {
+            font-size: 1.4rem;
+            color: #6366f1;
         }
 
-        .brand h1 {
-            font-size: 1.05rem;
+        .app-brand-text {
             font-weight: 800;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
         }
 
-        .brand span {
-            font-size: 0.7rem;
-            color: #38bdf8;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            display: block;
+        .app-brand-sub {
+            font-weight: 400;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-left: 4px;
         }
 
-        .nav-actions {
+        .header-actions {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        .nav-btn {
+        .header-btn {
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: white;
+            font-weight: 700;
+            font-size: 0.82rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 0.85rem;
+            cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            padding: 0.45rem 0.8rem;
-            border-radius: var(--radius-md);
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
+            gap: 0.45rem;
             transition: all 0.2s ease;
-            border: none;
+            font-family: inherit;
         }
 
-        .nav-btn-sync {
-            background: rgba(255, 255, 255, 0.12);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateY(-2px);
         }
 
-        .nav-btn-sync:active {
-            background: rgba(255, 255, 255, 0.25);
-            transform: scale(0.96);
-        }
-
-        .nav-btn-sync.loading i {
+        .header-btn.loading i {
             animation: spin 1s linear infinite;
         }
 
@@ -344,32 +157,140 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Container */
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 1.25rem 1rem 4rem;
+        /* Navigation Tabs Grid */
+        .nav-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .nav-tabs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .app-header .user-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+
+        .nav-link {
+            text-decoration: none;
+            padding: 0.65rem 0.5rem;
+            border-radius: 1rem;
+            background: white;
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 0.82rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .nav-link i {
+            font-size: 1.15rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-link:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Colores temáticos por enlace estilo asistenciaapp */
+        .nav-link.tab-repertorio { border-color: #6366f122; }
+        .nav-link.tab-repertorio i { color: #6366f1; }
+        .nav-link.tab-repertorio:hover, .nav-link.tab-repertorio.active { background: #6366f1; color: white; border-color: #6366f1; }
+
+        .nav-link.tab-salmistas { border-color: #f59e0b22; }
+        .nav-link.tab-salmistas i { color: #f59e0b; }
+        .nav-link.tab-salmistas:hover, .nav-link.tab-salmistas.active { background: #f59e0b; color: white; border-color: #f59e0b; }
+
+        .nav-link.tab-generos { border-color: #8b5cf622; }
+        .nav-link.tab-generos i { color: #8b5cf6; }
+        .nav-link.tab-generos:hover, .nav-link.tab-generos.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
+
+        .nav-link.tab-tonos { border-color: #06b6d422; }
+        .nav-link.tab-tonos i { color: #06b6d4; }
+        .nav-link.tab-tonos:hover, .nav-link.tab-tonos.active { background: #06b6d4; color: white; border-color: #06b6d4; }
+
+        .nav-link.tab-estadisticas { border-color: #10b98122; }
+        .nav-link.tab-estadisticas i { color: #10b981; }
+        .nav-link.tab-estadisticas:hover, .nav-link.tab-estadisticas.active { background: #10b981; color: white; border-color: #10b981; }
+
+        .nav-link.active i {
+            color: white !important;
+        }
+
+        .app-header .header-content {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .app-header .module-title {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 0.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .app-header .module-subtitle {
+            opacity: 0.8;
+            font-size: 0.92rem;
+            color: white;
         }
 
         /* ============================================================
-           FILTROS EN BOTONES COLORIDOS - DISTRIBUIDOS HACIA ABAJO
+           CARDS Y FORMULARIOS ESTILO ASISTENCIAAPP
            ============================================================ */
-        .controls-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1.25rem;
-            margin-bottom: 1.25rem;
-            box-shadow: var(--shadow-sm);
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 1.75rem;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            transition: all 0.25s ease;
         }
 
+        .section-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 1.25rem 0 0.75rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.25rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: var(--text-main);
+        }
+
+        /* Buscador */
         .search-input-wrapper {
             position: relative;
             width: 100%;
+            margin-bottom: 1.25rem;
         }
 
         .search-input-wrapper i.search-icon {
@@ -377,28 +298,34 @@
             left: 1.15rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--primary-color);
-            font-size: 1.15rem;
+            color: var(--primary);
+            font-size: 1.2rem;
             pointer-events: none;
         }
 
         .search-input-wrapper input {
             width: 100%;
-            padding: 0.85rem 2.85rem 0.85rem 3rem;
-            background: var(--bg-muted);
-            border: 2px solid transparent;
-            border-radius: var(--radius-md);
-            font-size: 16px; /* Evita zoom en iPhone */
-            color: var(--text-primary);
-            font-weight: 500;
+            padding: 0.9rem 2.85rem 0.9rem 3.1rem;
+            border-radius: 1rem;
+            border: 2px solid var(--border);
+            background: white;
+            font-size: 1.05rem;
+            font-family: inherit;
+            font-weight: 600;
+            color: var(--text-main);
+            outline: none;
             transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        [data-theme="dark"] .search-input-wrapper input {
+            background: #1e293b;
+            color: #f8fafc;
         }
 
         .search-input-wrapper input:focus {
-            background: var(--bg-card);
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
         }
 
         .clear-search-btn {
@@ -410,708 +337,783 @@
             border: none;
             color: var(--text-muted);
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             display: none;
             padding: 0.35rem;
         }
 
-        /* Grupos de Filtros */
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        .clear-search-btn:hover {
+            color: #ef4444;
         }
 
-        .filter-group-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .filter-group-title {
-            font-size: 0.74rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-        }
-
-        /* CONTENEDOR DE BOTONES DISTRIBUIDOS HACIA ABAJO (FLEX-WRAP: WRAP) */
+        /* Radio Buttons / Pills estilo .radio-item de asistenciaapp */
         .filter-pills-scroll {
             display: flex;
-            flex-wrap: wrap; /* Distribución hacia abajo, NUNCA lateral */
-            gap: 0.45rem;
-            overflow-x: visible;
-            padding-bottom: 0.2rem;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            margin-bottom: 0.5rem;
         }
 
-        /* Botón Estilo Píldora (Pill) */
         .pill-btn {
+            padding: 0.6rem 1rem;
+            border-radius: 1rem;
+            border: 2px solid var(--border);
+            background: white;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            padding: 0.52rem 0.9rem;
-            border-radius: var(--radius-full);
-            font-size: 0.84rem;
-            font-weight: 700;
-            border: 1.5px solid transparent;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            user-select: none;
-            flex-shrink: 0;
-            background: var(--bg-card);
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        .pill-btn:active {
-            transform: scale(0.95);
+        [data-theme="dark"] .pill-btn {
+            background: #1e293b;
+            color: #cbd5e1;
+            border-color: #334155;
         }
 
-        /* Botones Coloridos por Género */
-        .pill-genre-all {
-            border-color: #cbd5e1;
-            color: #475569;
-        }
-        .pill-genre-all.active {
-            background: #0f172a;
-            border-color: #0f172a;
-            color: #ffffff;
-            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.3);
+        .pill-btn:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+            transform: translateY(-2px);
         }
 
-        .pill-genre-adoracion {
-            border-color: rgba(139, 92, 246, 0.45);
-            background: rgba(139, 92, 246, 0.08);
-            color: #7c3aed;
-        }
-        .pill-genre-adoracion.active {
-            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-            border-color: #6d28d9;
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        .pill-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+            transform: translateY(-2px);
         }
 
-        .pill-genre-pentecostal {
-            border-color: rgba(245, 158, 11, 0.45);
-            background: rgba(245, 158, 11, 0.08);
-            color: #d97706;
-        }
-        .pill-genre-pentecostal.active {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            border-color: #d97706;
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-        }
+        /* Colores específicos de Géneros estilo asistenciaapp */
+        .pill-genre-adoracion.active { background: #8b5cf6; border-color: #8b5cf6; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35); }
+        .pill-genre-pentecostal.active { background: #f59e0b; border-color: #f59e0b; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35); }
+        .pill-genre-guerra.active { background: #f43f5e; border-color: #f43f5e; box-shadow: 0 4px 12px rgba(244, 63, 94, 0.35); }
+        .pill-genre-pop.active { background: #3b82f6; border-color: #3b82f6; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35); }
+        .pill-genre-himno.active { background: #10b981; border-color: #10b981; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35); }
 
-        .pill-genre-guerra {
-            border-color: rgba(239, 68, 68, 0.45);
-            background: rgba(239, 68, 68, 0.08);
-            color: #dc2626;
-        }
-        .pill-genre-guerra.active {
-            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-            border-color: #b91c1c;
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-        }
-
-        .pill-genre-pop {
-            border-color: rgba(14, 165, 233, 0.45);
-            background: rgba(14, 165, 233, 0.08);
-            color: #0284c7;
-        }
-        .pill-genre-pop.active {
-            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
-            border-color: #0369a1;
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
-        }
-
-        .pill-genre-himno {
-            border-color: rgba(16, 185, 129, 0.45);
-            background: rgba(16, 185, 129, 0.08);
-            color: #059669;
-        }
-        .pill-genre-himno.active {
-            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-            border-color: #047857;
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-        }
-
-        /* Botones Coloridos por Salmista */
-        .pill-singer {
-            border-color: var(--singer-border, #cbd5e1);
-            background: var(--bg-card);
-            color: var(--text-primary);
-        }
-        .pill-singer.active {
-            background: var(--singer-bg, #0f172a);
-            border-color: var(--singer-bg, #0f172a);
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-        }
-        .pill-singer .pill-dot {
-            width: 9px;
-            height: 9px;
+        .pill-dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: var(--singer-dot, #3b82f6);
+            background: var(--singer-dot, var(--primary));
             display: inline-block;
         }
+
+        .pill-singer.active {
+            background: var(--singer-bg, var(--primary)) !important;
+            border-color: var(--singer-border, var(--primary)) !important;
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+        }
+
         .pill-singer.active .pill-dot {
-            background: #ffffff;
+            background: white !important;
         }
 
-        /* Botones Coloridos por Tonalidad (Key) */
-        .pill-key {
-            padding: 0.42rem 0.75rem;
-            font-size: 0.8rem;
-            border-color: var(--border-color);
-            background: var(--bg-card);
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-        .pill-key.active {
-            background: #0f172a;
-            border-color: #0f172a;
-            color: #ffffff;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Fila Inferior (Reset y Vistas) */
+        /* Barra Inferior de Filtros */
         .filter-bottom-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-top: 0.75rem;
-            border-top: 1px solid var(--border-color);
-            gap: 0.5rem;
             flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
         }
 
         .btn-reset-filters {
             background: #fee2e2;
-            color: #b91c1c;
+            color: #dc2626;
             border: 1px solid #fecaca;
-            padding: 0.45rem 0.85rem;
-            border-radius: var(--radius-full);
-            font-size: 0.8rem;
+            padding: 0.55rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
             display: none;
             align-items: center;
-            gap: 0.35rem;
-            transition: all 0.2s ease;
+            gap: 0.4rem;
+            transition: all 0.2s;
         }
-        .btn-reset-filters:active {
-            transform: scale(0.95);
+
+        .btn-reset-filters:hover {
+            background: #fecaca;
+            transform: translateY(-2px);
         }
 
         .view-toggles {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            background: var(--bg-muted);
-            padding: 0.25rem;
-            border-radius: var(--radius-md);
+            display: inline-flex;
+            gap: 0.35rem;
+            background: rgba(0, 0, 0, 0.04);
+            padding: 0.3rem;
+            border-radius: 1rem;
+        }
+
+        [data-theme="dark"] .view-toggles {
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .view-btn {
-            background: none;
             border: none;
-            padding: 0.4rem 0.7rem;
-            border-radius: var(--radius-sm);
+            background: transparent;
+            padding: 0.5rem 0.85rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
             font-size: 0.82rem;
             color: var(--text-muted);
             cursor: pointer;
-            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
         }
 
         .view-btn.active {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            box-shadow: var(--shadow-sm);
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* Results Summary */
+        [data-theme="dark"] .view-btn.active {
+            background: #1e293b;
+            color: #818cf8;
+        }
+
+        /* Resumen de Resultados */
         .results-summary {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-            padding: 0 0.25rem;
+            margin-bottom: 1.25rem;
+            padding: 0 0.5rem;
         }
 
         .results-count {
-            font-size: 0.88rem;
+            font-size: 1rem;
             font-weight: 700;
-            color: var(--text-secondary);
+            color: var(--text-main);
         }
 
         .results-count span {
-            color: var(--primary-color);
+            color: var(--primary);
             font-weight: 800;
         }
 
-        /* Song Cards */
+        /* ============================================================
+           SONG CARDS ESTILO DETALLES DE CULTO (ASISTENCIAAPP)
+           ============================================================ */
         .songs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1rem;
-            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
         }
 
         .song-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1.25rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s ease;
-            border-left: 5px solid var(--singer-color, var(--primary-color));
+            padding: 0 !important;
+            border: none !important;
+            border-radius: 1.5rem !important;
+            overflow: hidden !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+            background: white !important;
             cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+        }
+
+        [data-theme="dark"] .song-card {
+            background: #1e293b !important;
         }
 
         .song-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.18) !important;
         }
 
-        .song-card-header {
+        /* Card Header Gradient */
+        .song-card-header-gradient {
+            padding: 1.35rem 1.6rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .gradient-adoracion { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); }
+        .gradient-pentecostal { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .gradient-guerra { background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%); }
+        .gradient-pop { background: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%); }
+        .gradient-himno { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .gradient-otros { background: linear-gradient(135deg, #475569 0%, #1e293b 100%); }
+
+        .card-singer-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 0.5rem;
-            margin-bottom: 0.85rem;
+            gap: 0.85rem;
         }
 
-        .genre-badge {
-            font-size: 0.72rem;
+        .singer-avatar-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .card-singer-name {
+            display: block;
+            font-size: 1.35rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 3px 9px;
-            border-radius: var(--radius-full);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            line-height: 1.2;
         }
 
-        .genre-adoracion { background: rgba(139, 92, 246, 0.15); color: #7c3aed; }
-        .genre-pentecostal { background: rgba(245, 158, 11, 0.15); color: #d97706; }
-        .genre-guerra { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
-        .genre-pop { background: rgba(14, 165, 233, 0.15); color: #0284c7; }
-        .genre-himno { background: rgba(16, 185, 129, 0.15); color: #059669; }
-        .genre-otros { background: rgba(100, 116, 139, 0.15); color: #475569; }
+        .card-meta-date {
+            font-size: 0.88rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
 
-        .key-badge {
-            background: #0f172a;
-            color: #ffffff;
-            font-size: 0.8rem;
+        .card-header-right {
+            text-align: right;
+        }
+
+        .card-genre-title {
+            font-size: 1.2rem;
+            margin: 0;
+            text-transform: uppercase;
             font-weight: 800;
-            padding: 3px 10px;
-            border-radius: var(--radius-sm);
-            letter-spacing: 0.02em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .card-key-pill {
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.22);
+            padding: 0.25rem 0.85rem;
+            border-radius: 2rem;
+            display: inline-block;
+            margin-top: 0.35rem;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(5px);
+            color: white;
+        }
+
+        /* Card Body */
+        .song-card-body {
+            padding: 1.5rem 1.6rem;
+        }
+
+        /* Tag Banner estilo Tipo de Culto en asistenciaapp */
+        .card-tag-banner {
+            margin-bottom: 1.25rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            align-items: center;
+        }
+
+        .tag-pill-accent {
+            background: #e0e7ff;
+            padding: 0.45rem 0.95rem;
+            border-radius: 0.75rem;
+            border-left: 5px solid var(--primary);
+            font-size: 0.92rem;
+            color: #334155;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        [data-theme="dark"] .tag-pill-accent {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
+        .tag-pill-accent strong {
+            color: #1e293b;
+        }
+
+        [data-theme="dark"] .tag-pill-accent strong {
+            color: #ffffff;
+        }
+
+        /* Lista de Canciones desglosadas estilo caja de estadísticas de asistenciaapp */
+        .card-songs-box {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 1.15rem;
+            padding: 1.15rem;
+            margin-bottom: 1.35rem;
+        }
+
+        [data-theme="dark"] .card-songs-box {
+            background: rgba(15, 23, 42, 0.6);
+            border-color: #334155;
+        }
+
+        .card-songs-header {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 0.65rem;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.45rem;
         }
 
         .songs-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 0.45rem;
-            margin-bottom: 0.85rem;
+            gap: 0.5rem;
         }
 
         .songs-list li {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
             display: flex;
-            align-items: baseline;
-            gap: 0.5rem;
-            line-height: 1.35;
+            align-items: flex-start;
+            gap: 0.65rem;
+            line-height: 1.4;
         }
 
         .songs-list li i {
-            font-size: 0.75rem;
-            color: var(--primary-color);
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
             flex-shrink: 0;
-            margin-top: 3px;
         }
 
-        .song-meta-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem 0.85rem;
-            margin-top: 0.65rem;
-            font-size: 0.78rem;
-            color: var(--text-muted);
-        }
-
-        .meta-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-        }
-
+        /* Card Footer & Botones estilo btn-submit de asistenciaapp */
         .song-card-footer {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding-top: 0.85rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 0.5rem;
-        }
-
-        .singer-info {
-            display: flex;
             align-items: center;
-            gap: 0.5rem;
-        }
-
-        .singer-info-avatar {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: white;
-        }
-
-        .singer-info-name {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-secondary);
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border);
         }
 
         .card-actions {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.5rem;
+            width: 100%;
         }
 
-        .card-action-btn {
-            background: var(--bg-muted);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            padding: 0.45rem 0.75rem;
-            border-radius: var(--radius-md);
+        .btn-card-copy {
+            flex: 1;
+            padding: 0.85rem 1.25rem;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-size: 0.95rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: all 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 0.35rem;
-            font-weight: 600;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+            font-family: inherit;
         }
 
-        .card-action-btn:active {
-            transform: scale(0.95);
+        .btn-card-copy:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(16, 185, 129, 0.35);
         }
 
-        .highlight-match {
-            background-color: #fef08a;
-            color: #854d0e;
-            padding: 0 3px;
-            border-radius: 4px;
-            font-weight: 800;
+        .btn-card-detail {
+            padding: 0.85rem 1.25rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.25);
+            font-family: inherit;
         }
 
-        /* Table */
+        .btn-card-detail:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(99, 102, 241, 0.35);
+        }
+
+        /* ============================================================
+           TABLA ESTILO ASISTENCIAAPP
+           ============================================================ */
         .table-container {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
             display: none;
-            margin-bottom: 3rem;
+            background: white;
+            border-radius: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        [data-theme="dark"] .table-container {
+            background: #1e293b;
         }
 
         .data-table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.88rem;
         }
 
         .data-table th {
-            background: var(--bg-muted);
-            color: var(--text-muted);
-            font-size: 0.76rem;
+            background: #f8fafc;
+            padding: 1rem 1.25rem;
+            font-size: 0.82rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            padding: 0.85rem 1rem;
-            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--border);
+        }
+
+        [data-theme="dark"] .data-table th {
+            background: rgba(15, 23, 42, 0.6);
+            border-color: #334155;
         }
 
         .data-table td {
-            padding: 0.85rem 1rem;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            vertical-align: middle;
+            padding: 1.1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 0.92rem;
+        }
+
+        [data-theme="dark"] .data-table td {
+            border-color: #334155;
         }
 
         .data-table tr:hover td {
-            background: var(--bg-muted);
+            background: rgba(99, 102, 241, 0.04);
             cursor: pointer;
         }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 3rem 1.5rem;
-            background: var(--bg-card);
-            border: 1px dashed var(--border-hover);
-            border-radius: var(--radius-lg);
-            display: none;
-            margin-bottom: 2rem;
-        }
-
         /* ============================================================
-           SECCIÓN DE ESTADÍSTICAS (AL FINAL DE LA PÁGINA)
+           ESTADÍSTICAS DEL MINISTERIO ESTILO ASISTENCIAAPP (GRADIENTES)
            ============================================================ */
         .stats-section-footer {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 2px dashed var(--border-color);
-        }
-
-        .stats-section-title {
-            font-size: 1rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1.25rem;
         }
 
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1.15rem 1.25rem;
-            box-shadow: var(--shadow-sm);
+        .stat-card-gradient {
+            padding: 1.5rem;
+            border-radius: 1.35rem;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.15);
+            transition: transform 0.25s ease;
+        }
+
+        .stat-card-gradient:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-grad-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
+            box-shadow: 0 10px 18px -3px rgba(59, 130, 246, 0.35);
+        }
+
+        .stat-grad-green {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 10px 18px -3px rgba(16, 185, 129, 0.35);
+        }
+
+        .stat-grad-purple {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            box-shadow: 0 10px 18px -3px rgba(99, 102, 241, 0.35);
+        }
+
+        .stat-grad-rose {
+            background: linear-gradient(135deg, #f43f5e 0%, #fb923c 100%);
+            box-shadow: 0 10px 18px -3px rgba(244, 63, 94, 0.35);
+        }
+
+        .stat-card-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.65rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 0.65rem;
+            margin-bottom: 1rem;
         }
 
-        .stat-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            flex-shrink: 0;
+        .stat-card-header i {
+            font-size: 1.3rem;
         }
 
-        .stat-icon.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-        .stat-icon.green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-        .stat-icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
-        .stat-icon.amber { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-
-        .stat-label {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.15rem;
-        }
-
-        .stat-number {
-            font-size: 1.5rem;
+        .stat-card-header h3 {
+            font-size: 1.15rem;
+            margin: 0;
             font-weight: 800;
-            color: var(--text-primary);
-            line-height: 1.1;
         }
 
-        .stat-meta {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-top: 0.2rem;
+        .stat-card-box {
+            background: rgba(0, 0, 0, 0.15);
+            padding: 1.15rem 1rem;
+            border-radius: 0.9rem;
+            text-align: center;
         }
 
-        /* Modal */
+        .stat-big-number {
+            font-size: 2.35rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 0.35rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .stat-meta-text {
+            font-size: 0.85rem;
+            opacity: 0.92;
+            font-weight: 500;
+        }
+
+        /* ============================================================
+           MODAL ESTILO ASISTENCIAAPP
+           ============================================================ */
         .modal-overlay {
-            display: none;
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(6px);
-            z-index: 1000;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
             align-items: center;
             justify-content: center;
+            z-index: 1000;
             padding: 1rem;
         }
 
         .modal-container {
-            background: var(--bg-card);
-            border-radius: var(--radius-lg);
-            max-width: 640px;
+            background: white;
+            border-radius: 1.75rem;
             width: 100%;
-            max-height: 88vh;
+            max-width: 580px;
+            max-height: 90vh;
             overflow-y: auto;
-            box-shadow: var(--shadow-xl);
-            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            animation: modalFadeIn 0.25s ease-out;
+        }
+
+        [data-theme="dark"] .modal-container {
+            background: #1e293b;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .modal-header {
-            padding: 1.25rem 1.5rem 1rem;
-            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            padding: 1.5rem 1.75rem;
             position: relative;
         }
 
         .modal-close-btn {
             position: absolute;
-            right: 1.25rem;
             top: 1.25rem;
-            background: var(--bg-muted);
+            right: 1.25rem;
+            background: rgba(255, 255, 255, 0.2);
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 1.05rem;
+            transition: all 0.2s;
         }
 
-        .modal-body { padding: 1.25rem 1.5rem; }
-
-        .modal-meta-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1.25rem;
-            background: var(--bg-muted);
-            padding: 1rem;
-            border-radius: var(--radius-md);
+        .modal-close-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.1);
         }
 
-        .meta-field label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 0.2rem;
-        }
-
-        .meta-field span {
-            font-size: 0.92rem;
-            font-weight: 700;
-            color: var(--text-primary);
+        .modal-body {
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
         }
 
         .modal-songs-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 0.45rem;
-            margin-top: 0.5rem;
+            gap: 0.5rem;
         }
 
         .modal-songs-list li {
-            background: var(--bg-muted);
-            border: 1px solid var(--border-color);
-            padding: 0.65rem 0.85rem;
-            border-radius: var(--radius-md);
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-primary);
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 0.85rem;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 0.55rem;
+            gap: 0.65rem;
         }
 
-        .modal-songs-list li i { color: var(--primary-color); }
+        [data-theme="dark"] .modal-songs-list li {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        .modal-songs-list li i {
+            color: var(--primary);
+        }
+
+        .modal-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            background: #f8fafc;
+            padding: 1.25rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        [data-theme="dark"] .modal-meta-grid {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        .meta-field label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 0.2rem;
+        }
+
+        .meta-field span {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
 
         .modal-footer {
-            padding: 1rem 1.5rem 1.25rem;
-            border-top: 1px solid var(--border-color);
+            padding: 1.25rem 1.75rem;
+            border-top: 1px solid var(--border);
             display: flex;
-            align-items: center;
+            gap: 0.75rem;
             justify-content: flex-end;
-            gap: 0.65rem;
-            flex-wrap: wrap;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        [data-theme="dark"] .modal-footer {
+            background: rgba(0, 0, 0, 0.15);
         }
 
         .btn-modal {
-            padding: 0.55rem 1.1rem;
-            border-radius: var(--radius-md);
-            font-size: 0.85rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 1rem;
             font-weight: 700;
+            font-size: 0.92rem;
             cursor: pointer;
             border: none;
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
+            transition: all 0.2s;
             text-decoration: none;
+            font-family: inherit;
         }
 
-        .btn-modal-sec { background: var(--bg-muted); color: var(--text-secondary); border: 1px solid var(--border-color); }
-        .btn-modal-prim { background: var(--primary-gradient); color: white; }
-
-        /* Toast */
-        #toast-container {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            left: 1.5rem;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            pointer-events: none;
-        }
-
-        .toast {
-            background: #0f172a;
+        .btn-modal-prim {
+            background: var(--primary);
             color: white;
-            padding: 0.85rem 1.15rem;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-xl);
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            font-size: 0.88rem;
-            font-weight: 600;
-            border-left: 4px solid var(--primary-color);
-            margin: 0 auto;
-            max-width: 400px;
-            width: 100%;
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
         }
 
-        .toast.success { border-left-color: #10b981; }
-        .toast.error { border-left-color: #ef4444; }
+        .btn-modal-prim:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
 
-        /* Loader */
+        .btn-modal-sec {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid var(--border);
+        }
+
+        [data-theme="dark"] .btn-modal-sec {
+            background: #334155;
+            color: #f1f5f9;
+            border-color: #475569;
+        }
+
+        .btn-modal-sec:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        /* Loading Screen */
         .loading-screen {
             position: fixed;
-            inset: 0;
-            background: rgba(248, 250, 252, 0.95);
-            backdrop-filter: blur(5px);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
             z-index: 2000;
             display: flex;
             flex-direction: column;
@@ -1120,31 +1122,85 @@
             gap: 1rem;
         }
 
-        .spinner {
-            width: 44px;
-            height: 44px;
-            border: 4px solid #e2e8f0;
-            border-top-color: var(--primary-color);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+        [data-theme="dark"] .loading-screen {
+            background: rgba(11, 15, 25, 0.95);
         }
 
-        /* Mobile specific adjustments */
-        @media (max-width: 768px) {
-            .container { padding: 0.85rem 0.75rem 4rem; }
-            .top-navbar { padding: 0.65rem 0.85rem; }
-            .controls-card { padding: 1rem 0.85rem; }
-            .songs-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-            .song-card { padding: 1.1rem; }
-            .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.65rem; }
-            .filter-pills-scroll {
-                flex-wrap: wrap; /* Distribución hacia abajo en móvil */
-                gap: 0.4rem;
-            }
-            .pill-btn {
-                padding: 0.48rem 0.8rem;
-                font-size: 0.82rem;
-            }
+        .spinner {
+            width: 52px;
+            height: 52px;
+            border: 5px solid rgba(99, 102, 241, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Empty State */
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 3.5rem 1.5rem;
+            background: white;
+            border-radius: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        [data-theme="dark"] .empty-state {
+            background: #1e293b;
+        }
+
+        /* Highlighting */
+        .highlight-match {
+            background: #fef08a;
+            color: #854d0e;
+            padding: 0 3px;
+            border-radius: 3px;
+        }
+
+        [data-theme="dark"] .highlight-match {
+            background: #854d0e;
+            color: #fef08a;
+        }
+
+        /* Toast Container */
+        #toast-container {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            background: #1e293b;
+            color: white;
+            padding: 0.85rem 1.25rem;
+            border-radius: 1rem;
+            font-size: 0.92rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .toast.success { border-left: 5px solid #10b981; }
+        .toast.error { border-left: 5px solid #ef4444; }
+
+        /* Footer exacto asistenciaapp */
+        .app-footer {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            opacity: 0.7;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -1153,65 +1209,87 @@
     <!-- Loading Screen -->
     <div id="loadingScreen" class="loading-screen">
         <div class="spinner"></div>
-        <p style="font-weight: 800; color: var(--text-primary); font-size: 1.05rem;">Cargando Alabanzas...</p>
-        <p style="font-size: 0.82rem; color: var(--text-muted);">Sincronizando con Google Sheets (ADRIANA)</p>
+        <p style="font-weight: 800; color: var(--text-main); font-size: 1.2rem;">Cargando Alabanzas...</p>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">Sincronizando con Google Sheets (ADRIANA)</p>
     </div>
-
-    <!-- Top Navbar -->
-    <header class="top-navbar">
-        <div class="brand">
-            <div class="brand-icon">
-                <i class="fa-solid fa-music"></i>
-            </div>
-            <div>
-                <h1>Ministerio de Alabanza</h1>
-                <span>Iglesia Fuente de Bendición</span>
-            </div>
-        </div>
-
-        <div class="nav-actions">
-            <!-- Botón de Modo Oscuro / Claro -->
-            <button class="nav-btn nav-btn-sync" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar Modo Oscuro / Claro">
-                <i class="fa-solid fa-moon"></i>
-                <span id="themeToggleText">Oscuro</span>
-            </button>
-            <button class="nav-btn nav-btn-sync" id="btnSync" onclick="fetchData(true)" title="Actualizar datos">
-                <i class="fa-solid fa-arrows-rotate"></i>
-                <span>Sincronizar</span>
-            </button>
-            <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRwfHp4SilrLfMn7kgEqGUGfKOXuGsxs6ybsGaqct5LuGBqYxetOI1GtX2kN6Ck8JMJh22CDSO8oOUI/pubhtml" target="_blank" class="nav-btn nav-btn-sync" title="Abrir Google Sheets">
-                <i class="fa-solid fa-table-cells"></i>
-                <span>Sheets</span>
-            </a>
-        </div>
-    </header>
 
     <div class="container">
         <!-- ============================================================
-             1. LO PRIMERO QUE APARECE: BUSCADOR Y FILTROS COLORIDOS
+             HEADER ESTILO ASISTENCIAAPP
              ============================================================ -->
-        <section class="controls-card">
+        <header class="app-header">
+            <div class="user-info">
+                <div class="app-brand">
+                    <i class="fas fa-church app-brand-icon"></i>
+                    <div>
+                        <span class="app-brand-text">Ministerio de Alabanza</span>
+                        <span class="app-brand-sub">(Fuente de Bendición)</span>
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <button class="header-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar Tema">
+                        <i class="fa-solid fa-moon"></i>
+                        <span id="themeToggleText">Oscuro</span>
+                    </button>
+                    <button class="header-btn" id="btnSync" onclick="fetchData(true)" title="Sincronizar Datos">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span>Sincronizar</span>
+                    </button>
+                    <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRwfHp4SilrLfMn7kgEqGUGfKOXuGsxs6ybsGaqct5LuGBqYxetOI1GtX2kN6Ck8JMJh22CDSO8oOUI/pubhtml" target="_blank" class="header-btn" title="Hoja ADRIANA">
+                        <i class="fa-solid fa-table-cells"></i>
+                        <span>Sheets</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-tabs">
+                <a href="#repertorio" class="nav-link tab-repertorio active" onclick="navTabClick('repertorio', this)">
+                    <i class="fa-solid fa-layer-group"></i> Repertorio
+                </a>
+                <a href="#salmistas" class="nav-link tab-salmistas" onclick="navTabClick('salmistas', this)">
+                    <i class="fa-solid fa-microphone-lines"></i> Salmistas
+                </a>
+                <a href="#generos" class="nav-link tab-generos" onclick="navTabClick('generos', this)">
+                    <i class="fa-solid fa-tags"></i> Géneros
+                </a>
+                <a href="#tonos" class="nav-link tab-tonos" onclick="navTabClick('tonos', this)">
+                    <i class="fa-solid fa-guitar"></i> Tonos
+                </a>
+                <a href="#estadisticas" class="nav-link tab-estadisticas" onclick="navTabClick('estadisticas', this)">
+                    <i class="fa-solid fa-chart-line"></i> Estadísticas
+                </a>
+            </div>
+
+            <div class="header-content">
+                <h1 class="module-title">Repertorio de Alabanza</h1>
+                <p class="module-subtitle">Consulta de cantos, medleys, letras y acordes en tiempo real</p>
+            </div>
+        </header>
+
+        <!-- ============================================================
+             CARD DE CONTROL (BUSCADOR Y FILTROS COLORIDOS)
+             ============================================================ -->
+        <div class="card" id="repertorio">
             <!-- Barra de Búsqueda -->
             <div class="search-input-wrapper">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 <input 
                     type="text" 
                     id="searchInput" 
-                    placeholder="Buscar canción, letra, salmista, tono..." 
+                    placeholder="Buscar canción, letra, salmista, tono, tema o cita bíblica..." 
                     autocomplete="off"
                     oninput="handleSearchInput()"
                 >
-                <button class="clear-search-btn" id="clearSearchBtn" onclick="clearSearch()">
+                <button class="clear-search-btn" id="clearSearchBtn" onclick="clearSearch()" title="Limpiar búsqueda">
                     <i class="fa-solid fa-circle-xmark"></i>
                 </button>
             </div>
 
-            <!-- Filtro 1: Género / Ritmo en Botones Coloridos (Distribuidos hacia abajo) -->
-            <div class="filter-group">
-                <div class="filter-group-header">
-                    <span class="filter-group-title">
-                        <i class="fa-solid fa-tags" style="color: #8b5cf6;"></i> Género Musical
-                    </span>
+            <!-- Filtro 1: Género Musical -->
+            <div id="generos">
+                <div class="section-title">
+                    <i class="fa-solid fa-tags" style="color: #8b5cf6;"></i> Género Musical
                 </div>
                 <div class="filter-pills-scroll" id="genrePillsRow">
                     <button class="pill-btn pill-genre-all active" onclick="setGenreFilter('', this)">
@@ -1235,12 +1313,10 @@
                 </div>
             </div>
 
-            <!-- Filtro 2: Salmistas / Cantantes en Botones Coloridos (Distribuidos hacia abajo) -->
-            <div class="filter-group">
-                <div class="filter-group-header">
-                    <span class="filter-group-title">
-                        <i class="fa-solid fa-microphone-lines" style="color: var(--primary-color);"></i> Salmistas / Cantantes
-                    </span>
+            <!-- Filtro 2: Salmistas / Cantantes -->
+            <div id="salmistas" style="margin-top: 1rem;">
+                <div class="section-title">
+                    <i class="fa-solid fa-microphone-lines" style="color: var(--primary);"></i> Salmistas / Cantantes
                 </div>
                 <div class="filter-pills-scroll" id="singerPillsRow">
                     <button class="pill-btn pill-singer active" onclick="setSingerFilter('ALL', this)">
@@ -1249,12 +1325,10 @@
                 </div>
             </div>
 
-            <!-- Filtro 3: Tonalidad Musical en Botones Coloridos (Distribuidos hacia abajo) -->
-            <div class="filter-group">
-                <div class="filter-group-header">
-                    <span class="filter-group-title">
-                        <i class="fa-solid fa-guitar" style="color: #f59e0b;"></i> Tono Musical
-                    </span>
+            <!-- Filtro 3: Tono Musical -->
+            <div id="tonos" style="margin-top: 1rem;">
+                <div class="section-title">
+                    <i class="fa-solid fa-guitar" style="color: #f59e0b;"></i> Tono Musical
                 </div>
                 <div class="filter-pills-scroll" id="keyPillsRow">
                     <button class="pill-btn pill-key active" onclick="setKeyFilter('', this)">Todos</button>
@@ -1271,7 +1345,7 @@
                 </div>
             </div>
 
-            <!-- Fila Inferior de Controles (Reset y Vistas) -->
+            <!-- Barra Inferior de Filtros -->
             <div class="filter-bottom-bar">
                 <button class="btn-reset-filters" id="btnResetFilters" onclick="resetAllFilters()">
                     <i class="fa-solid fa-rotate-left"></i>
@@ -1287,18 +1361,18 @@
                     </button>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- Resumen de Resultados -->
         <div class="results-summary">
-            <div class="results-count" id="resultsCount">Cargando alabanzas...</div>
+            <div class="results-count" id="resultsCount">Cargando repertorio...</div>
         </div>
 
         <!-- Estado Vacío -->
         <div class="empty-state" id="emptyState">
-            <i class="fa-solid fa-music-slash" style="font-size: 2.5rem; color: #cbd5e1; margin-bottom: 0.75rem;"></i>
-            <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem;">No se encontraron alabanzas</h3>
-            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.25rem;">Prueba con otro filtro o término de búsqueda.</p>
+            <i class="fa-solid fa-music-slash" style="font-size: 2.75rem; color: #cbd5e1; margin-bottom: 0.75rem;"></i>
+            <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.35rem; color: var(--text-main);">No se encontraron alabanzas</h3>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.25rem;">Prueba con otro filtro o término de búsqueda.</p>
             <button class="btn-modal btn-modal-prim" onclick="resetAllFilters()">Restablecer Filtros</button>
         </div>
 
@@ -1323,56 +1397,60 @@
         </div>
 
         <!-- ============================================================
-             2. ESTADÍSTICAS DEL MINISTERIO (AL FINAL DE LA PÁGINA)
+             ESTADÍSTICAS DEL MINISTERIO (ESTILO GRADIENTES ASISTENCIAAPP)
              ============================================================ -->
-        <section class="stats-section-footer">
-            <div class="stats-section-title">
-                <i class="fa-solid fa-chart-pie" style="color: var(--primary-color);"></i>
+        <section class="stats-section-footer" id="estadisticas">
+            <div class="section-title" style="font-size: 1.35rem; margin-bottom: 1.25rem;">
+                <i class="fa-solid fa-chart-pie" style="color: var(--primary);"></i>
                 <span>Resumen del Ministerio de Alabanza</span>
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon blue">
+                <!-- Stat 1: Repertorios -->
+                <div class="stat-card-gradient stat-grad-blue">
+                    <div class="stat-card-header">
                         <i class="fa-solid fa-list-check"></i>
+                        <h3>Repertorios</h3>
                     </div>
-                    <div>
-                        <div class="stat-label">Repertorios / Medleys</div>
-                        <div class="stat-number" id="kpiTotalCantos">-</div>
-                        <div class="stat-meta">Registrados en hoja ADRIANA</div>
+                    <div class="stat-card-box">
+                        <div class="stat-big-number" id="kpiTotalCantos">-</div>
+                        <div class="stat-meta-text">Registrados en hoja ADRIANA</div>
                     </div>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-icon green">
+                <!-- Stat 2: Canciones Desglosadas -->
+                <div class="stat-card-gradient stat-grad-green">
+                    <div class="stat-card-header">
                         <i class="fa-solid fa-music"></i>
+                        <h3>Canciones</h3>
                     </div>
-                    <div>
-                        <div class="stat-label">Canciones Desglosadas</div>
-                        <div class="stat-number" id="kpiTotalSongs">-</div>
-                        <div class="stat-meta">Canciones individuales</div>
+                    <div class="stat-card-box">
+                        <div class="stat-big-number" id="kpiTotalSongs">-</div>
+                        <div class="stat-meta-text">Canciones individuales</div>
                     </div>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-icon purple">
+                <!-- Stat 3: Salmistas Activos -->
+                <div class="stat-card-gradient stat-grad-purple">
+                    <div class="stat-card-header">
                         <i class="fa-solid fa-users"></i>
+                        <h3>Salmistas</h3>
                     </div>
-                    <div>
-                        <div class="stat-label">Salmistas Activos</div>
-                        <div class="stat-number" id="kpiTotalSingers">-</div>
-                        <div class="stat-meta">Con canciones asignadas</div>
+                    <div class="stat-card-box">
+                        <div class="stat-big-number" id="kpiTotalSingers">-</div>
+                        <div class="stat-meta-text">Con repertorio asignado</div>
                     </div>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-icon amber">
+                <!-- Stat 4: Género Principal -->
+                <div class="stat-card-gradient stat-grad-rose">
+                    <div class="stat-card-header">
                         <i class="fa-solid fa-guitar"></i>
+                        <h3>Género Top</h3>
                     </div>
-                    <div>
-                        <div class="stat-label">Género Principal</div>
-                        <div class="stat-number" id="kpiTopGenre" style="font-size: 1.35rem;">-</div>
-                        <div class="stat-meta" id="kpiTopGenreMeta">-</div>
+                    <div class="stat-card-box">
+                        <div class="stat-big-number" id="kpiTopGenre" style="font-size: 1.85rem;">-</div>
+                        <div class="stat-meta-text" id="kpiTopGenreMeta">-</div>
                     </div>
                 </div>
             </div>
@@ -1383,11 +1461,11 @@
     <div id="songModal" class="modal-overlay" onclick="handleModalClick(event)">
         <div class="modal-container">
             <div class="modal-header">
-                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem;">
-                    <span id="modalGenreBadge" class="genre-badge genre-adoracion"></span>
-                    <span id="modalKeyBadge" class="key-badge"></span>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.4rem;">
+                    <span id="modalGenreBadge" style="background: rgba(255,255,255,0.25); padding: 0.25rem 0.75rem; border-radius: 2rem; font-weight: 700; font-size: 0.82rem; border: 1px solid rgba(255,255,255,0.35);"></span>
+                    <span id="modalKeyBadge" style="background: rgba(255,255,255,0.25); padding: 0.25rem 0.75rem; border-radius: 2rem; font-weight: 700; font-size: 0.82rem; border: 1px solid rgba(255,255,255,0.35);"></span>
                 </div>
-                <h3 id="modalSingerName" style="font-size: 1.2rem; font-weight: 800; color: var(--text-primary); margin: 0;"></h3>
+                <h3 id="modalSingerName" style="font-size: 1.5rem; font-weight: 800; color: white; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.2);"></h3>
                 <button class="modal-close-btn" onclick="closeModal()">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
@@ -1395,7 +1473,9 @@
 
             <div class="modal-body">
                 <div>
-                    <h4 style="font-size: 0.8rem; text-transform: uppercase; font-weight: 800; color: var(--text-muted); margin-bottom: 0.4rem;">Canciones del Repertorio</h4>
+                    <h4 style="font-size: 0.82rem; text-transform: uppercase; font-weight: 800; color: var(--text-muted); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.45rem;">
+                        <i class="fa-solid fa-list-ol" style="color: var(--primary);"></i> Canciones del Repertorio
+                    </h4>
                     <ul id="modalSongsList" class="modal-songs-list"></ul>
                 </div>
 
@@ -1426,18 +1506,18 @@
                     </div>
                 </div>
 
-                <div id="modalNotesSection" style="margin-top: 1rem; display: none;">
-                    <h4 style="font-size: 0.78rem; text-transform: uppercase; font-weight: 800; color: var(--text-muted); margin-bottom: 0.35rem;">Observaciones</h4>
-                    <p id="modalNotes" style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; background: var(--bg-muted); padding: 0.75rem 0.85rem; border-radius: var(--radius-md);"></p>
+                <div id="modalNotesSection" style="display: none;">
+                    <h4 style="font-size: 0.82rem; text-transform: uppercase; font-weight: 800; color: var(--text-muted); margin-bottom: 0.4rem;">Observaciones</h4>
+                    <p id="modalNotes" style="font-size: 0.92rem; color: var(--text-main); line-height: 1.5; background: #f8fafc; padding: 0.85rem 1rem; border-radius: 0.85rem; border: 1px solid var(--border);"></p>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button class="btn-modal btn-modal-sec" onclick="copyModalContent()">
+                <button class="btn-modal btn-modal-prim" onclick="copyModalContent()">
                     <i class="fa-regular fa-copy"></i>
                     <span>Copiar WhatsApp</span>
                 </button>
-                <a id="modalArchiveLink" href="#" target="_blank" class="btn-modal btn-modal-prim" style="display: none;">
+                <a id="modalArchiveLink" href="#" target="_blank" class="btn-modal btn-modal-sec" style="display: none;">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     <span>Ver Acordes</span>
                 </a>
@@ -1449,6 +1529,14 @@
     <!-- Toast Notification Container -->
     <div id="toast-container"></div>
 
+    <!-- Footer exacto de asistenciaapp -->
+    <footer class="app-footer">
+        Desarrollada por Juan Quiel 😎
+    </footer>
+
+    <!-- ============================================================
+         LOGICA Y SCRIPTS
+         ============================================================ -->
     <script>
     // Configuration
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRwfHp4SilrLfMn7kgEqGUGfKOXuGsxs6ybsGaqct5LuGBqYxetOI1GtX2kN6Ck8JMJh22CDSO8oOUI/pub?gid=1981750432&single=true&output=csv";
@@ -1518,10 +1606,20 @@
         setTheme(next);
     }
 
-    // Load Data
+    // Navegación de pestañas en header
+    function navTabClick(targetId, el) {
+        document.querySelectorAll('.nav-tabs .nav-link').forEach(link => link.classList.remove('active'));
+        if (el) el.classList.add('active');
+        const target = document.getElementById(targetId);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // Carga de Datos desde Google Sheets
     function fetchData(forceRefresh = false) {
         const btnSync = document.getElementById('btnSync');
-        btnSync.classList.add('loading');
+        if (btnSync) btnSync.classList.add('loading');
 
         if (!forceRefresh) {
             const cached = localStorage.getItem('alabanza_cantos_cache');
@@ -1542,12 +1640,12 @@
             skipEmptyLines: true,
             complete: function(results) {
                 processRawData(results.data);
-                btnSync.classList.remove('loading');
+                if (btnSync) btnSync.classList.remove('loading');
                 document.getElementById('loadingScreen').style.display = 'none';
                 showToast(`¡Sincronizado! ${ALL_CANTOS.length} alabanzas cargadas.`, 'success');
             },
             error: function(err) {
-                btnSync.classList.remove('loading');
+                if (btnSync) btnSync.classList.remove('loading');
                 document.getElementById('loadingScreen').style.display = 'none';
                 showToast('Error al conectar con Google Sheets', 'error');
             }
@@ -1739,7 +1837,7 @@
         currentViewMode = mode;
         document.getElementById('viewCardsBtn').classList.toggle('active', mode === 'cards');
         document.getElementById('viewTableBtn').classList.toggle('active', mode === 'table');
-        document.getElementById('songsGrid').style.display = mode === 'cards' ? 'grid' : 'none';
+        document.getElementById('songsGrid').style.display = mode === 'cards' ? 'flex' : 'none';
         document.getElementById('tableContainer').style.display = mode === 'table' ? 'block' : 'none';
     }
 
@@ -1785,7 +1883,7 @@
         const totalInd = filtered.reduce((acc, c) => acc + c.titulos_lista.length, 0);
         document.getElementById('resultsCount').innerHTML = `
             Mostrando <span>${filtered.length}</span> de ${ALL_CANTOS.length} repertorios 
-            <span style="font-size:0.78rem; font-weight:normal; color:var(--text-muted); margin-left:4px;">(${totalInd} canciones)</span>
+            <span style="font-size:0.85rem; font-weight:normal; color:var(--text-muted); margin-left:4px;">(${totalInd} canciones individuales)</span>
         `;
 
         const empty = document.getElementById('emptyState');
@@ -1799,7 +1897,7 @@
             return;
         } else {
             empty.style.display = 'none';
-            grid.style.display = currentViewMode === 'cards' ? 'grid' : 'none';
+            grid.style.display = currentViewMode === 'cards' ? 'flex' : 'none';
             table.style.display = currentViewMode === 'table' ? 'block' : 'none';
         }
 
@@ -1813,50 +1911,89 @@
 
         cantos.forEach(canto => {
             const card = document.createElement('div');
-            card.className = 'song-card';
-            card.style.setProperty('--singer-color', canto.salmista_color);
+            card.className = 'card song-card';
 
-            const tipoLower = canto.tipo.toLowerCase();
-            const genreClass = tipoLower.includes('adorac') ? 'genre-adoracion' :
-                               tipoLower.includes('pentecostal') ? 'genre-pentecostal' :
-                               tipoLower.includes('guerra') ? 'genre-guerra' :
-                               tipoLower.includes('pop') ? 'genre-pop' :
-                               tipoLower.includes('himno') ? 'genre-himno' : 'genre-otros';
+            const tipoLower = (canto.tipo || '').toLowerCase();
+            const gradClass = tipoLower.includes('adorac') ? 'gradient-adoracion' :
+                              tipoLower.includes('pentecostal') ? 'gradient-pentecostal' :
+                              tipoLower.includes('guerra') ? 'gradient-guerra' :
+                              tipoLower.includes('pop') ? 'gradient-pop' :
+                              tipoLower.includes('himno') ? 'gradient-himno' : 'gradient-otros';
 
             let songsHtml = '';
             canto.titulos_lista.forEach(t => {
                 songsHtml += `<li><i class="fa-solid fa-music"></i> <span>${highlightText(t, query)}</span></li>`;
             });
 
+            const initialLetter = canto.salmista_nombre ? canto.salmista_nombre[0].toUpperCase() : 'A';
+
             card.innerHTML = `
-                <div>
-                    <div class="song-card-header">
-                        <span class="genre-badge ${genreClass}">${canto.tipo || 'Alabanza'}</span>
-                        <span class="key-badge">${canto.tono || 'N/A'}</span>
+                <!-- Header con gradiente estilo asistenciaapp -->
+                <div class="song-card-header-gradient ${gradClass}">
+                    <div class="card-singer-header">
+                        <div class="singer-avatar-circle">
+                            ${initialLetter}
+                        </div>
+                        <div>
+                            <span class="card-singer-name">${highlightText(canto.salmista_nombre, query)}</span>
+                            <span class="card-meta-date">${canto.fecha ? `📅 ${canto.fecha}` : 'Repertorio Oficial'}</span>
+                        </div>
                     </div>
-                    <ul class="songs-list">
-                        ${songsHtml}
-                    </ul>
-                    <div class="song-meta-info">
-                        ${canto.biblia ? `<span class="meta-item"><i class="fa-solid fa-book-bible"></i> ${highlightText(canto.biblia, query)}</span>` : ''}
-                        ${canto.acompanante ? `<span class="meta-item"><i class="fa-solid fa-guitar"></i> ${canto.acompanante}</span>` : ''}
+                    <div class="card-header-right">
+                        <h2 class="card-genre-title">${canto.tipo || 'Alabanza'}</h2>
+                        <span class="card-key-pill">Tono: ${canto.tono || 'N/A'}</span>
                     </div>
                 </div>
-                <div class="song-card-footer">
-                    <div class="singer-info">
-                        <div class="singer-info-avatar" style="background: ${canto.salmista_color};">
-                            ${canto.salmista_nombre[0].toUpperCase()}
-                        </div>
-                        <span class="singer-info-name">${highlightText(canto.salmista_nombre, query)}</span>
+
+                <div class="song-card-body">
+                    <!-- Banner de Tema / Cita estilo asistenciaapp -->
+                    <div class="card-tag-banner">
+                        ${canto.tema ? `
+                            <div class="tag-pill-accent">
+                                <strong>Tema:</strong> <span>${highlightText(canto.tema, query)}</span>
+                            </div>
+                        ` : `
+                            <div class="tag-pill-accent">
+                                <strong>Categoría:</strong> <span>${canto.tipo || 'Culto de Adoración'}</span>
+                            </div>
+                        `}
+                        ${canto.biblia ? `
+                            <div class="tag-pill-accent" style="border-left-color: #10b981;">
+                                <i class="fa-solid fa-book-bible" style="color: #10b981;"></i>
+                                <strong>Cita:</strong> <span>${highlightText(canto.biblia, query)}</span>
+                            </div>
+                        ` : ''}
+                        ${canto.acompanante ? `
+                            <div class="tag-pill-accent" style="border-left-color: #f59e0b;">
+                                <i class="fa-solid fa-guitar" style="color: #f59e0b;"></i>
+                                <strong>Acompaña:</strong> <span>${canto.acompanante}</span>
+                            </div>
+                        ` : ''}
                     </div>
-                    <div class="card-actions">
-                        <button class="card-action-btn" title="Copiar WhatsApp" onclick="quickCopy(${canto.id}, event)">
-                            <i class="fa-regular fa-copy"></i>
-                            <span>Copiar</span>
-                        </button>
-                        <button class="card-action-btn" title="Ver detalle">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </button>
+
+                    <!-- Caja con canciones del medley -->
+                    <div class="card-songs-box">
+                        <div class="card-songs-header">
+                            <i class="fa-solid fa-list-ol" style="color: var(--primary);"></i>
+                            Canciones del Popurrí / Repertorio (${canto.titulos_lista.length})
+                        </div>
+                        <ul class="songs-list">
+                            ${songsHtml}
+                        </ul>
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <div class="song-card-footer">
+                        <div class="card-actions">
+                            <button class="btn-card-copy" onclick="quickCopy(${canto.id}, event)" title="Copiar Repertorio para WhatsApp">
+                                <i class="fa-regular fa-copy"></i>
+                                <span>Copiar Repertorio</span>
+                            </button>
+                            <button class="btn-card-detail" title="Ver Detalles y Acordes">
+                                <span>Detalles</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
@@ -1876,16 +2013,16 @@
             tr.innerHTML = `
                 <td><strong>• ${titlesFormatted}</strong></td>
                 <td>
-                    <div style="display: flex; align-items: center; gap: 0.45rem;">
-                        <span style="width: 8px; height: 8px; border-radius: 50%; background: ${canto.salmista_color}; display: inline-block;"></span>
-                        <span style="font-weight: 600;">${highlightText(canto.salmista_nombre, query)}</span>
+                    <div style="display: flex; align-items: center; gap: 0.55rem;">
+                        <span style="width: 10px; height: 10px; border-radius: 50%; background: ${canto.salmista_color}; display: inline-block;"></span>
+                        <span style="font-weight: 700;">${highlightText(canto.salmista_nombre, query)}</span>
                     </div>
                 </td>
-                <td><span style="font-size: 0.8rem; font-weight: 700;">${canto.tipo}</span></td>
-                <td><span class="key-badge" style="font-size: 0.75rem;">${canto.tono}</span></td>
-                <td style="font-size: 0.8rem; color: var(--text-muted);">${canto.fecha || '-'}</td>
+                <td><span style="font-size: 0.85rem; font-weight: 700;">${canto.tipo}</span></td>
+                <td><span class="card-key-pill" style="color: var(--text-main); border-color: var(--border); background: #f1f5f9; font-size: 0.8rem; padding: 0.2rem 0.6rem;">${canto.tono}</span></td>
+                <td style="font-size: 0.85rem; color: var(--text-muted);">${canto.fecha || '-'}</td>
                 <td style="text-align: right;">
-                    <button class="card-action-btn" onclick="quickCopy(${canto.id}, event)"><i class="fa-regular fa-copy"></i></button>
+                    <button class="btn-card-copy" style="padding: 0.4rem 0.75rem; font-size: 0.82rem; border-radius: 0.65rem;" onclick="quickCopy(${canto.id}, event)" title="Copiar"><i class="fa-regular fa-copy"></i></button>
                 </td>
             `;
             tr.onclick = () => openDetails(canto);
@@ -1897,7 +2034,7 @@
     function openDetails(canto) {
         currentModalData = canto;
         document.getElementById('modalSingerName').innerHTML = `
-            <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${canto.salmista_color}; margin-right:6px;"></span>
+            <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:white; margin-right:8px; box-shadow: 0 0 8px rgba(255,255,255,0.8);"></span>
             ${canto.salmista_nombre}
         `;
         document.getElementById('modalGenreBadge').innerText = canto.tipo;

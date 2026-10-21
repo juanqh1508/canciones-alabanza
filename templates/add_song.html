@@ -1,26 +1,30 @@
 {% extends 'base.html' %}
 
 {% block title %}Añadir Nuevo Canto - Ministerio de Alabanza{% endblock %}
-{% block header_title %}Añadir Nueva Alabanza{% endblock %}
+{% block module_title %}Añadir Nueva Alabanza{% endblock %}
+{% block module_subtitle %}Registra un nuevo canto o popurrí para el ministerio{% endblock %}
 
 {% block content %}
 <div style="margin-bottom: 1.5rem;">
-    <a href="{{ url_for('index') }}" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; font-size: 0.88rem; font-weight: 600;">
+    <a href="{{ url_for('index') }}" class="header-btn" style="background: white; color: var(--text-main); border: 2px solid var(--border); box-shadow: var(--shadow);">
         <i class="fa-solid fa-arrow-left"></i>
-        <span>Volver al Dashboard</span>
+        <span>Volver al Repertorio</span>
     </a>
 </div>
 
-<div class="controls-card" style="max-width: 720px; margin: 0 auto; padding: 2.25rem;">
-    <div style="margin-bottom: 1.75rem; text-align: center;">
-        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.35rem;">Registrar Canto</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Agrega una alabanza o repertorio con todos sus detalles musicales.</p>
+<div class="card" style="max-width: 720px; margin: 0 auto; padding: 2.25rem;">
+    <div style="margin-bottom: 2rem; text-align: center;">
+        <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; box-shadow: 0 6px 14px rgba(99, 102, 241, 0.35);">
+            <i class="fa-solid fa-music"></i>
+        </div>
+        <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;">Registrar Canto</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Agrega una alabanza o repertorio con todos sus detalles musicales.</p>
     </div>
 
     <form action="{{ url_for('add_song') }}" method="POST" style="display: flex; flex-direction: column; gap: 1.25rem;">
-        <div>
-            <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="titulo">
-                Canciones / Repertorio <span style="color: var(--secondary-accent);">*</span>
+        <div class="form-group" style="margin-bottom: 0;">
+            <label for="titulo">
+                Canciones / Repertorio <span style="color: #ef4444;">*</span>
             </label>
             <textarea 
                 id="titulo" 
@@ -28,16 +32,15 @@
                 rows="3" 
                 required 
                 placeholder="Escribe el nombre de la canción o canciones del popurrí separadas por coma o salto de línea (Ej: QUE SE LLENE TU CASA, QUEREMOS A CRISTO PROCLAMAR)"
-                style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem; font-family: inherit;"
             ></textarea>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div>
-                <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="salmista">
-                    Salmista / Cantante <span style="color: var(--secondary-accent);">*</span>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="salmista">
+                    Salmista / Cantante <span style="color: #ef4444;">*</span>
                 </label>
-                <select id="salmista" name="salmista" required style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem; background: white;">
+                <select id="salmista" name="salmista" required>
                     <option value="" disabled selected>Selecciona un cantante...</option>
                     {% for s in salmistas %}
                     <option value="{{ s.id }}">{{ s.nombre }}</option>
@@ -46,11 +49,11 @@
                 </select>
             </div>
 
-            <div>
-                <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="tipo">
-                    Género / Tipo Musical
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="tipo">
+                    Género / Ritmo Musical
                 </label>
-                <select id="tipo" name="tipo" style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem; background: white;">
+                <select id="tipo" name="tipo">
                     <option value="Adoración">Adoración</option>
                     <option value="Pentecostal">Pentecostal</option>
                     <option value="Guerra y Júbilo">Guerra y Júbilo</option>
@@ -61,148 +64,123 @@
             </div>
         </div>
 
-        <div id="new-singer-group" style="display: none; background: var(--bg-muted); padding: 1rem; border-radius: var(--radius-md);">
-            <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="new_salmista">
-                Nombre del Nuevo Salmista
-            </label>
-            <input 
-                type="text" 
-                id="new_salmista" 
-                name="new_salmista" 
-                placeholder="Nombre completo del cantante"
-                style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem;"
-            >
+        <div id="new-singer-group" style="display: none; background: #f8fafc; padding: 1.25rem; border-radius: 1rem; border: 1px solid var(--border);">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="new_salmista">Nombre del Nuevo Salmista</label>
+                <input 
+                    type="text" 
+                    id="new_salmista" 
+                    name="new_salmista" 
+                    placeholder="Ej: David Salazar"
+                >
+            </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div>
-                <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="tono">
-                    Tono / Tonalidad
-                </label>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="tono">Tono Musical (Nota)</label>
                 <input 
                     type="text" 
                     id="tono" 
                     name="tono" 
-                    placeholder="Ej: DO, LAm, FA#/SOLb"
-                    style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem;"
+                    placeholder="Ej: DO, LAm, SOL..."
                 >
             </div>
 
-            <div>
-                <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="tipotono">
-                    Tipo de Tono
-                </label>
-                <input 
-                    type="text" 
-                    id="tipotono" 
-                    name="tipotono" 
-                    placeholder="Ej: 1, Natural, Mayor, Menor"
-                    style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem;"
-                >
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="tipotono">Modo Musical</label>
+                <select id="tipotono" name="tipotono">
+                    <option value="Mayor">Mayor</option>
+                    <option value="Menor">Menor</option>
+                    <option value="">No aplica / Desconocido</option>
+                </select>
             </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div>
-                <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="tema">
-                    Tema
-                </label>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="tema">Tema / Enfoque</label>
                 <input 
                     type="text" 
                     id="tema" 
                     name="tema" 
-                    placeholder="Ej: Exaltación, Gratitud, Fuego"
-                    style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem;"
+                    placeholder="Ej: Gracia, Espíritu Santo..."
                 >
             </div>
 
-            <div>
-                <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="biblia">
-                    Cita Bíblica
-                </label>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="biblia">Cita Bíblica</label>
                 <input 
                     type="text" 
                     id="biblia" 
                     name="biblia" 
-                    placeholder="Ej: Salmos 100:1, Juan 4:24"
-                    style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem;"
+                    placeholder="Ej: Salmos 100:4, Efesios 5:19..."
                 >
             </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div>
-                <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="acompanante">
-                    Acompañante
-                </label>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="acompanante">Acompañante / Dúo</label>
                 <input 
                     type="text" 
                     id="acompanante" 
                     name="acompanante" 
-                    placeholder="Ej: Piano, Guitarra acústica"
-                    style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem;"
+                    placeholder="Ej: Nilka, Coro..."
                 >
             </div>
 
-            <div>
-                <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="fecha">
-                    Fecha
-                </label>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="fecha">Fecha (Opcional)</label>
                 <input 
-                    type="date" 
+                    type="text" 
                     id="fecha" 
-                    name="fecha"
-                    style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem;"
+                    name="fecha" 
+                    placeholder="Ej: 14/11/2026 o Nov 2026"
                 >
             </div>
         </div>
 
-        <div>
-            <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="archivo">
-                Enlace / Archivo (Cifrado o Letra)
-            </label>
+        <div class="form-group" style="margin-bottom: 0;">
+            <label for="archivo">Enlace a Letra o Acordes (Drive / PDF)</label>
             <input 
-                type="url" 
+                type="text" 
                 id="archivo" 
                 name="archivo" 
-                placeholder="https://drive.google.com/... o enlace web"
-                style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem;"
+                placeholder="https://drive.google.com/..."
             >
         </div>
 
-        <div>
-            <label style="display: block; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;" for="observaciones">
-                Observaciones & Notas
-            </label>
+        <div class="form-group" style="margin-bottom: 0;">
+            <label for="observaciones">Observaciones o Notas</label>
             <textarea 
                 id="observaciones" 
                 name="observaciones" 
                 rows="2" 
-                placeholder="Instrucciones para la banda, arreglos, modulaciones..."
-                style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.95rem; font-family: inherit;"
+                placeholder="Instrucciones para la banda, arreglos especiales, etc."
             ></textarea>
         </div>
 
-        <button type="submit" class="btn-primary" style="justify-content: center; padding: 0.85rem; font-size: 1rem; margin-top: 0.5rem;">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            <span>Guardar Alabanza</span>
+        <button type="submit" class="btn-submit">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Guardar Canto en Repertorio
         </button>
     </form>
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script>
-const salmistaSelect = document.getElementById('salmista');
-const newSingerGroup = document.getElementById('new-singer-group');
-const newSingerInput = document.getElementById('new_salmista');
-
-salmistaSelect.addEventListener('change', function() {
+document.getElementById('salmista').addEventListener('change', function() {
+    const group = document.getElementById('new-singer-group');
+    const input = document.getElementById('new_salmista');
     if (this.value === 'NEW') {
-        newSingerGroup.style.display = 'block';
-        newSingerInput.required = true;
-        newSingerInput.focus();
+        group.style.display = 'block';
+        input.required = true;
+        input.focus();
     } else {
-        newSingerGroup.style.display = 'none';
-        newSingerInput.required = false;
+        group.style.display = 'none';
+        input.required = false;
+        input.value = '';
     }
 });
 </script>
