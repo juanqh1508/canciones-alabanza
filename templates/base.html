@@ -2,117 +2,136 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Ministerio de Alabanza - Iglesia Fuente de Bendición{% endblock %}</title>
     
-    <!-- Google Fonts: Outfit -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome 6.5.1 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-music"></i>
+            </div>
+            <div class="brand-info">
+                <h2>Ministerio de Alabanza</h2>
+                <span>Iglesia Fuente de Bendición</span>
+            </div>
+        </div>
 
-    <div class="container">
-        <!-- ============================================================
-             HEADER ESTILO ASISTENCIAAPP
-             ============================================================ -->
-        <header class="app-header">
-            <div class="user-info">
-                <div class="app-brand">
-                    <i class="fas fa-church app-brand-icon"></i>
-                    <div>
-                        <span class="app-brand-text">Ministerio de Alabanza</span>
-                        <span class="app-brand-sub">(Fuente de Bendición)</span>
-                    </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Principal</div>
+            <a href="{{ url_for('index') }}" class="sidebar-link {{ 'active' if request.endpoint == 'index' }}">
+                <i class="fa-solid fa-layer-group"></i>
+                Dashboard & Buscador
+            </a>
+            <a href="{{ url_for('add_song') }}" class="sidebar-link {{ 'active' if request.endpoint == 'add_song' }}">
+                <i class="fa-solid fa-circle-plus"></i>
+                Añadir Canto
+            </a>
+
+            <div class="nav-section-title">Cantantes / Salmistas</div>
+            <div style="display: flex; flex-direction: column; gap: 0.25rem; max-height: 40vh; overflow-y: auto;">
+                {% for s in salmistas_nav|default([]) %}
+                <a href="{{ url_for('view_singer', id=s.id) }}" class="sidebar-link {{ 'active' if request.endpoint == 'view_singer' and request.view_args.get('id') == s.id }}">
+                    <span style="width: 10px; height: 10px; border-radius: 50%; background: {{ s.color }}; display: inline-block;"></span>
+                    <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ s.nombre }}</span>
+                    <span style="font-size: 0.72rem; color: #64748b;">{{ s.cantos|length }}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sheet-badge">
+                <i class="fa-solid fa-table-cells"></i>
+                <div>
+                    <strong>Hoja: ADRIANA</strong>
+                    <div style="font-size: 0.7rem; opacity: 0.85;">Google Sheets Sincronizado</div>
                 </div>
+            </div>
+        </div>
+    </aside>
 
-                <div class="header-actions">
-                    <button class="header-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Modo Oscuro / Claro">
-                        <i class="fa-solid fa-moon"></i>
-                        <span id="themeToggleText">Oscuro</span>
-                    </button>
-                    <button class="header-btn" id="btnSyncGoogleSheets" onclick="syncWithGoogleSheets()" title="Sincronizar Google Sheets">
-                        <i class="fa-solid fa-arrows-rotate"></i>
-                        <span>Sincronizar</span>
-                    </button>
-                    <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRwfHp4SilrLfMn7kgEqGUGfKOXuGsxs6ybsGaqct5LuGBqYxetOI1GtX2kN6Ck8JMJh22CDSO8oOUI/pubhtml" target="_blank" class="header-btn" title="Hoja ADRIANA">
-                        <i class="fa-solid fa-table-cells"></i>
-                        <span>Sheets</span>
-                    </a>
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Abrir Menú">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="breadcrumb-title">
+                    {% block header_title %}Dashboard de Repertorio{% endblock %}
                 </div>
             </div>
 
-            <div class="nav-tabs">
-                <a href="{{ url_for('index') }}" class="nav-link tab-repertorio {{ 'active' if request.endpoint == 'index' }}">
-                    <i class="fa-solid fa-layer-group"></i> Repertorio
+            <div class="top-bar-right">
+                <button class="sync-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar Modo Oscuro / Claro" style="background: var(--bg-card); border: 1.5px solid var(--border-color); color: var(--text-primary); cursor: pointer;">
+                    <i class="fa-solid fa-moon"></i>
+                    <span id="themeToggleText">Oscuro</span>
+                </button>
+                <button class="sync-btn" id="btnSyncGoogleSheets" onclick="syncWithGoogleSheets()">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <span>Sincronizar Sheets</span>
+                </button>
+                <a href="{{ url_for('add_song') }}" class="btn-primary">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Nuevo Canto</span>
                 </a>
-                <a href="{{ url_for('add_song') }}" class="nav-link tab-nuevo {{ 'active' if request.endpoint == 'add_song' }}">
-                    <i class="fa-solid fa-circle-plus"></i> Añadir Canto
-                </a>
-                <a href="{{ url_for('index') }}#generos" class="nav-link tab-generos">
-                    <i class="fa-solid fa-tags"></i> Géneros
-                </a>
-                <a href="{{ url_for('index') }}#tonos" class="nav-link tab-tonos">
-                    <i class="fa-solid fa-guitar"></i> Tonos
-                </a>
-                <a href="{{ url_for('index') }}#estadisticas" class="nav-link tab-estadisticas">
-                    <i class="fa-solid fa-chart-line"></i> Estadísticas
-                </a>
-            </div>
-
-            <div class="header-content">
-                <h1 class="module-title">{% block module_title %}Ministerio de Alabanza{% endblock %}</h1>
-                <p class="module-subtitle">{% block module_subtitle %}Repertorio y Cancionero • Hoja ADRIANA{% endblock %}</p>
             </div>
         </header>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            {% for category, message in messages %}
-              <div style="margin-bottom: 1.5rem; padding: 1rem 1.25rem; border-radius: 1rem; background: {% if category == 'success' %}#ecfdf5; color: #065f46; border: 1px solid #a7f3d0;{% else %}#fef2f2; color: #991b1b; border: 1px solid #fecaca;{% endif %} display: flex; align-items: center; justify-content: space-between; font-weight: 600;">
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <i class="fa-solid {% if category == 'success' %}fa-circle-check{% else %}fa-triangle-exclamation{% endif %}"></i>
-                    <span>{{ message }}</span>
-                </div>
-              </div>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
+        <main class="content-body">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div style="margin-bottom: 1.5rem; padding: 1rem 1.25rem; border-radius: var(--radius-md); background: {% if category == 'success' %}#ecfdf5; color: #065f46; border: 1px solid #a7f3d0;{% else %}#fef2f2; color: #991b1b; border: 1px solid #fecaca;{% endif %} display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <i class="fa-solid {% if category == 'success' %}fa-circle-check{% else %}fa-triangle-exclamation{% endif %}"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
 
-        {% block content %}{% endblock %}
+            {% block content %}{% endblock %}
+        </main>
     </div>
 
     <!-- Universal Song Details Modal -->
     <div id="songModal" class="modal-overlay" onclick="handleModalClick(event)">
         <div class="modal-container">
             <div class="modal-header">
-                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.4rem;">
-                    <span id="modalGenreBadge" style="background: rgba(255,255,255,0.25); padding: 0.25rem 0.75rem; border-radius: 2rem; font-weight: 700; font-size: 0.82rem; border: 1px solid rgba(255,255,255,0.35);"></span>
-                    <span id="modalKeyBadge" style="background: rgba(255,255,255,0.25); padding: 0.25rem 0.75rem; border-radius: 2rem; font-weight: 700; font-size: 0.82rem; border: 1px solid rgba(255,255,255,0.35);"></span>
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                    <span id="modalGenreBadge" class="genre-badge genre-adoracion"></span>
+                    <span id="modalKeyBadge" class="key-badge"></span>
                 </div>
-                <h3 id="modalSingerName" style="font-size: 1.5rem; font-weight: 800; color: white; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.2);"></h3>
-                <button class="modal-close-btn" onclick="closeModal()">
+                <h3 id="modalSingerName" style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin: 0;"></h3>
+                <button class="modal-close-btn" onclick="closeModal()" aria-label="Cerrar modal">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <div class="modal-body">
-                <div>
-                    <h4 style="font-size: 0.82rem; text-transform: uppercase; font-weight: 800; color: var(--text-muted); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.45rem;">
-                        <i class="fa-solid fa-list-ol" style="color: var(--primary);"></i> Canciones del Repertorio
-                    </h4>
+                <div class="modal-songs-container">
+                    <h4>Canciones del Repertorio / Medley</h4>
                     <ul id="modalSongsList" class="modal-songs-list"></ul>
                 </div>
 
                 <div class="modal-meta-grid">
                     <div class="meta-field">
-                        <label>Tono Musical</label>
+                        <label>Tono / Tonalidad</label>
                         <span id="modalKey"></span>
                     </div>
                     <div class="meta-field">
@@ -120,7 +139,7 @@
                         <span id="modalAcompanante"></span>
                     </div>
                     <div class="meta-field">
-                        <label>Tema</label>
+                        <label>Tema de Alabanza</label>
                         <span id="modalTheme"></span>
                     </div>
                     <div class="meta-field">
@@ -128,31 +147,31 @@
                         <span id="modalBible"></span>
                     </div>
                     <div class="meta-field">
-                        <label>Fecha</label>
+                        <label>Fecha Ministración</label>
                         <span id="modalFecha"></span>
                     </div>
                     <div class="meta-field">
-                        <label>ID Canto</label>
-                        <span id="modalIdCanto" style="font-family: monospace;"></span>
+                        <label>ID Registro</label>
+                        <span id="modalIdCanto" style="font-family: monospace; font-size: 0.85rem;"></span>
                     </div>
                 </div>
 
-                <div id="modalNotesSection" style="display: none;">
-                    <h4 style="font-size: 0.82rem; text-transform: uppercase; font-weight: 800; color: var(--text-muted); margin-bottom: 0.4rem;">Observaciones</h4>
-                    <p id="modalNotes" style="font-size: 0.92rem; color: var(--text-main); line-height: 1.5; background: #f8fafc; padding: 0.85rem 1rem; border-radius: 0.85rem; border: 1px solid var(--border);"></p>
+                <div id="modalNotesSection" style="margin-top: 1rem;">
+                    <h4 style="font-size: 0.82rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">Observaciones & Notas</h4>
+                    <p id="modalNotes" style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; background: var(--bg-muted); padding: 0.85rem 1rem; border-radius: var(--radius-md);"></p>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button class="btn-modal btn-modal-prim" onclick="copyModalContent()">
+                <button class="btn-secondary" onclick="copyModalContent()">
                     <i class="fa-regular fa-copy"></i>
-                    <span>Copiar WhatsApp</span>
+                    <span>Copiar Repertorio</span>
                 </button>
-                <a id="modalArchiveLink" href="#" target="_blank" class="btn-modal btn-modal-sec" style="display: none;">
+                <a id="modalArchiveLink" href="#" target="_blank" class="btn-primary" style="display: none;">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    <span>Ver Acordes</span>
+                    <span>Ver Archivo / Acordes</span>
                 </a>
-                <button class="btn-modal btn-modal-sec" onclick="closeModal()">Cerrar</button>
+                <button class="btn-secondary" onclick="closeModal()">Cerrar</button>
             </div>
         </div>
     </div>
@@ -160,21 +179,35 @@
     <!-- Toast Notification Container -->
     <div id="toast-container"></div>
 
-    <!-- Footer exacto asistenciaapp -->
-    <footer class="app-footer">
-        Desarrollada por Juan Quiel 😎
-    </footer>
-
     <script>
+    // Sidebar toggle for mobile
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    // Modal Details functions
     let currentModalData = null;
 
     function openDetails(canto) {
         currentModalData = canto;
+        
+        // Singer and badges
         document.getElementById('modalSingerName').innerHTML = `
-            <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:white; margin-right:8px; box-shadow: 0 0 8px rgba(255,255,255,0.8);"></span>
+            <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${canto.salmista_color || '#3b82f6'}; margin-right:8px;"></span>
             ${canto.salmista_nombre}
         `;
-        document.getElementById('modalGenreBadge').innerText = canto.tipo || 'Alabanza';
+        
+        const genreBadge = document.getElementById('modalGenreBadge');
+        genreBadge.innerText = canto.tipo || 'General';
+        const tipoLower = (canto.tipo || '').toLowerCase();
+        genreBadge.className = 'genre-badge ' + (
+            tipoLower.includes('adorac') ? 'genre-adoracion' :
+            tipoLower.includes('pentecostal') ? 'genre-pentecostal' :
+            tipoLower.includes('guerra') ? 'genre-guerra' :
+            tipoLower.includes('pop') ? 'genre-pop' :
+            tipoLower.includes('himno') ? 'genre-himno' : 'genre-otros'
+        );
+
         document.getElementById('modalKeyBadge').innerText = 'Tono: ' + (canto.tono || 'N/A');
         document.getElementById('modalKey').innerText = canto.tono || 'No especificado';
         document.getElementById('modalAcompanante').innerText = canto.acompanante || 'Ninguno';
@@ -183,21 +216,26 @@
         document.getElementById('modalFecha').innerText = canto.fecha || 'Sin fecha';
         document.getElementById('modalIdCanto').innerText = canto.id_canto || ('#' + canto.id);
 
-        const list = document.getElementById('modalSongsList');
-        list.innerHTML = '';
+        // Songs list
+        const songsList = document.getElementById('modalSongsList');
+        songsList.innerHTML = '';
         const titles = canto.titulos_lista && canto.titulos_lista.length > 0 ? canto.titulos_lista : [canto.titulo];
         titles.forEach(t => {
-            list.innerHTML += `<li><i class="fa-solid fa-music"></i> <span>${t}</span></li>`;
+            const li = document.createElement('li');
+            li.innerHTML = `<i class="fa-solid fa-music"></i> <span>${t}</span>`;
+            songsList.appendChild(li);
         });
 
-        const notes = document.getElementById('modalNotesSection');
+        // Notes
+        const notesSection = document.getElementById('modalNotesSection');
         if (canto.observaciones && canto.observaciones.trim() !== '') {
             document.getElementById('modalNotes').innerText = canto.observaciones;
-            notes.style.display = 'block';
+            notesSection.style.display = 'block';
         } else {
-            notes.style.display = 'none';
+            notesSection.style.display = 'none';
         }
 
+        // Archive link
         const archiveLink = document.getElementById('modalArchiveLink');
         if (canto.archivo && canto.archivo.trim() !== '' && canto.archivo.toLowerCase() !== 'nan') {
             archiveLink.href = canto.archivo;
@@ -214,7 +252,9 @@
     }
 
     function handleModalClick(e) {
-        if (e.target.id === 'songModal') closeModal();
+        if (e.target.id === 'songModal') {
+            closeModal();
+        }
     }
 
     function copyModalContent() {
@@ -223,42 +263,47 @@
             ? currentModalData.titulos_lista.join('\n- ') 
             : currentModalData.titulo;
             
-        const text = `🎶 *${currentModalData.salmista_nombre.toUpperCase()}*\n🎹 *Tono:* ${currentModalData.tono || 'N/A'} | 🏷️ ${currentModalData.tipo || 'Alabanza'}\n- ${titles}`;
+        const text = `🎶 *REPERTORIO DE ALABANZA*\n` +
+                     `👤 *Salmista:* ${currentModalData.salmista_nombre}\n` +
+                     `🎹 *Tono:* ${currentModalData.tono || 'N/A'}\n` +
+                     `🏷️ *Género:* ${currentModalData.tipo || 'N/A'}\n` +
+                     (currentModalData.acompanante ? `🎸 *Acompañante:* ${currentModalData.acompanante}\n` : '') +
+                     (currentModalData.biblia ? `📖 *Cita Bíblica:* ${currentModalData.biblia}\n` : '') +
+                     `\n*Canciones:*\n- ${titles}`;
 
         navigator.clipboard.writeText(text).then(() => {
-            showToast('¡Repertorio copiado!', 'success');
+            showToast('¡Repertorio copiado al portapapeles!', 'success');
         }).catch(() => {
-            showToast('Error al copiar', 'error');
+            showToast('No se pudo copiar automáticamente', 'error');
         });
     }
 
-    function quickCopy(id, e) {
-        if (e) e.stopPropagation();
-        const canto = ALL_CANTOS.find(c => c.id === id);
-        if (!canto) return;
-        const titles = canto.titulos_lista && canto.titulos_lista.length > 0 ? canto.titulos_lista.join('\n- ') : canto.titulo;
-        const text = `🎶 *${canto.salmista_nombre.toUpperCase()}*\n🎹 *Tono:* ${canto.tono || 'N/A'} | 🏷️ ${canto.tipo || 'Alabanza'}\n- ${titles}`;
-        navigator.clipboard.writeText(text).then(() => showToast('¡Copiado para WhatsApp!', 'success')).catch(() => showToast('Error al copiar', 'error'));
-    }
-
+    // Toast function
     function showToast(message, type = 'info') {
         const container = document.getElementById('toast-container');
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
-        const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
-        toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+        
+        const iconClass = type === 'success' ? 'fa-circle-check' :
+                          type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-info';
+                          
+        toast.innerHTML = `<i class="fa-solid ${iconClass}"></i> <span>${message}</span>`;
         container.appendChild(toast);
+
         setTimeout(() => {
             toast.style.opacity = '0';
+            toast.style.transform = 'translateX(50px)';
+            toast.style.transition = 'all 0.3s ease';
             setTimeout(() => toast.remove(), 300);
-        }, 3000);
+        }, 4000);
     }
 
+    // Live Sync with Google Sheets
     function syncWithGoogleSheets() {
         const btn = document.getElementById('btnSyncGoogleSheets');
         btn.classList.add('loading');
         btn.disabled = true;
-        showToast('Sincronizando con Google Sheets...', 'info');
+        showToast('Sincronizando con Google Sheets (hoja ADRIANA)...', 'info');
 
         fetch('/api/sync', { method: 'POST' })
             .then(res => res.json())
@@ -272,13 +317,14 @@
                     showToast(data.message || 'Error al sincronizar', 'error');
                 }
             })
-            .catch(() => {
+            .catch(err => {
                 btn.classList.remove('loading');
                 btn.disabled = false;
-                showToast('Error de conexión', 'error');
+                showToast('Error de red al conectar con el servidor', 'error');
             });
     }
 
+    // Theme Management (Dark / Light)
     function initTheme() {
         const saved = localStorage.getItem('alabanza_theme');
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -305,7 +351,11 @@
     }
 
     initTheme();
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // Keyboard shortcut ESC for modal
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
     </script>
 
     {% block scripts %}{% endblock %}

@@ -1,56 +1,53 @@
 {% extends 'base.html' %}
 
 {% block title %}{{ salmista.nombre }} - Repertorio Musical{% endblock %}
-{% block module_title %}Repertorio de {{ salmista.nombre }}{% endblock %}
-{% block module_subtitle %}Ministerio de Alabanza • Salmista Oficial{% endblock %}
+{% block header_title %}Repertorio de {{ salmista.nombre }}{% endblock %}
 
 {% block content %}
 <!-- Back to Dashboard Link -->
 <div style="margin-bottom: 1.5rem;">
-    <a href="{{ url_for('index') }}" class="header-btn" style="background: white; color: var(--text-main); border: 2px solid var(--border); box-shadow: var(--shadow);">
+    <a href="{{ url_for('index') }}" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; font-size: 0.88rem; font-weight: 600;">
         <i class="fa-solid fa-arrow-left"></i>
-        <span>Volver al Repertorio Principal</span>
+        <span>Volver al Dashboard Principal</span>
     </a>
 </div>
 
-<!-- Singer Hero Header estilo AsistenciaApp -->
-<div class="card" style="padding: 0; overflow: hidden; border: none; margin-bottom: 2rem;">
-    <div style="background: linear-gradient(135deg, {{ salmista.color }} 0%, #1e293b 100%); padding: 2rem; color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
-        <div style="display: flex; align-items: center; gap: 1.5rem;">
-            <div class="singer-avatar-circle" style="width: 72px; height: 72px; font-size: 2.2rem; background: rgba(255,255,255,0.25); border: 3px solid rgba(255,255,255,0.5);">
-                {{ salmista.nombre[0].upper() }}
-            </div>
-            <div>
-                <h1 style="font-size: 2rem; font-weight: 800; color: white; margin-bottom: 0.25rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">{{ salmista.nombre }}</h1>
-                <p style="color: white; opacity: 0.9; font-size: 0.95rem; font-weight: 600;">
-                    <i class="fa-solid fa-microphone-lines" style="margin-right: 4px;"></i>
-                    Salmista del Ministerio de Alabanza
-                </p>
-            </div>
+<!-- Singer Hero Header -->
+<div class="stat-card" style="margin-bottom: 2rem; background: #ffffff; border-top: 5px solid {{ salmista.color }}; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem;">
+    <div style="display: flex; align-items: center; gap: 1.5rem;">
+        <div style="width: 76px; height: 76px; border-radius: 50%; background: {{ salmista.color }}; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; color: white; box-shadow: 0 6px 16px rgba(0,0,0,0.15);">
+            {{ salmista.nombre[0].upper() }}
         </div>
+        <div>
+            <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.25rem;">{{ salmista.nombre }}</h1>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <i class="fa-solid fa-microphone-lines" style="color: {{ salmista.color }}; margin-right: 4px;"></i>
+                Salmista del Ministerio de Alabanza
+            </p>
+        </div>
+    </div>
 
-        <!-- Quick Singer Stats -->
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <div class="stat-card-box" style="min-width: 90px; padding: 0.75rem 1rem;">
-                <div class="stat-big-number" style="font-size: 1.8rem;">{{ total_cantos }}</div>
-                <div class="stat-meta-text">Repertorios</div>
+    <!-- Quick Singer Stats -->
+    <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+        <div style="text-align: center; background: var(--bg-muted); padding: 0.75rem 1.25rem; border-radius: var(--radius-md);">
+            <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary);">{{ total_cantos }}</div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Repertorios</div>
+        </div>
+        <div style="text-align: center; background: var(--bg-muted); padding: 0.75rem 1.25rem; border-radius: var(--radius-md);">
+            <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary-color);">{{ total_songs_parsed }}</div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Canciones</div>
+        </div>
+        <div style="text-align: center; background: var(--bg-muted); padding: 0.75rem 1.25rem; border-radius: var(--radius-md);">
+            <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">
+                {% if top_tonos %}{{ top_tonos[0][0] }}{% else %}N/A{% endif %}
             </div>
-            <div class="stat-card-box" style="min-width: 90px; padding: 0.75rem 1rem;">
-                <div class="stat-big-number" style="font-size: 1.8rem;">{{ total_songs_parsed }}</div>
-                <div class="stat-meta-text">Canciones</div>
-            </div>
-            <div class="stat-card-box" style="min-width: 90px; padding: 0.75rem 1rem;">
-                <div class="stat-big-number" style="font-size: 1.8rem;">
-                    {% if top_tonos %}{{ top_tonos[0][0] }}{% else %}N/A{% endif %}
-                </div>
-                <div class="stat-meta-text">Tono Top</div>
-            </div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Tono Favorito</div>
         </div>
     </div>
 </div>
 
 <!-- Controls for this singer -->
-<div class="card">
+<section class="controls-card">
     <div class="search-input-wrapper">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
         <input 
@@ -65,57 +62,60 @@
         </button>
     </div>
 
-    <!-- Filtros de Género y Tono para este Salmista -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
-        <div>
-            <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Filtrar Género</label>
-            <select id="filterTipo" onchange="applyFilters()">
+    <div class="filter-row">
+        <div class="filter-dropdowns">
+            <select id="filterTipo" class="filter-dropdown" onchange="applyFilters()">
                 <option value="">Todos los géneros</option>
                 {% for t in tipos_list %}
                 <option value="{{ t }}">{{ t }}</option>
                 {% endfor %}
             </select>
-        </div>
-        <div>
-            <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Filtrar Tono</label>
-            <select id="filterTono" onchange="applyFilters()">
+
+            <select id="filterTono" class="filter-dropdown" onchange="applyFilters()">
                 <option value="">Todos los tonos</option>
                 {% for t in tonos_list %}
-                <option value="{{ t }}">{{ t }}</option>
+                <option value="{{ t }}">Tono: {{ t }}</option>
                 {% endfor %}
             </select>
-        </div>
-    </div>
 
-    <div class="filter-bottom-bar">
-        <button class="btn-reset-filters" id="btnResetFilters" onclick="resetFilters()">
-            <i class="fa-solid fa-rotate-left"></i> Limpiar filtros
-        </button>
-        <div class="view-toggles" style="margin-left: auto;">
+            <button class="btn-reset-filters" id="btnResetFilters" onclick="resetAllFilters()">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span>Limpiar filtros</span>
+            </button>
+        </div>
+
+        <div class="view-toggles">
             <button class="view-btn active" id="viewCardsBtn" onclick="setViewMode('cards')">
-                <i class="fa-solid fa-grip"></i> Tarjetas
+                <i class="fa-solid fa-grip"></i>
+                <span style="margin-left: 4px;">Tarjetas</span>
             </button>
             <button class="view-btn" id="viewTableBtn" onclick="setViewMode('table')">
-                <i class="fa-solid fa-table-list"></i> Tabla
+                <i class="fa-solid fa-table-list"></i>
+                <span style="margin-left: 4px;">Tabla</span>
             </button>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Summary -->
+<!-- Results Count -->
 <div class="results-summary">
-    <div class="results-count" id="resultsCount">Cargando alabanzas de {{ salmista.nombre }}...</div>
+    <div class="results-count" id="resultsCount"></div>
 </div>
 
-<!-- Empty State -->
+<!-- Empty state -->
 <div class="empty-state" id="emptyState">
-    <i class="fa-solid fa-music-slash" style="font-size: 2.75rem; color: #cbd5e1; margin-bottom: 0.75rem;"></i>
-    <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.35rem;">No se encontraron alabanzas</h3>
-    <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.25rem;">Intenta con otro término o limpia los filtros.</p>
-    <button class="btn-modal btn-modal-prim" onclick="resetFilters()">Restablecer Filtros</button>
+    <div class="empty-state-icon">
+        <i class="fa-solid fa-music-slash"></i>
+    </div>
+    <h3>No se encontraron alabanzas</h3>
+    <p>No hay cantos para este salmista con los filtros seleccionados.</p>
+    <button class="btn-primary" onclick="resetAllFilters()">
+        <i class="fa-solid fa-rotate-left"></i>
+        <span>Restablecer Filtros</span>
+    </button>
 </div>
 
-<!-- Songs Grid -->
+<!-- Grid View -->
 <div class="songs-grid" id="songsGrid"></div>
 
 <!-- Table View -->
@@ -126,6 +126,7 @@
                 <th>Repertorio / Canciones</th>
                 <th>Género</th>
                 <th>Tono</th>
+                <th>Acompañante</th>
                 <th>Fecha</th>
                 <th style="text-align: right;">Acciones</th>
             </tr>
@@ -139,9 +140,10 @@
 {% block scripts %}
 <script>
 const SINGER_CANTOS = {{ cantos_json | tojson }};
+
 let currentSearchTerm = '';
-let currentTipo = '';
-let currentTono = '';
+let currentTipoFilter = '';
+let currentTonoFilter = '';
 let currentViewMode = 'cards';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -150,8 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function handleSearchInput() {
     const input = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearSearchBtn');
     currentSearchTerm = input.value.trim().toLowerCase();
-    document.getElementById('clearSearchBtn').style.display = currentSearchTerm.length > 0 ? 'block' : 'none';
+    clearBtn.style.display = currentSearchTerm.length > 0 ? 'block' : 'none';
     applyFilters();
 }
 
@@ -164,23 +167,35 @@ function clearSearch() {
     input.focus();
 }
 
-function resetFilters() {
+function resetAllFilters() {
     document.getElementById('searchInput').value = '';
-    document.getElementById('filterTipo').value = '';
-    document.getElementById('filterTono').value = '';
     currentSearchTerm = '';
-    currentTipo = '';
-    currentTono = '';
     document.getElementById('clearSearchBtn').style.display = 'none';
+    document.getElementById('filterTipo').value = '';
+    currentTipoFilter = '';
+    document.getElementById('filterTono').value = '';
+    currentTonoFilter = '';
     applyFilters();
 }
 
 function setViewMode(mode) {
     currentViewMode = mode;
-    document.getElementById('viewCardsBtn').classList.toggle('active', mode === 'cards');
-    document.getElementById('viewTableBtn').classList.toggle('active', mode === 'table');
-    document.getElementById('songsGrid').style.display = mode === 'cards' ? 'flex' : 'none';
-    document.getElementById('tableContainer').style.display = mode === 'table' ? 'block' : 'none';
+    const cardsBtn = document.getElementById('viewCardsBtn');
+    const tableBtn = document.getElementById('viewTableBtn');
+    const cardsContainer = document.getElementById('songsGrid');
+    const tableContainer = document.getElementById('tableContainer');
+
+    if (mode === 'cards') {
+        cardsBtn.classList.add('active');
+        tableBtn.classList.remove('active');
+        cardsContainer.style.display = 'grid';
+        tableContainer.style.display = 'none';
+    } else {
+        tableBtn.classList.add('active');
+        cardsBtn.classList.remove('active');
+        cardsContainer.style.display = 'none';
+        tableContainer.style.display = 'block';
+    }
 }
 
 function highlightText(text, query) {
@@ -195,48 +210,60 @@ function normalizeStr(str) {
 }
 
 function applyFilters() {
-    currentTipo = document.getElementById('filterTipo').value;
-    currentTono = document.getElementById('filterTono').value;
+    currentTipoFilter = document.getElementById('filterTipo').value;
+    currentTonoFilter = document.getElementById('filterTono').value;
     const query = normalizeStr(currentSearchTerm);
 
-    let filtered = SINGER_CANTOS.filter(c => {
-        if (currentTipo && !c.tipo.toLowerCase().includes(currentTipo.toLowerCase())) return false;
-        if (currentTono && !c.tono.toLowerCase().startsWith(currentTono.toLowerCase())) return false;
+    let filtered = SINGER_CANTOS.filter(canto => {
+        if (currentTipoFilter && !canto.tipo.toLowerCase().includes(currentTipoFilter.toLowerCase())) {
+            return false;
+        }
+        if (currentTonoFilter && canto.tono !== currentTonoFilter) {
+            return false;
+        }
         if (query) {
-            const str = normalizeStr([
-                c.titulo,
-                (c.titulos_lista || []).join(' '),
-                c.tipo,
-                c.tono,
-                c.tema,
-                c.biblia,
-                c.observaciones
+            const searchable = normalizeStr([
+                canto.titulo,
+                (canto.titulos_lista || []).join(' '),
+                canto.tipo,
+                canto.tono,
+                canto.tema,
+                canto.biblia,
+                canto.observaciones,
+                canto.acompanante
             ].join(' '));
-            if (!str.includes(query)) return false;
+            if (!searchable.includes(query)) return false;
         }
         return true;
     });
 
-    const hasActive = currentSearchTerm || currentTipo || currentTono;
-    document.getElementById('btnResetFilters').style.display = hasActive ? 'inline-flex' : 'none';
+    const hasActiveFilters = currentSearchTerm || currentTipoFilter || currentTonoFilter;
+    document.getElementById('btnResetFilters').style.display = hasActiveFilters ? 'inline-flex' : 'none';
 
+    const totalIndividualSongs = filtered.reduce((acc, c) => acc + (c.titulos_lista ? c.titulos_lista.length : 1), 0);
     document.getElementById('resultsCount').innerHTML = `
-        Mostrando <span>${filtered.length}</span> de ${SINGER_CANTOS.length} repertorios
+        Mostrando <span>${filtered.length}</span> de ${SINGER_CANTOS.length} repertorios 
+        <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted); margin-left:6px;">(${totalIndividualSongs} canciones individuales)</span>
     `;
 
-    const empty = document.getElementById('emptyState');
-    const grid = document.getElementById('songsGrid');
-    const table = document.getElementById('tableContainer');
+    const emptyState = document.getElementById('emptyState');
+    const cardsGrid = document.getElementById('songsGrid');
+    const tableContainer = document.getElementById('tableContainer');
 
     if (filtered.length === 0) {
-        empty.style.display = 'block';
-        grid.style.display = 'none';
-        table.style.display = 'none';
+        emptyState.style.display = 'block';
+        cardsGrid.style.display = 'none';
+        tableContainer.style.display = 'none';
         return;
     } else {
-        empty.style.display = 'none';
-        grid.style.display = currentViewMode === 'cards' ? 'flex' : 'none';
-        table.style.display = currentViewMode === 'table' ? 'block' : 'none';
+        emptyState.style.display = 'none';
+        if (currentViewMode === 'cards') {
+            cardsGrid.style.display = 'grid';
+            tableContainer.style.display = 'none';
+        } else {
+            cardsGrid.style.display = 'none';
+            tableContainer.style.display = 'block';
+        }
     }
 
     renderCards(filtered, currentSearchTerm);
@@ -249,14 +276,15 @@ function renderCards(cantos, query) {
 
     cantos.forEach(canto => {
         const card = document.createElement('div');
-        card.className = 'card song-card';
-
+        card.className = 'song-card';
+        card.style.setProperty('--singer-color', canto.salmista_color || '#3b82f6');
+        
         const tipoLower = (canto.tipo || '').toLowerCase();
-        const gradClass = tipoLower.includes('adorac') ? 'gradient-adoracion' :
-                          tipoLower.includes('pentecostal') ? 'gradient-pentecostal' :
-                          tipoLower.includes('guerra') ? 'gradient-guerra' :
-                          tipoLower.includes('pop') ? 'gradient-pop' :
-                          tipoLower.includes('himno') ? 'gradient-himno' : 'gradient-otros';
+        const genreClass = tipoLower.includes('adorac') ? 'genre-adoracion' :
+                           tipoLower.includes('pentecostal') ? 'genre-pentecostal' :
+                           tipoLower.includes('guerra') ? 'genre-guerra' :
+                           tipoLower.includes('pop') ? 'genre-pop' :
+                           tipoLower.includes('himno') ? 'genre-himno' : 'genre-otros';
 
         const titles = canto.titulos_lista && canto.titulos_lista.length > 0 ? canto.titulos_lista : [canto.titulo];
         let songsHtml = '';
@@ -265,61 +293,36 @@ function renderCards(cantos, query) {
         });
 
         card.innerHTML = `
-            <div class="song-card-header-gradient ${gradClass}">
-                <div class="card-singer-header">
-                    <div class="singer-avatar-circle">
-                        ${canto.salmista_nombre[0].toUpperCase()}
-                    </div>
-                    <div>
-                        <span class="card-singer-name">${canto.salmista_nombre}</span>
-                        <span class="card-meta-date">${canto.fecha ? `📅 ${canto.fecha}` : 'Repertorio Oficial'}</span>
-                    </div>
+            <div>
+                <div class="song-card-header">
+                    <span class="genre-badge ${genreClass}">${canto.tipo || 'Alabanza'}</span>
+                    <span class="key-badge">${canto.tono || 'N/A'}</span>
                 </div>
-                <div class="card-header-right">
-                    <h2 class="card-genre-title">${canto.tipo || 'Alabanza'}</h2>
-                    <span class="card-key-pill">Tono: ${canto.tono || 'N/A'}</span>
-                </div>
-            </div>
-
-            <div class="song-card-body">
-                <div class="card-tag-banner">
-                    ${canto.tema ? `
-                        <div class="tag-pill-accent">
-                            <strong>Tema:</strong> <span>${highlightText(canto.tema, query)}</span>
-                        </div>
-                    ` : ''}
-                    ${canto.biblia ? `
-                        <div class="tag-pill-accent" style="border-left-color: #10b981;">
-                            <i class="fa-solid fa-book-bible" style="color: #10b981;"></i>
-                            <strong>Cita:</strong> <span>${highlightText(canto.biblia, query)}</span>
-                        </div>
-                    ` : ''}
-                </div>
-
-                <div class="card-songs-box">
-                    <div class="card-songs-header">
-                        <i class="fa-solid fa-list-ol" style="color: var(--primary);"></i>
-                        Canciones (${titles.length})
-                    </div>
+                <div class="song-card-body">
                     <ul class="songs-list">
                         ${songsHtml}
                     </ul>
-                </div>
-
-                <div class="song-card-footer">
-                    <div class="card-actions">
-                        <button class="btn-card-copy" onclick="quickCopy(${canto.id}, event)" title="Copiar WhatsApp">
-                            <i class="fa-regular fa-copy"></i>
-                            <span>Copiar Repertorio</span>
-                        </button>
-                        <button class="btn-card-detail" title="Ver Detalles">
-                            <span>Detalles</span>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
+                    <div class="song-meta-info">
+                        ${canto.biblia ? `<span class="meta-item"><i class="fa-solid fa-book-bible"></i> ${highlightText(canto.biblia, query)}</span>` : ''}
+                        ${canto.acompanante ? `<span class="meta-item"><i class="fa-solid fa-guitar"></i> ${canto.acompanante}</span>` : ''}
+                        ${canto.tema ? `<span class="meta-item"><i class="fa-solid fa-tag"></i> ${canto.tema}</span>` : ''}
                     </div>
                 </div>
             </div>
+            <div class="song-card-footer">
+                <span style="font-size:0.78rem; color:var(--text-muted);">${canto.fecha || 'Sin fecha'}</span>
+                <div class="card-actions">
+                    ${canto.archivo ? `<a href="${canto.archivo}" target="_blank" class="card-action-btn" title="Ver archivo/cifrado" onclick="event.stopPropagation()"><i class="fa-solid fa-file-pdf"></i></a>` : ''}
+                    <button class="card-action-btn" title="Copiar" onclick="quickCopyCanto(${canto.id}, event)">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                    <button class="card-action-btn" title="Ver detalles">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
         `;
+
         card.onclick = () => openDetails(canto);
         grid.appendChild(card);
     });
@@ -335,17 +338,43 @@ function renderTable(cantos, query) {
         const titlesFormatted = titles.map(t => highlightText(t, query)).join('<br>• ');
 
         tr.innerHTML = `
-            <td><strong>• ${titlesFormatted}</strong></td>
-            <td><span style="font-size: 0.85rem; font-weight: 700;">${canto.tipo}</span></td>
-            <td><span class="card-key-pill" style="color: var(--text-main); border-color: var(--border); background: #f1f5f9; font-size: 0.8rem; padding: 0.2rem 0.6rem;">${canto.tono}</span></td>
-            <td style="font-size: 0.85rem; color: var(--text-muted);">${canto.fecha || '-'}</td>
+            <td class="table-song-title">
+                <strong>• ${titlesFormatted}</strong>
+            </td>
+            <td>
+                <span style="font-size: 0.8rem; font-weight: 600;">${canto.tipo || 'N/A'}</span>
+            </td>
+            <td>
+                <span class="key-badge" style="font-size: 0.75rem;">${canto.tono || 'N/A'}</span>
+            </td>
+            <td>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">${canto.acompanante || '-'}</span>
+            </td>
+            <td style="font-size: 0.8rem; color: var(--text-muted);">
+                ${canto.fecha || '-'}
+            </td>
             <td style="text-align: right;">
-                <button class="btn-card-copy" style="padding: 0.4rem 0.75rem; font-size: 0.82rem; border-radius: 0.65rem;" onclick="quickCopy(${canto.id}, event)" title="Copiar"><i class="fa-regular fa-copy"></i></button>
+                <button class="card-action-btn" title="Copiar" onclick="quickCopyCanto(${canto.id}, event)">
+                    <i class="fa-regular fa-copy"></i>
+                </button>
+                <button class="card-action-btn" title="Detalles">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </button>
             </td>
         `;
+
         tr.onclick = () => openDetails(canto);
         tbody.appendChild(tr);
     });
+}
+
+function quickCopyCanto(cantoId, event) {
+    event.stopPropagation();
+    const canto = SINGER_CANTOS.find(c => c.id === cantoId);
+    if (!canto) return;
+    const titles = canto.titulos_lista && canto.titulos_lista.length > 0 ? canto.titulos_lista.join('\n- ') : canto.titulo;
+    const text = `🎶 *${canto.salmista_nombre.toUpperCase()}*\n🎹 *Tono:* ${canto.tono || 'N/A'} | 🏷️ ${canto.tipo || 'Alabanza'}\n- ${titles}`;
+    navigator.clipboard.writeText(text).then(() => showToast('¡Copiado!', 'success')).catch(() => showToast('Error al copiar', 'error'));
 }
 </script>
 {% endblock %}
